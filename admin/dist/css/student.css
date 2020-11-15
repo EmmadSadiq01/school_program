@@ -1,0 +1,116 @@
+.page_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    color: #fff;
+    background-color: #428bca;
+    border-color: #428bca;
+    border-top-right-radius: 3px;
+}
+.panel-body {
+    padding: 15px;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.panel-primary {
+    border-color: #428bca;
+    margin-left: 14%;
+    width: 90%;
+}
+fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width: auto;
+    padding: 0 10px;
+    border-bottom: none;
+}
+.form-horizontal .form-group {
+    margin-right: -15px;
+    margin-left: -15px;
+    DISPLAY: flex;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+@media (min-width: 768px){
+.form-horizontal .control-label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: left;
+}
+.col-sm-2 {
+    width: 18.66666667%;
+}
+.col-sm-10 {
+    width: 83.33333333%;
+
+}
+}
+@media (min-width: 576px){
+.col-sm-2 {
+    flex: 0 0 18.666667% !important;
+    max-width: 18.666667% !important;
+}}
+
+
+.img-thumbnail {
+    padding: 0px !important;
+    line-height: 1.42857143;
+    background-color: #ffffff;
+    border: none !important;
+    /* border-radius: 0; */
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+    /* max-width: 17%; */
+    height: auto;
+}
+.students-Photo{
+    width: 10%;
+}
+.name,.contact{
+    margin-bottom: 0rem;
+}
+.contact{
+    font-size: 12px;
+    font-family: cursive;
+
+}
+.name{
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: times new roman;
+}
+.std_img {
+    height: 70px;
+    overflow: hidden;
+    border: 1px solid green;
+    padding: 5px;
+    /* object-position: center; */
+    /* object-fit: cover; */
+}
+
+
+
