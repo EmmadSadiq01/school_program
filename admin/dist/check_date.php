@@ -3,18 +3,27 @@ include 'php/database.php';
 
 $date=date('d-m-Y', strtotime('first day of this month'));
 $current_date=date("d-m-Y");
-$current_month="novenber";
+$month_index=date("m");
+$months=array("January","february","march","april","may","june","july","august","september","october","november","december");
 
 // echo $date;
 // echo "<br>";
 // echo $current_date;
-if($date == $current_date){
-    $sql="INSERT INTO `fees` (`due`, `std_roll`, `dues_month`) VALUES ('4000', '1001', 'november');";
-    $result=mysqli_query($connection,$sql);
+if($date != $current_date){
+    $sql = "SELECT * FROM `classes` inner join `students` on classes.class_name=students.class";
+    $result= mysqli_query($connection,$sql);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $current_month=$months[$month_index-1];
+        $std_id=$row['id'];
+        $std_fees=$row['monthly_fees'];
+
+        $sql_fees="INSERT INTO `balance` (`std_id`, `months`, `amount`) VALUES ('$std_id', '$current_month', '$std_fees')";
+        $result_fees=mysqli_query($connection,$sql_fees);
+    }
+
 }
-else{
-    echo $current_month;
-}
+
 ?>
 
 <!DOCTYPE html>

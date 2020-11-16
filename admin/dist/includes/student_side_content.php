@@ -192,13 +192,14 @@
                                         <th scope="col">Gender</th>
                                         <th scope="col">Class</th>
                                         <th scope="col">Monthly Fees</th>
-                                        <th scope="col">Balance</th>
+                                        <!-- <th scope="col">Total Balance</th>
+                                        <th scope="col">Balance Months</th> -->
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT * FROM students";
+                                    $sql = "SELECT * FROM `classes` inner join `students` on classes.class_name=students.class";
                                     $result = mysqli_query($connection, $sql);
                                     $sno = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {
@@ -227,21 +228,34 @@
                                             <td><?php echo $row['gender'] ?></td>
                                             <td><?php echo $row['class'] ?></td>
 
-                                            <?php
-                                            $class = $row['class'];
-                                            $sql_fees = "SELECT * FROM classes where class_name='$class'";
-                                            $result_fees = mysqli_query($connection, $sql_fees);
-                                            while ($row_fees = mysqli_fetch_assoc($result_fees)) {
-                                            ?>
-                                                <td> <?php echo $row_fees['monthly_fees'] ?></td>
-                                            <?php
-                                            }
-                                            ?>
+                                            
+                                                <td> <?php echo $row['monthly_fees'] ;
+                                                $std_id = $row['id'];
+                                                ?></td>
 
+                                                
+                                        <?php 
+                                        // $sql_balance = "SELECT * FROM balance where std_id='$std_id'";
+                                        // $result_balance = mysqli_query($connection, $sql_balance);
+                                        // $total_ammount = 0;
+                                        // while ($row_balance = mysqli_fetch_assoc($result_balance)) {
+                                        //     $total_ammount += $row_balance['amount'];
+                                        // }
+                                        ?>
+                                        <!-- <td><?php echo $total_ammount ?></td> -->
+                                        <!-- <td> -->
                                         <?php
-                                        echo " <td>" . $row['balance'] . "</td>
+                                        //  $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
+                                        //  $result_balance1 = mysqli_query($connection, $sql_balance1);
+                                        // while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
+                                        //     echo $row_balance1['months']. " | ";
+                                        
+                                        // }
+                                        ?>
+                                        <!-- </td> -->
                                         <td><button type='button' class='updateButton btn btn-primary' onclick='handleSubmit' >Update</button> <button type='button' class='View btn btn-danger'>View</button></td>
-                                        </tr>";
+                                        </tr>
+                                        <?php
                                     }
 
                                         ?>
