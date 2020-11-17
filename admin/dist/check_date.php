@@ -17,11 +17,23 @@ if($date != $current_date){
         $current_month=$months[$month_index-1];
         $std_id=$row['id'];
         $std_fees=$row['monthly_fees'];
-
+        $send_fees = "SELECT * FROM `balance` where std_id='$std_id' and months !=' $current_month'";
+        $send_fees_result= mysqli_query($connection,$send_fees);
+        echo mysqli_num_rows($send_fees_result);
+        if(mysqli_num_rows($send_fees_result)>0){
         $sql_fees="INSERT INTO `balance` (`std_id`, `months`, `amount`) VALUES ('$std_id', '$current_month', '$std_fees')";
         $result_fees=mysqli_query($connection,$sql_fees);
+        }
+        else{
+            echo "no!";
+            echo $current_month;
+        }
+      
     }
 
+}
+else{
+    echo "hello";
 }
 
 ?>
