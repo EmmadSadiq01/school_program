@@ -5,33 +5,45 @@ $date=date('d-m-Y', strtotime('first day of this month'));
 $current_date=date("d-m-Y");
 $month_index=date("m");
 $months=array("January","february","march","april","may","june","july","august","september","october","november","december");
+echo $date;
+echo "<br>";
+echo $current_date;
+echo "<br>";
 
 // echo $date;
 // echo "<br>";
 // echo $current_date;
-if($date != $current_date){
-    $sql = "SELECT * FROM `classes` inner join `students` on classes.class_name=students.class";
-    $result= mysqli_query($connection,$sql);
+if($date == $current_date){
 
-    while ($row = mysqli_fetch_assoc($result)) {
+// $std_id="";
+// $std_fees="";
+$x=false;
+
+    $sql_1 = "SELECT * FROM `classes` inner join `students` on classes.class_name=students.class";
+    $result_1= mysqli_query($connection,$sql_1);
+    while ($row_1 = mysqli_fetch_assoc($result_1)) {
+        $std_id=$row_1['id'];
+        $std_fees=$row_1['monthly_fees'];
+
+
         $current_month=$months[$month_index-1];
-        $std_id=$row['id'];
-        $std_fees=$row['monthly_fees'];
-        $send_fees = "SELECT * FROM `balance` where std_id='$std_id' and months !=' $current_month'";
-        $send_fees_result= mysqli_query($connection,$send_fees);
-        echo mysqli_num_rows($send_fees_result);
-        if(mysqli_num_rows($send_fees_result)>0){
-        $sql_fees="INSERT INTO `balance` (`std_id`, `months`, `amount`) VALUES ('$std_id', '$current_month', '$std_fees')";
-        $result_fees=mysqli_query($connection,$sql_fees);
+
+        $sql = "SELECT * FROM `months` WHERE months='$current_month'";
+        $result= mysqli_query($connection,$sql);
+        echo mysqli_num_rows($result);
+        if(mysqli_num_rows($result)==0){
+            $sql_fees="INSERT INTO `balance` (`std_id`, `months`, `amount`) VALUES ('$std_id', '$current_month', '$std_fees')";
+            $result_fees=mysqli_query($connection,$sql_fees);
         }
-        else{
-            echo "no!";
-            echo $current_month;
-        }
-      
+        $x=true;   
+    }
+if($x==true){
+    $sql = "INSERT INTO `months` (`months`) VALUES ('$current_month')";
+    $result= mysqli_query($connection,$sql);
+}
+      echo "send";
     }
 
-}
 else{
     echo "hello";
 }

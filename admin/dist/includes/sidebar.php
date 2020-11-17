@@ -9,16 +9,14 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"> -->
                                
                                 <a href="student.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>Student</a>
+                                <a href="#" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>Teachers</a>
                                 
-                            </a>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>
-                                Fee Collection
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
+                            <!-- </a> -->
+                                <a href="class.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>Classes</a>
+                                <a href="fees_collection.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>Fee Collection</a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">

@@ -1,5 +1,8 @@
 <?php
 include 'php/database.php';
+// if (isset($_GET['take'])) {
+// }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

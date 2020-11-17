@@ -17,37 +17,40 @@
                 $result = mysqli_query($connection,$sql);
                 while ($row = mysqli_fetch_assoc($result)) {
             ?>
-                <form id="contact" action="" method="post">
+                <form id="contact" action="fees_collection.php" method="post">
                     <h3>Collect Fees</h3>
                     <!-- <h4>Collect Student fees!</h4> -->
                     <fieldset>
-                        <input placeholder="Your name" type="text" tabindex="1" value="<?php echo $row['name'] ?> " readonly>
+                        <input placeholder="Your name" type="text" tabindex="1" value="<?php echo $row['name'] ?> " name="std_name" readonly>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="Roll No" type="text" tabindex="1" value="100<?php echo $row['id'] ?> " readonly>
+                        <input placeholder="Roll No" type="text" tabindex="1" value="100<?php echo $row['id'] ?> " name="std_id" readonly>
                     </fieldset>
                     <fieldset>
                         <input placeholder="Contact no." type="email" tabindex="2"  value="<?php echo $row['contact'] ?> " readonly>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="balance" type="tel" tabindex="3" value="3000" readonly>
+                        <input placeholder="balance" type="text" tabindex="3" value="3000" readonly>
                     </fieldset>
                     <fieldset>
-                    <select class="form-control" id="class" name="class">
-                                                    <option value="">Select Class</option>
+                    <label for="months">Select Months *</label>
+                    <br>
+                    <small>Hold crtl key for multiple select:</small>
+                    <select class="form-control" id="months" name="months[]" size="5" multiple="multiple" >
                                                     <?php
                                                      $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
                                                      $result_balance1 = mysqli_query($connection, $sql_balance1);
                                                      while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
-                                                        echo '<option value="' . $row_balance1['months'] . '" > ' . $row_balance1['months'] . '</option>';
+                                                        echo '<option value="' . $row_balance1['months'] . '"  > ' . $row_balance1['months'] . '</option>';
                                                     }
                                                     ?>
 
                                                 </select>
                     </fieldset>
                     <fieldset>
-                        <textarea placeholder="Type your Message Here...." tabindex="5" required></textarea>
+                        <input placeholder="Paid Amount" type="text" name="paid">
                     </fieldset>
+                    
                     <fieldset>
                         <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
                     </fieldset>
@@ -133,23 +136,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Take Fee</h4>
-                                    </div>
-                                    <div class="modal-body" id="formcontent">
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -175,23 +161,4 @@
 
 </div>
 </div>
-<script>
-    take = document.getElementsByClassName("take");
-    Array.from(take).forEach((element) => {
-        element.addEventListener("click", (e) => {
-            // console.log("edits ",);
-            tr = e.target.parentNode.parentNode;
-            title = tr.getElementsByTagName("td")[0].innerText;
-            description = tr.getElementsByTagName("td")[1].innerText;
-            console.log(title, description);
-            noteTitleEdit.value = title;
-            noteDescriptionEdit.value = description;
-            $('#editmodal').modal('toggle');
-            snoEdit.value = e.target.id;
-            console.log(e.target.id);
-
-
-        })
-
-    })
 </script>

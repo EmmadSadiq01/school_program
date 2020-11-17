@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="page_header">
                 <h1 class="mt-4">FEES COLLECTION</h1>
-                <a href="generate_vaucher.php" class="btn btn-primary btn-sm pull-right">Generate Fees Vaucher <i class="glyphicon glyphicon-arrow-right"></i></a>
+                <a href="#" class="btn btn-primary btn-sm pull-right">Generate Fees Vaucher <i class="glyphicon glyphicon-arrow-right"></i></a>
 
             </div>
             <ol class="breadcrumb mb-4">
@@ -15,12 +15,32 @@
                <a href="fees_recipt.php?action=student">Student Vise</a>
                <a href="fees_recipt.php?action=class">Class Vise</a>
                <?php
+               if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $std_id = substr($_POST['std_id'],3) ;
+
+                $sql = "SELECT * FROM `students` inner join `balance` on `students`.id= `balance`.std_id where `students`.id='$std_id'";
+                $result = mysqli_query($connection,$sql);
+                echo $std_id;
+                while($row = mysqli_fetch_assoc($result)){
+                    // echo "hello";
+                    echo $row['name'];
+                    echo "<br>";
+                    break;
+                }
+                while(mysqli_fetch_assoc($result)){
+                    echo $row['months'];
+                    echo "<br>";
+
+                }
+                
+            }
             if (isset($_GET['action']) && @$_GET['action'] == "student") {
             ?>
             <div class="student_vise">
-               <form action="generate_vaucher.php" method="post">
-                   <input type="text" name="std_id" id="std_id">
-                   <input type="submit" value="submit">
+               <form action="fees_recipt.php" method="post">
+
+                   <input type="text" name="std_id" id="std_id" placeholder="Student ID">
+                   <input type="submit" value="Generate">
                </form>
             </div>
             <?php

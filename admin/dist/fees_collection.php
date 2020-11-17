@@ -1,5 +1,19 @@
 <?php
 include 'php/database.php';
+// 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$Std_name = $_POST['std_name'];
+	$std_id = substr($_POST['std_id'],3) ;
+	$months = $_POST['months'];
+	$paid = $_POST['paid'];
+	// echo $std_id;
+	foreach($months as $pmonths){
+	$sql = "DELETE FROM `balance` WHERE `balance`.`std_id` = '$std_id' and  `months` = '$pmonths'";
+	$result = mysqli_query($connection,$sql);
+	}
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
