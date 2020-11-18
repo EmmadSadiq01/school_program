@@ -8,18 +8,8 @@ $amount = 0;
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $std_id = substr($_POST['std_id'], 3);
+    $class = $_POST['class'];
 
-    $check_id = "SELECT * FROM `students`";
-    $check_result =   mysqli_query($connection, $check_id);
-    $id_exist = 0;
-    while ($row = mysqli_fetch_assoc($check_result)) {
-        if ($row['id'] == $std_id) {
-            $id_exist = 1;
-        }
-    }
-
-    if ($id_exist == 1) {
 
         $sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id='$std_id'";
         $result = mysqli_query($connection, $sql);
@@ -46,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
