@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
+                        <div class="card text-white mb-4" style="background-color: #887543 !important;">
                             <div class="card-body">Classes</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="class.php">View Details</a>
@@ -25,10 +25,10 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
+                        <div class="card text-white mb-4" style="background-color: #866d8c ;">
                             <div class="card-body">Teachers</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <a class="small text-white stretched-link" href="teacher.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-xl-6">
                         <div class="card mb-4">
                             <div class="card-header">
@@ -71,8 +71,8 @@
                             <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                         </div>
                     </div>
-                </div>
-                <div class="card mb-4">
+                </div> -->
+                <!-- <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
                         Students Data
@@ -149,7 +149,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </main>
 

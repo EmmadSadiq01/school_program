@@ -12,7 +12,15 @@
             </div>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Student</li>
+                <?php
+                if (isset($_GET['action']) && @$_GET['action'] == "add"){
+                    echo '<li class="breadcrumb-item"><a href="student.php">Student</a></li>';
+                    echo '<li class="breadcrumb-item active">Add</li>';
+                }
+                else{
+                    echo '<li class="breadcrumb-item">Student</li>';
+                }
+                ?>
             </ol>
             <?php
             if (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit") {

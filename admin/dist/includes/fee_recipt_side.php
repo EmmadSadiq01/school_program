@@ -18,16 +18,17 @@
                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $std_id = substr($_POST['std_id'],3) ;
 
-                $sql = "SELECT * FROM `students` inner join `balance` on `students`.id= `balance`.std_id where `students`.id='$std_id'";
+                $sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id='$std_id'";
                 $result = mysqli_query($connection,$sql);
-                echo $std_id;
+                // echo $std_id;
+               
+                $x=0;
                 while($row = mysqli_fetch_assoc($result)){
-                    // echo "hello";
+                    if ($x==0){
                     echo $row['name'];
-                    echo "<br>";
-                    break;
-                }
-                while(mysqli_fetch_assoc($result)){
+                        echo "<br>";
+                    $x=1;
+                    }
                     echo $row['months'];
                     echo "<br>";
 
