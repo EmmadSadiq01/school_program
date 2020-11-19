@@ -12,35 +12,35 @@
             </ol>
 
             <div class="card mb-4">
-               <a href="fees_recipt.php?action=student">Student Vise</a>
-               <a href="fees_recipt.php?action=class">Class Vise</a>
-               <?php
-              
-            if (isset($_GET['action']) && @$_GET['action'] == "student") {
-            ?>
-            <div class="student_vise">
-               <form action="php/vaucher.php" method="post">
+                <a href="fees_recipt.php?action=student">Student Vise</a>
+                <a href="fees_recipt.php?action=class">Class Vise</a>
+                <?php
 
-                   <input type="text" name="std_id" id="std_id" placeholder="Student ID">
-                   <input type="submit" value="Generate">
-               </form>
-            </div>
-            <?php
-            }
-            ?>
-            <?php
-            if (isset($_GET['action']) && @$_GET['action'] == "class") {
-            ?>
-            <div class="student_vise">
-            <form action="php/classvise.php" method="post">
+                if (isset($_GET['action']) && @$_GET['action'] == "student") {
+                ?>
+                    <div class="student_vise">
+                        <form action="php/vaucher.php" method="post">
 
-<input type="text" name="class" id="std_id" placeholder="Enter class name">
-<input type="submit" value="Generate">
-</form>
-            </div>
-            <?php
-            }
-            ?>
+                            <input type="text" name="std_id" id="std_id" placeholder="Student ID">
+                            <input type="submit" value="Generate">
+                        </form>
+                    </div>
+                <?php
+                }
+                ?>
+                <?php
+                if (isset($_GET['action']) && @$_GET['action'] == "class") {
+                ?>
+                    <div class="student_vise">
+                        <form action="php/classvise.php" method="post">
+
+                            <input type="text" name="class" id="std_id" placeholder="Enter class name">
+                            <input type="submit" value="Generate">
+                        </form>
+                    </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </main>
