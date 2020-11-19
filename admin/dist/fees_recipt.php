@@ -24,6 +24,11 @@ include 'php/database.php';
     justify-content: space-between;
     align-items: center;
 }
+a.btn.btn-outline-primary, a.btn.btn-outline-success  {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
 </style>
 
 <body class="sb-nav-fixed">

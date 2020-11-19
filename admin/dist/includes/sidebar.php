@@ -17,6 +17,8 @@
                             <!-- </a> -->
                                 <a href="class.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>Classes</a>
                                 <a href="fees_collection.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>Fee Collection</a>
+                                <a href="fees_recipt.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>Print Vaucher</a>
+
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
