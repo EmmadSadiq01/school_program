@@ -1,27 +1,14 @@
 <?php
 include 'php/database.php';
-include 'php/database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $contact = $_POST['contact'];
-    $doj = $_POST['doj'];
-    $dob = $_POST['dob'];
-    $address = $_POST['address'];
-    $gender = $_POST['gender'];
-    $ref = $_POST['ref_tech'];
-    $email = $_POST['email'];
-    $degree = $_POST['degree'];
-    $post = $_POST['post'];
-    $passing_year = $_POST['passing_year'];
-    $for_course = $_POST['for_course'];
-    $salary = $_POST['salary'];
-    $img_dir = $_FILES["image"]["name"];
-    $temp = $_FILES["image"]["tmp_name"];
-    $folder = "images/".$img_dir;
-    move_uploaded_file($temp,$folder); 
+    $cname = $_POST['cname'];
+    $tname = $_POST['tname'];
+    // $child_capacity = $_POST['child_capacity'];
+    $add_fees = $_POST['add_fees'];
+    $monthly_fees = $_POST['monthly_fees'];
+    $annual_charges = $_POST['annual_charges'];
 
-
-    $sql = "INSERT INTO `teacher` (`name`, `email`, `gender`, `dob`, `doj`, `address`, `refrence`, `photo`, `qualification`, `year`, `course`, `salary`,`contact`,`post`)  VALUES ('$name', '$email','$gender','$doj','$dob','$address','$ref','$img_dir','$degree','$passing_year','$for_course','$salary','$contact','$post')";
+    $sql = "INSERT INTO `classes` (`class_name`, `class_teacher`,`monthly_fees`, `addmission_fees`, `anual_charges`) VALUES ('$cname','$tname','$monthly_fees','$add_fees','$annual_charges')";
     $result = mysqli_query($connection, $sql);
 
 }
@@ -41,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="css/student.css" rel="stylesheet" />
 
 
-
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -53,19 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 </head>
-<style>
-     .page_header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-</style>
 <body>
 <?php
     require 'includes/navbar.php';
     require 'includes/sidebar.php';
-    $action="";
-    require 'includes/teacher_side.php';
+    $action='';
+    require 'includes/class_record_side.php';
     ?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
