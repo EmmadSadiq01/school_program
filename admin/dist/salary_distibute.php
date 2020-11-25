@@ -1,17 +1,17 @@
 <?php
 include 'php/database.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $cname = $_POST['cname'];
-    $tname = $_POST['tname'];
-    // $child_capacity = $_POST['child_capacity'];
-    $add_fees = $_POST['add_fees'];
-    $monthly_fees = $_POST['monthly_fees'];
-    $annual_charges = $_POST['annual_charges'];
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $cname = $_POST['cname'];
+//     $tname = $_POST['tname'];
+//     // $child_capacity = $_POST['child_capacity'];
+//     $add_fees = $_POST['add_fees'];
+//     $monthly_fees = $_POST['monthly_fees'];
+//     $annual_charges = $_POST['annual_charges'];
 
-    $sql = "INSERT INTO `classes` (`class_name`, `class_teacher`,`monthly_fees`, `addmission_fees`, `anual_charges`) VALUES ('$cname','$tname','$monthly_fees','$add_fees','$annual_charges')";
-    $result = mysqli_query($connection, $sql);
+//     $sql = "INSERT INTO `classes` (`class_name`, `class_teacher`,`monthly_fees`, `addmission_fees`, `anual_charges`) VALUES ('$cname','$tname','$monthly_fees','$add_fees','$annual_charges')";
+//     $result = mysqli_query($connection, $sql);
 
-}
+// }
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php
     require 'includes/navbar.php';
     require 'includes/sidebar.php';
-    $action='';
-    require 'includes/class_record_side.php';
+    require 'includes/salary_side_content.php';
     ?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
