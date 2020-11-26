@@ -5,17 +5,29 @@
                 <h1 class="mt-4">Classes</h1>
                 <?php
                 echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit") ?
-                    ' <a href="class.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
+                    '<a href="class.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
                     '<a href="class.php?action=add" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add Class </a>';
                 ?>
-                 </div>
+            </div>
             <ol class="breadcrumb mb-4">
+           
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Student</li>
+                <?php
+                if (!isset($_GET['action'])) {
+                ?>
+                <li class="breadcrumb-item active">Classes</li>
+                <?php
+                }
+                else{
+               
+                echo '<li class="breadcrumb-item"><a href="class.php">Classes</a></li>';
+                echo '<li class="breadcrumb-item active">Add Classes</li>';
+                }
+                ?>
             </ol>
             <div class="card mb-4">
-           
-                
+
+
                 <?php
                 if (isset($_GET['action']) && @$_GET['action'] == "add") {
                 ?>
@@ -49,7 +61,7 @@
                                                 </div>
                                             </div> -->
 
-                                           
+
 
 
                                         </fieldset>
@@ -76,8 +88,8 @@
                                                     <input type="text" class="form-control" id="annual_fees" name="annual_charges" />
                                                 </div>
                                             </div>
-                                           
-                                
+
+
 
                                         </fieldset>
                                         <div class="form-group">
@@ -108,10 +120,10 @@
                 <?php
                 } else {
                 ?>
-                <div class="card-header">
-                    <i class="fas fa-table mr-1"></i>
-                    Classes Data
-                </div>
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Classes Data
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -140,26 +152,26 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                <?php
+                                    <?php
                                     $sql = "SELECT * FROM classes";
                                     $result = mysqli_query($connection, $sql);
                                     $sno = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $sno = $sno + 1; ?>
-                                    <tr>
-                                        <td><?php echo $sno  ?></th>
-                                        <td><?php echo $row['class_name']  ?></td>
-                                        <td><?php echo $row['class_teacher']  ?></td>
-                                        <td><?php echo $row['monthly_fees']  ?></td>
-                                        <td>150</td>
-                                        <td>130</td>
-                                        <td>15</td>
-                                        <td>5</td>
-                                    </tr>
+                                        <tr>
+                                            <td><?php echo $sno  ?></th>
+                                            <td><?php echo $row['class_name']  ?></td>
+                                            <td><?php echo $row['class_teacher']  ?></td>
+                                            <td><?php echo $row['monthly_fees']  ?></td>
+                                            <td>150</td>
+                                            <td>130</td>
+                                            <td>15</td>
+                                            <td>5</td>
+                                        </tr>
                                     <?php
                                     }
                                     ?>
-                                  
+
                                 </tbody>
                             </table>
                         </div>

@@ -138,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         display: flex;
         align-items: center;
         padding-left: 5px;
+        text-transform: capitalize;
     }
 
     .text {
@@ -150,8 +151,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     .copy h5 {
-        position: relative;
-        right: -232px;
+    font-size: 13px;
+    font-family: initial;
+    padding-top: 7px;
     }
 
     .amount {
@@ -195,6 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         font-family: times new roman;
     }
 </style>
+
 
 <body>
     <div class="container">

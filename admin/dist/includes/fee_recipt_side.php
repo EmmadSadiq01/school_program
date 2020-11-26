@@ -8,7 +8,8 @@
             </div>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Student</li>
+                <li class="breadcrumb-item"><a href="fees_collection.php">Fees</a></li>
+                <li class="breadcrumb-item active">Generate Fee Vaucher</li>
             </ol>
 
             <div class="card mb-4">

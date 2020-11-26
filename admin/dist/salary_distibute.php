@@ -1,17 +1,26 @@
 <?php
 include 'php/database.php';
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $cname = $_POST['cname'];
-//     $tname = $_POST['tname'];
-//     // $child_capacity = $_POST['child_capacity'];
-//     $add_fees = $_POST['add_fees'];
-//     $monthly_fees = $_POST['monthly_fees'];
-//     $annual_charges = $_POST['annual_charges'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['name'];
+    $absent = $_POST['absent'];
+    $allw = $_POST['allw'];
+    $date = $_POST['date'];
+    // $month = date_format($date, "m") ;
+$sql1 = "SELECT * FROM teacher WHERE `name` = '$name'";
+$result1 = mysqli_query($connection,$sql1);
 
-//     $sql = "INSERT INTO `classes` (`class_name`, `class_teacher`,`monthly_fees`, `addmission_fees`, `anual_charges`) VALUES ('$cname','$tname','$monthly_fees','$add_fees','$annual_charges')";
-//     $result = mysqli_query($connection, $sql);
+while($row = mysqli_fetch_assoc($result1)){
+    
+    $basic = $row['salary'];
+}
+$absent_ammount = ($basic/30) * $absent;
+    $net_salary = $basic + $allw-$absent_ammount;
+    
 
-// }
+    $sql = "INSERT INTO `staff_salary` (`name`, `absent`,`allowance`,`net salary`,`date`) VALUES ('$name','$absent','$allw','$net_salary','$date')";
+    $result = mysqli_query($connection, $sql);
+
+}
 ?>
 
 <!DOCTYPE html>

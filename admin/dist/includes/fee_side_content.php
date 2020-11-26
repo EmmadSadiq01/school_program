@@ -8,7 +8,7 @@
             </div>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Student</li>
+                <li class="breadcrumb-item active">Fees</li>
             </ol>
             <?php
             if (isset($_GET['take'])) {

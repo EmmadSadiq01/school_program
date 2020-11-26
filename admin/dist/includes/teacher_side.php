@@ -2,7 +2,7 @@
     <main>
         <div class="container-fluid">
             <div class="page_header">
-                <h1 class="mt-4">STUDENTS</h1>
+                <h1 class="mt-4">School Staff</h1>
                 <?php
                 echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit") ?
                     ' <a href="teacher.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
@@ -14,11 +14,11 @@
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
                 <?php
                 if (isset($_GET['action']) && @$_GET['action'] == "add"){
-                    echo '<li class="breadcrumb-item"><a href="teacher.php">Teacher</a></li>';
+                    echo '<li class="breadcrumb-item"><a href="teacher.php">School Staff</a></li>';
                     echo '<li class="breadcrumb-item active">Add</li>';
                 }
                 else{
-                    echo '<li class="breadcrumb-item">Student</li>';
+                    echo '<li class="breadcrumb-item">School Staff</li>';
                 }
                 ?>
             </ol>
