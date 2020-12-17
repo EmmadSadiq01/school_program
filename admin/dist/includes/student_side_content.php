@@ -13,11 +13,10 @@
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
                 <?php
-                if (isset($_GET['action']) && @$_GET['action'] == "add"){
+                if (isset($_GET['action']) && @$_GET['action'] == "add") {
                     echo '<li class="breadcrumb-item"><a href="student.php">Student</a></li>';
                     echo '<li class="breadcrumb-item active">Add</li>';
-                }
-                else{
+                } else {
                     echo '<li class="breadcrumb-item">Student</li>';
                 }
                 ?>
@@ -30,57 +29,95 @@
                     <div class="col-sm-10 col-sm-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <?php echo ($action == "add") ? "Add Student" : "Edit Student"; ?>
+                                <?php
+                                echo (@$_GET['action'] == "add") ? "Add Student" : "Edit Student";
+                                ?>
                             </div>
+
                             <form action="student.php" method="post" id="signupForm1" class="form-horizontal" enctype="multipart/form-data">
+                                <?php
+                                if (@$_GET['action'] == "edit") {
+                                    $std_id = $_GET['edit'];
+                                    $sql = "SELECT * FROM students WHERE `id` = '$std_id'";
+                                    $result = mysqli_query($connection, $sql);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $std_name = $row['name'];
+                                        $nationality = $row['nationality'];
+                                        $religion = $row['religion'];
+                                        $gender = $row['gender'];
+                                        $dob = $row['dob'];
+                                        $class = $row['class'];
+                                        $session = $row['session'];
+                                        $address = $row['address'];
+                                        $fname = $row['fname'];
+                                        $fcnic = $row['fcnic'];
+                                        $foccupation = $row['foccupation'];
+                                        $feducation = $row['feducation'];
+                                        $mname = $row['mname'];
+                                        $mcnic = $row['mcnic'];
+                                        $moccupation = $row['moccupation'];
+                                        $meducation = $row['meducation'];
+                                        $fnumber = $row['fnumber'];
+                                        $mnumber = $row['mnumber'];
+                                        $doj = $row['doj'];
+                                        $add_fees = $row['add_fees'];
+                                        $tutionFee = $row['tutionFee'];
+                                        $annualCharges = $row['annualCharges'];
+                                    }
+                                    echo '<input type="hidden" name="edit_std" value="' . $std_id . '">';
+                                }
+                                ?>
+
                                 <div class="panel-body">
                                     <fieldset class="scheduler-border">
                                         <legend class="scheduler-border">Personal Information:</legend>
+
+
+
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">Name* </label>
+                                            <label class="col-sm-2 control-label" for="Old">Student Name* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="sname" name="name" />
+                                                <input type="text" class="form-control" id="sname" name="sname" value="<?php echo (@$_GET['action'] == 'edit') ? $std_name : ''  ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">Contact* </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="contact" name="contact" maxlength="12" />
+                                            <label class="col-sm-2 control-label" for="Old">Nationality* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="nationality" name="nationality" value="<?php echo (@$_GET['action'] == "edit") ? "$nationality" : "Pakistani"  ?>" />
+                                            </div>
+                                            <label class="col-sm-1 control-label" for="Old">Religion* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="religion" name="religion" value="<?php echo (@$_GET['action'] == "edit") ? "$religion" : "Islam"  ?>" />
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="gender">Gender* </label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-4">
                                                 <select id="inputState" class="form-control" name="gender" required>
 
                                                     <option>Select...</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
+
+                                                    <option <?php echo (@$_GET['action'] == "edit" && $gender == "Male") ? "selected" : ""  ?>>Male</option>
+                                                    <option <?php echo (@$_GET['action'] == "edit" && $gender == "Female") ? "selected" : ""  ?>>Female</option>
                                                 </select>
                                             </div>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">DOJ* </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="joindate" name="doj" style="background-color: #fff;" value="<?php echo date("d/m/y"); ?>" placeholder="dd/mm/yy" />
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">DOB* </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="js-date form-control" style="background-color: #fff;" maxlength="10" placeholder="dd/mm/year" name="dob" />
+                                            <label class="col-sm-1 control-label" for="Old">DOB* </label>
+                                            <div class="col-sm-4">
+                                                <input type="date" class="form-control" id="dateofbirth" name="dob" placeholder="dd/mm/yy" value="<?php echo (@$_GET['action'] == "edit") ? "$dob" : ""  ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="name">Address* </label>
-                                            <div class="col-sm-10">
-                                                <textarea cols="30" rows="2" class="form-control" id="name" name="address"></textarea>
+                                            <label class="col-sm-2 control-label" for="Old">Class* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="class" name="class" value="<?php echo (@$_GET['action'] == "edit") ? "$class" : ""  ?>" />
+                                            </div>
+                                            <label class="col-sm-1 control-label" for="Old">Session* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="session" name="session" value="<?php echo (@$_GET['action'] == "edit") ? "$session" : ""  ?>" />
                                             </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Upload Photo </label>
                                             <div class="col-sm-10">
@@ -91,68 +128,99 @@
                                     </fieldset>
 
                                     <fieldset class="scheduler-border">
-                                        <legend class="scheduler-border">Fee Information:</legend>
+                                        <legend class="scheduler-border">Parent`s Detail:</legend>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">Admission Fees* </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="fees" name="add_fees" />
+                                            <label class="col-sm-2 control-label" for="fname">Father Name* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="fname" name="fname" value="<?php echo (@$_GET['action'] == "edit") ? "$fname" : ""  ?>" />
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="fcnic">Father CNIC* </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="fcnic" name="fcnic" value="<?php echo (@$_GET['action'] == "edit") ? "$fcnic" : ""  ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="foccupation">Father Occupation* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="foccupation" name="foccupation" value="<?php echo (@$_GET['action'] == "edit") ? "$foccupation" : ""  ?>" />
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="feducation">Father Education* </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="feducation" name="feducation" value="<?php echo (@$_GET['action'] == "edit") ? "$feducation" : ""  ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="mname">Mother Name* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="mname" name="mname" value="<?php echo (@$_GET['action'] == "edit") ? "$mname" : ""  ?>" />
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="mcnic">Mother CNIC* </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="mcnic" name="mcnic" value="<?php echo (@$_GET['action'] == "edit") ? "$mcnic" : ""  ?>" />
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">Monthly Fees* </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="fees" name="monthly_fees" />
+                                            <label class="col-sm-2 control-label" for="moccupation">Mother Occupation* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="moccupation" name="moccupation" value="<?php echo (@$_GET['action'] == "edit") ? "$moccupation" : ""  ?>" />
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="meducation">Mother Education* </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="meducation" name="meducation" value="<?php echo (@$_GET['action'] == "edit") ? "$meducation" : ""  ?>" />
                                             </div>
                                         </div>
-                                        <?php
-                                        if ($action == "add") {
-                                        ?>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="Password">Fee Remark </label>
-                                                <div class="col-sm-10">
-                                                    <textarea class="form-control" id="remark" name="remark"><?php echo $remark; ?></textarea>
-                                                </div>
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">Class* </label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" id="class" name="class">
-                                                    <option value="">Select Class</option>
-                                                    <?php
-                                                    $sql = "select * from classes order by classes.class_name asc";
-                                                    $q = $connection->query($sql);
-
-                                                    while ($r = $q->fetch_assoc()) {
-                                                        echo '<option value="' . $r['class_name'] . '" > ' . $r['class_name'] . '</option>';
-                                                    }
-                                                    ?>
-
-                                                </select>
+                                            <label class="col-sm-2 control-label" for="fnumber">Father`s Call No.* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="fnumber" name="fnumber" value="<?php echo (@$_GET['action'] == "edit") ? "$fnumber" : ""  ?>" />
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="mnumber">Mother`s Call No* </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="mnumber" name="mnumber" value="<?php echo (@$_GET['action'] == "edit") ? "$mnumber" : ""  ?>" />
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="moccupation">Address* </label>
+                                            <div class="col-sm-10">
+                                                <textarea name="address" class="form-control" id="address" cols="30" rows="4"><?php echo (@$_GET['action'] == "edit") ? $address : '' ?></textarea>
+                                            </div>
+                                        </div>
+
+
+
 
                                     </fieldset>
 
                                     <fieldset class="scheduler-border">
-                                        <legend class="scheduler-border">Optional Information:</legend>
+                                        <legend class="scheduler-border">Addmission Details:</legend>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Password">About Student </label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" id="about" name="about"></textarea>
+                                            <label class="col-sm-2 control-label" for="dateofjoin">Date OF Admission </label>
+                                            <div class="col-sm-4">
+                                                <?php $current_date = date('yy-m-d') ?>
+                                                <input type="date" class="form-control" id="dateofjoin" name="dateofjoin" value="<?php echo (@$_GET['action'] == "edit") ? "$doj" :   "$current_date"  ?>" />
+
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="AdmissionFee">Admission Fee </label>
+                                            <div class="col-sm-3">
+                                                <input type="number" class="form-control" id="admissionFee" name="admissionFee" value="<?php echo (@$_GET['action'] == "edit") ? $add_fees : '' ?>" />
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="tutionFee">Tution Fee</label>
+                                            <div class="col-sm-4">
+                                                <input type="number" class="form-control" id="tutionFee" name="tutionFee" value="<?php echo (@$_GET['action'] == "edit") ? $tutionFee : '' ?>" />
+
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="annualCharges">Annual Charges</label>
+                                            <div class="col-sm-3">
+                                                <input type="number" class="form-control" id="annualCharges" name="annualCharges" value="<?php echo (@$_GET['action'] == "edit") ? $annualCharges : '' ?>" />
+
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Old">Email Id </label>
-                                            <div class="col-sm-10">
 
-                                                <input type="text" class="form-control" id="emailid" name="email" />
-                                            </div>
-                                        </div>
                                     </fieldset>
 
                                     <div class="form-group">
@@ -175,6 +243,9 @@
                             </form>
 
                         </div>
+
+
+                        </form>
                     </div>
 
 
@@ -191,7 +262,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th scope="col">S.no</th>
@@ -216,7 +287,8 @@
                                             <th scope='row'> <?php echo $sno  ?> </th>
                                             <td>
                                                 <p class='name'> <?php echo  $row['name']  ?></p>
-                                                <p class='contact'> <?php echo $row['contact']   ?></p>
+                                                <p class='contact'> <?php echo $row['fnumber']   ?></p>
+                                                <p class='contact'> <?php echo $row['mnumber']   ?></p>
                                             </td>
                                             <td style='text-transform:capitalize' class='students-Photo'>
                                                 <div class="std_img"><?php
@@ -236,37 +308,42 @@
                                             <td><?php echo $row['gender'] ?></td>
                                             <td><?php echo $row['class'] ?></td>
 
-                                            
-                                                <td> <?php echo $row['monthly_fees'] ;
-                                                $std_id = $row['id'];
-                                                ?></td>
 
-                                                
-                                        <?php 
-                                        // $sql_balance = "SELECT * FROM balance where std_id='$std_id'";
-                                        // $result_balance = mysqli_query($connection, $sql_balance);
-                                        // $total_ammount = 0;
-                                        // while ($row_balance = mysqli_fetch_assoc($result_balance)) {
-                                        //     $total_ammount += $row_balance['amount'];
-                                        // }
-                                        ?>
-                                        <!-- <td><?php echo $total_ammount ?></td> -->
-                                        <!-- <td> -->
-                                        <?php
-                                        //  $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
-                                        //  $result_balance1 = mysqli_query($connection, $sql_balance1);
-                                        // while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
-                                        //     echo $row_balance1['months']. " | ";
-                                        
-                                        // }
-                                        ?>
-                                        <!-- </td> -->
-                                        <td><button type='button' class='updateButton btn btn-primary' onclick='handleSubmit' >Update</button> <button type='button' class='View btn btn-danger'>View</button></td>
+                                            <td> <?php echo $row['monthly_fees'];
+                                                    $std_id = $row['id'];
+                                                    ?></td>
+
+
+                                            <?php
+                                            // $sql_balance = "SELECT * FROM balance where std_id='$std_id'";
+                                            // $result_balance = mysqli_query($connection, $sql_balance);
+                                            // $total_ammount = 0;
+                                            // while ($row_balance = mysqli_fetch_assoc($result_balance)) {
+                                            //     $total_ammount += $row_balance['amount'];
+                                            // }
+                                            ?>
+                                            <!-- <td><?php echo $total_ammount ?></td> -->
+                                            <!-- <td> -->
+                                            <?php
+                                            //  $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
+                                            //  $result_balance1 = mysqli_query($connection, $sql_balance1);
+                                            // while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
+                                            //     echo $row_balance1['months']. " | ";
+
+                                            // }
+                                            ?>
+                                            <!-- </td> -->
+                                            <td>
+                                                <!-- <button type='button' class='updateButton btn btn-primary'>Edit</button> 
+                                                <button type='button' class='View btn btn-danger'>View</button> -->
+                                                <a href="student.php?action=edit&edit=<?php echo $std_id ?>" class="btn btn-primary btn-sm pull-right">Edit </a>
+                                                <button class="del btn btn-primary" id="d<?php echo $std_id ?>">Delete</button>
+                                            </td>
                                         </tr>
-                                        <?php
+                                    <?php
                                     }
 
-                                        ?>
+                                    ?>
 
 
                                 </tbody>

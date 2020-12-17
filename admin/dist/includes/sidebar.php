@@ -19,6 +19,7 @@
                                 <a href="fees_collection.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>Fee Collection</a>
                                 <a href="fees_recipt.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>Print Vaucher</a>
                                 <a href="salary_distibute.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>Salary Distibute</a>
+                                <a href="reports.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-ellipsis-h"></i></div>Reports</a>
 
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
@@ -46,7 +47,7 @@
                                     </div>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <!-- <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
@@ -54,7 +55,7 @@
                             <a class="nav-link" href="tables.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Tables
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

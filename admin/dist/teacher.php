@@ -1,7 +1,41 @@
 <?php
 include 'php/database.php';
 include 'php/database.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+// Delete student
+if(isset($_GET['delete'])){
+    $del_id=$_GET['delete'];
+    $sql = "DELETE FROM `teacher` WHERE `teacher`.`id` = '$del_id'";
+    $result = mysqli_query($connection,$sql);
+  }
+
+
+// update staff
+if (isset($_POST["edit_teacher"])){
+
+    $edit_teacher = $_POST["edit_teacher"];
+
+    $name = $_POST['name'];
+    $contact = $_POST['contact'];
+    $email = $_POST['email'];
+    $gender = $_POST['gender'];
+    $dob = $_POST['dob'];
+    $doj = $_POST['doj'];
+    $address = $_POST['address'];
+    $refrence = $_POST['ref_tech'];
+    $qualification = $_POST['degree'];
+    $year = $_POST['passing_year'];
+    $course = $_POST['for_course'];
+    $salary = $_POST['salary'];
+    $post = $_POST['post'];
+
+    $sql = "UPDATE `teacher` SET `name` ='$name', `email`='$email', `gender`='$gender', `dob`='$dob', `doj`='$doj', `address`='$address', `refrence`='$refrence',`qualification`='$qualification', `year`='$year', `course`='$course', `salary`='$salary',`contact`='$contact',`post`='$post' WHERE id='$edit_teacher'";
+    $result = mysqli_query($connection, $sql);
+
+}
+
+//   add new staff
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_teacher"]) ) {
     $name = $_POST['name'];
     $contact = $_POST['contact'];
     $doj = $_POST['doj'];
@@ -15,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $passing_year = $_POST['passing_year'];
     $for_course = $_POST['for_course'];
     $salary = $_POST['salary'];
+
     $img_dir = $_FILES["image"]["name"];
     $temp = $_FILES["image"]["tmp_name"];
     $folder = "images/".$img_dir;
@@ -77,6 +112,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> -->
     <script src="assets/demo/datatables-demo.js"></script>
+    <script>
+         deletes = document.getElementsByClassName("del");
+    Array.from(deletes).forEach((element) => {
+        element.addEventListener("click", (e) => {
+            sno = e.target.id.substr(1, );
+
+            if (confirm("do you want to delete the record?")) {
+                console.log("yes")
+                window.location = `/schoolManagementSystem/admin/dist/teacher.php?delete=${sno}`;
+            } else {
+                console.log("no")
+            }
+
+        })
+    })
+    </script>
 
 </body>
 </html>

@@ -33,26 +33,49 @@
                                 <?php echo "Add Staff" ?>
                             </div>
                             <form action="teacher.php" method="post" id="signupForm1" class="form-horizontal" enctype="multipart/form-data">
+                            <?php
+                                if (@$_GET['action'] == "edit") {
+                                    $teacher_id = $_GET['edit'];
+                                    $sql = "SELECT * FROM teacher WHERE `id` = '$teacher_id'";
+                                    $result = mysqli_query($connection, $sql);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                       $name = $row['name'];
+                                       $contact = $row['contact'];
+                                       $email = $row['email'];
+                                       $gender = $row['gender'];
+                                       $dob = $row['dob'];
+                                       $doj = $row['doj'];
+                                       $address = $row['address'];
+                                       $refrence = $row['refrence'];
+                                       $qualification = $row['qualification'];
+                                       $year = $row['year'];
+                                       $course = $row['course'];
+                                       $salary = $row['salary'];
+                                       $post = $row['post'];
+                                    }
+                                    echo '<input type="hidden" name="edit_teacher" value="' . $teacher_id . '">';
+                                }
+                                ?>
                                 <div class="panel-body">
                                     <fieldset class="scheduler-border">
                                         <legend class="scheduler-border">Personal Information:</legend>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Name* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="sname" name="name" />
+                                                <input type="text" class="form-control" id="sname" name="name"  value="<?php echo (@$_GET['action'] == 'edit') ? $name : ''  ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Contact* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="contact" name="contact" maxlength="12" />
+                                                <input type="text" class="form-control" id="contact" name="contact" maxlength="12" value="<?php echo (@$_GET['action'] == 'edit') ? $contact : ''  ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Email Id </label>
                                             <div class="col-sm-10">
 
-                                                <input type="email" class="form-control" id="emailid" name="email" />
+                                                <input type="email" class="form-control" id="emailid" name="email" value="<?php echo (@$_GET['action'] == 'edit') ? $email : ''  ?>" />
                                             </div>
                                         </div>
 
@@ -61,9 +84,9 @@
                                             <div class="col-sm-10">
                                                 <select id="inputState" class="form-control" name="gender" required>
 
-                                                    <option>Select...</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
+                                                    <option >Select...</option>
+                                                    <option  <?php echo (@$_GET['action'] == "edit" && $gender == "Male") ? "selected" : ""  ?>>Male</option>
+                                                    <option  <?php echo (@$_GET['action'] == "edit" && $gender == "Female") ? "selected" : ""  ?>>Female</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -72,27 +95,27 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">DOJ* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="joindate" name="doj" style="background-color: #fff;" value="<?php echo date("d/m/y"); ?>" placeholder="dd/mm/yy" />
+                                                <input type="date" class="form-control" id="joindate" name="doj" style="background-color: #fff;" value="<?php echo (@$_GET['action'] == "edit") ? "$doj" : date("yy-m-d")  ?>" placeholder="dd/mm/yy" />
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">DOB* </label>
                                             <div class="col-sm-10">
-                                                <input type="date" class="js-date form-control" style="background-color: #fff;" maxlength="10" placeholder="dd/mm/year" name="dob" />
+                                                <input type="date" class="js-date form-control" style="background-color: #fff;" maxlength="10" placeholder="dd/mm/year" name="dob"  value="<?php echo (@$_GET['action'] == "edit") ? "$dob" : ""  ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="name">Address* </label>
                                             <div class="col-sm-10">
-                                                <textarea cols="30" rows="2" class="form-control" id="name" name="address"></textarea>
+                                                <textarea cols="30" rows="2" class="form-control" id="name" name="address"><?php echo (@$_GET['action'] == "edit") ? $address : '' ?></textarea>
                                             </div>
                                         </div>
                                        
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Reference </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="ref" name="ref_tech" />
+                                                <input type="text" class="form-control" id="ref" name="ref_tech" value="<?php echo (@$_GET['action'] == "edit") ? $refrence : '' ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -109,20 +132,20 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Last Degree* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="deg" name="degree" />
+                                                <input type="text" class="form-control" id="deg" name="degree" value="<?php echo (@$_GET['action'] == "edit") ? $qualification : '' ?>" />
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Passing year* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="fees" name="passing_year" />
+                                                <input type="text" class="form-control" id="fees" name="passing_year" value="<?php echo (@$_GET['action'] == "edit") ? $year : '' ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Course Applied For* </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="fees" name="for_course" />
+                                                <input type="text" class="form-control" id="fees" name="for_course" value="<?php echo (@$_GET['action'] == "edit") ? $course : '' ?>" />
                                             </div>
                                         </div>
                                         
@@ -134,13 +157,13 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Password">Post*  </label>
                                             <div class="col-sm-10">
-                                               <input type="text" class="form-control" id="about" name="post"/>
+                                               <input type="text" class="form-control" id="about" name="post" value="<?php echo (@$_GET['action'] == "edit") ? $post : '' ?>"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Password">salary*  </label>
                                             <div class="col-sm-10">
-                                               <input type="text" class="form-control" id="about" name="salary"/>
+                                               <input type="text" class="form-control" id="about" name="salary" value="<?php echo (@$_GET['action'] == "edit") ? $salary : '' ?>"/>
                                             </div>
                                         </div>
 
@@ -197,7 +220,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT * FROM `teacher";
+                                    $sql = "SELECT * FROM `teacher`";
                                     $result = mysqli_query($connection, $sql);
                                     $sno = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {
@@ -215,7 +238,11 @@
                                             <td><?php echo $row['salary'] ?></td>
                                             <td><?php echo $row['doj'] ?></td>
 
-                                        <td><button type='button' class='updateButton btn btn-primary' onclick='handleSubmit' >Update</button> <button type='button' class='View btn btn-danger'>View</button></td>
+                                        <td>
+                                        <!-- <button type='button' class='updateButton btn btn-primary' onclick='handleSubmit' >Update</button> 
+                                        <button type='button' class='View btn btn-danger'>View</button></td> -->
+                                        <a href="teacher.php?action=edit&edit=<?php echo $row['id'] ?>" class="btn btn-primary btn-sm pull-right">Edit </a>
+                                        <button class="del btn btn-primary" id="d<?php echo $row['id'] ?>">Delete</button>
                                         </tr>
                                         <?php
                                     }
