@@ -28,8 +28,12 @@ if (isset($_POST["edit_teacher"])){
     $course = $_POST['for_course'];
     $salary = $_POST['salary'];
     $post = $_POST['post'];
+    $allowance = $_POST['allowance'];
+    $fhname = $_POST['fhname'];
+    $cnic = $_POST['cnic'];
+    $experince = $_POST['experience'];
 
-    $sql = "UPDATE `teacher` SET `name` ='$name', `email`='$email', `gender`='$gender', `dob`='$dob', `doj`='$doj', `address`='$address', `refrence`='$refrence',`qualification`='$qualification', `year`='$year', `course`='$course', `salary`='$salary',`contact`='$contact',`post`='$post' WHERE id='$edit_teacher'";
+    $sql = "UPDATE `teacher` SET `name` ='$name', `email`='$email', `gender`='$gender', `dob`='$dob', `doj`='$doj', `address`='$address', `refrence`='$refrence',`qualification`='$qualification', `year`='$year', `course`='$course', `salary`='$salary',`contact`='$contact',`post`='$post',`allowance`='$allowance',`fhname`='$fhname',`cnic`='$cnic',`experience`='$experince' WHERE id='$edit_teacher'";
     $result = mysqli_query($connection, $sql);
 
 }
@@ -49,6 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_teacher"]) ) {
     $passing_year = $_POST['passing_year'];
     $for_course = $_POST['for_course'];
     $salary = $_POST['salary'];
+    $allowance = $_POST['allowance'];
+    $fhname = $_POST['fhname'];
+    $cnic = $_POST['cnic'];
+    $experince = $_POST['experience'];
 
     $img_dir = $_FILES["image"]["name"];
     $temp = $_FILES["image"]["tmp_name"];
@@ -56,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_teacher"]) ) {
     move_uploaded_file($temp,$folder); 
 
 
-    $sql = "INSERT INTO `teacher` (`name`, `email`, `gender`, `dob`, `doj`, `address`, `refrence`, `photo`, `qualification`, `year`, `course`, `salary`,`contact`,`post`)  VALUES ('$name', '$email','$gender','$doj','$dob','$address','$ref','$img_dir','$degree','$passing_year','$for_course','$salary','$contact','$post')";
+    $sql = "INSERT INTO `teacher` (`name`, `email`, `gender`, `dob`, `doj`, `address`, `refrence`, `photo`, `qualification`, `year`, `course`, `salary`,`contact`,`post`,`experience`,`allowance`,`cnic`,`fhname`)  VALUES ('$name', '$email','$gender','$doj','$dob','$address','$ref','$img_dir','$degree','$passing_year','$for_course','$salary','$contact','$post','$experince','$allowance','$cnic','$fhname')";
     $result = mysqli_query($connection, $sql);
 
 }

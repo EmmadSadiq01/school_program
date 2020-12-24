@@ -26,8 +26,8 @@
 }
 .panel-primary {
     border-color: #428bca;
-    margin-left: 14%;
-    width: 90%;
+    /* margin-left: 14%;
+    width: 90%; */
 }
 fieldset.scheduler-border {
     border: 1px groove #ddd !important;

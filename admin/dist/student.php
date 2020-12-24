@@ -2,7 +2,8 @@
 include 'php/database.php';
 
 // global initialize variable for use in edit student record
-
+$roll_no = "";
+$gr_no = "";
 $std_name = "";
 $nationality = "";
 $religion = "";
@@ -39,6 +40,7 @@ if (isset($_POST["edit_std"])) {
 
   $edit_id = $_POST['edit_std'];
 
+  $gr_no = $_POST['gr_no'];
   $std_name = $_POST['sname'];
   $nationality = $_POST['nationality'];
   $religion = $_POST['religion'];
@@ -62,7 +64,7 @@ if (isset($_POST["edit_std"])) {
   $tutionFee = $_POST['tutionFee'];
   $annualCharges = $_POST['annualCharges'];
 
-  $sql = "UPDATE `students` SET `name`= '$std_name',`nationality` = '$nationality',`religion` ='$religion',`gender`='$gender',`dob`='$dob',`class`='$class',`session`='$session',`address`='$address',
+  $sql = "UPDATE `students` SET  `gr_no`='$gr_no', `name`= '$std_name',`nationality` = '$nationality',`religion` ='$religion',`gender`='$gender',`dob`='$dob',`class`='$class',`session`='$session',`address`='$address',
   `fname`='$fname',`fcnic`='$fcnic',`foccupation`='$foccupation',`feducation`='$feducation',`mname`='$mname',`mcnic`='$mcnic',`moccupation`='$moccupation',`meducation`='$meducation',`fnumber`='$fnumber',`mnumber`='$mnumber',
   `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharges`='$annualCharges' WHERE `students`.`id` = '$edit_id'";
 
@@ -74,6 +76,7 @@ $result = mysqli_query($connection,$sql);
 
 // add new record
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
+  $gr_no = $_POST['gr_no'];
   $std_name = $_POST['sname'];
   $nationality = $_POST['nationality'];
   $religion = $_POST['religion'];
@@ -104,11 +107,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
 
 
   $sql = "INSERT INTO `students`
-   (`name`,`nationality`,`religion`,`gender`,`dob`,`class`,`session`,`address`,
+   (`name`,`gr_no`,`nationality`,`religion`,`gender`,`dob`,`class`,`session`,`address`,
   `fname`,`fcnic`,`foccupation`,`feducation`,`mname`,`mcnic`,`moccupation`,`meducation`,`fnumber`,`mnumber`,
   `doj`,`add_fees`,`tutionFee`,`annualCharges`,`img_dir`)
    VALUES 
-   ('$std_name','$nationality','$religion','$gender','$dob','$class','$session','$address','$fname','$fcnic','$foccupation'
+   ('$std_name','$gr_no','$nationality','$religion','$gender','$dob','$class','$session','$address','$fname','$fcnic','$foccupation'
     ,'$feducation','$mname','$mcnic','$moccupation','$meducation','$fnumber','$mnumber','$dateofjoin','$admissionFee','$tutionFee','$annualCharges','$img_dir')";
   $result = mysqli_query($connection, $sql);
 }

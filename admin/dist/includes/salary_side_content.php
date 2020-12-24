@@ -21,14 +21,13 @@
                 ?>
             </div>
             <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                    
+                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+
                 <?php
                 if (!isset($_GET['action']) && @$_GET['action'] != "add") {
                     echo '<li class="breadcrumb-item active">Staff Salary</li>';
-                }
-                else{
-                echo '<li class="breadcrumb-item"><a href="salary_distibute.php">Staff salary</a></li>
+                } else {
+                    echo '<li class="breadcrumb-item"><a href="salary_distibute.php">Staff salary</a></li>
                 <li class="breadcrumb-item active">Add Salary</li>';
                 }
                 ?>
@@ -98,36 +97,50 @@
                                     <thead>
                                         <th>Date</th>
                                         <th>Name</th>
+                                        <th>Month</th>
+                                        <th>Salary</th>
                                         <th>Absent</th>
+                                        <th>Deduction</th>
                                         <th>Allownce</th>
+                                        <th>Total</th>
                                         <th>Action</th>
                                     </thead>
                                     <tr>
-                                        <td><input type="text" class="form-control" placeholder="dd/mm/yy" name="date" value=" <?php echo date('d/M/Y') ?> "></td>
-                                        <td><select class="form-control" id="name" name="name">
+                                        <td><input type="text" class="form-control" placeholder="dd/mm/yy" name="date" value=" <?php echo date('Y-m-d') ?> "></td>
+                                        <td><select class="form-control" id="name" name="name" onchange="staff_salary(this.value)">
+                                                <option value="">Select...</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `teacher` ";
+                                                $sql = "SELECT * FROM `teacher` ORDER BY `name` ASC ";
                                                 $result = mysqli_query($connection, $sql);
                                                 while ($row = mysqli_fetch_assoc($result)) {
-                                                    echo '<option value="' . $row["name"] . '">' . $row["name"] . '</option>';
+                                                    echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
                                                 }
                                                 ?>
                                             </select></td>
-                                        <td><input type="number" class="form-control" placeholder="Absent days" name="absent"></td>
-                                        <td><input type="text" class="form-control" placeholder="Allowance" name="allw"></td>
+                                        <td><select name="month" class="form-control" id="month" style="width: 110px;">
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select></td>
+                                        <td><input type="text" class="form-control" placeholder="Basic Salary" name="basic_salary" id="basic_salary" readonly></td>
+                                        <td><input type="number" class="form-control" placeholder="Absent days" name="absent" id="absent" value="0" onchange="absent_days()"></td>
+                                        <td><input type="number" class="form-control" placeholder="deduction" name="deduction" id="deduction" value="0" readonly></td>
+                                        <td><input type="number" class="form-control" placeholder="Allowance" name="allw" id="allowance" value="0" onchange="cal_allowance()"></td>
+                                        <td><input type="number" class="form-control" placeholder="Total " name="total" id="total" value="0" readonly></td>
                                         <!-- <input type="hidden" name="salary" id="salary" value="4000"> -->
                                         <!-- <td><input type="text" class="form-control"></td>
                                             <td><input type="text" class="form-control"></td> -->
                                         <td> <button type="submit" name="save" class="submit btn btn-primary">Submit </button></td>
                                     </tr>
                                 </table>
-
-
-
-
-
-
-
                             </div>
                         </form>
                     </div>
@@ -173,22 +186,22 @@
                                         <tr>
                                             <td><?php echo $sno  ?></th>
                                             <td><?php echo $row['date']  ?></td>
-                                            <td><?php echo $row['name']  ?></td>
-                                            <td><?php echo $row['absent']  ?></td>
                                             <?php
-                                            $name = $row['name'];
-                                            $sql1 = "SELECT salary FROM teacher WHERE `name` = '$name'";
+                                            $staff_id = $row['name'];
+                                            $sql1 = "SELECT * FROM teacher WHERE `id` = '$staff_id'";
                                             $result1 = mysqli_query($connection, $sql1);
-
+                                            $salary = 0;
                                             while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                $salary = $row1['salary'];
+                                                $name = $row1['name'];
                                             }
                                             $absent_ammount = ($salary / 30) * $row['absent'];
 
                                             ?>
-                                            <td><?php echo "-" . round($absent_ammount) ?></td>
+                                            <td><?php echo $name  ?></td>
+                                            <td><?php echo $row['absent']  ?></td>
+                                            <td><?php echo "-" . $row['deduction'] ?></td>
                                             <td><?php echo $row['allowance']  ?></td>
-                                            <td><?php echo $salary  ?></td>
+                                            <td><?php echo $row['basic_salary']  ?></td>
                                             <td><?php echo $row['net salary']  ?></td>
                                         </tr>
                                     <?php
@@ -229,8 +242,24 @@
 </div>
 
 <script>
-    // let submit = document.getElementsByClassName("submit");
-    // submit.addEventListener("click", (e) => {
-    //     $('#editmodal').modal('toggle');
-    // })
+    //     console.log("hello")
+    //     console.log("hello")
+    //     console.log("hello")
+    //     function staff1(value){
+    //         // var staff = $(this).val();
+    //         console.log(value)
+    //         staff_salary(value)
+    //     }
+    //     function stafF_salary(id) {
+    //     $.ajax({
+    //       url: "basic_salary_ajax.php",
+    //       type: "POST",
+    //       data: {
+    //           staff = id
+    //       },
+    //       success: function(data) {
+    //         $('#basic_salary').val(data)
+    //       }
+    //     })
+    //   }
 </script>

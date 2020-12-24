@@ -1,3 +1,5 @@
+<!-- not in use  -->
+
 <?php
 include 'php/database.php';
 
@@ -41,11 +43,11 @@ if($x==true){
     $sql = "INSERT INTO `months` (`months`) VALUES ('$current_month')";
     $result= mysqli_query($connection,$sql);
 }
-      echo "send";
+    //   echo "send";
     }
 
 else{
-    echo "hello";
+    // echo "hello";
 }
 
 ?>

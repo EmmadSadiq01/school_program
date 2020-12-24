@@ -26,7 +26,7 @@
             ?>
                 <div class="row">
 
-                    <div class="col-sm-10 col-sm-offset-1">
+                    <div class="col-sm-12 col-sm-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <?php
@@ -42,6 +42,7 @@
                                     $result = mysqli_query($connection, $sql);
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $std_name = $row['name'];
+                                        $gr_no = $row['gr_no'];
                                         $nationality = $row['nationality'];
                                         $religion = $row['religion'];
                                         $gender = $row['gender'];
@@ -72,11 +73,26 @@
                                     <fieldset class="scheduler-border">
                                         <legend class="scheduler-border">Personal Information:</legend>
 
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="Old">GR Number* </label>
+                                            <?php
+                                            $sql_gr = "SELECT * FROM students";
+                                            $result_gr = mysqli_query($connection, $sql_gr);
+                                            $genetrate_gr_no = mysqli_num_rows($result_gr);
 
+                                            ?>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="gr_no" name="gr_no" value="<?php echo (@$_GET['action'] == "edit") ? "$gr_no" : $genetrate_gr_no + 1  ?>" />
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="Old">Roll No.* </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="roll_no" name="roll_no" value="100<?php echo (@$_GET['action'] == "edit") ? $std_id : $genetrate_gr_no + 1  ?>" readonly />
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Student Name* </label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="sname" name="sname" value="<?php echo (@$_GET['action'] == 'edit') ? $std_name : ''  ?>" />
                                             </div>
                                         </div>
@@ -182,7 +198,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="moccupation">Address* </label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <textarea name="address" class="form-control" id="address" cols="30" rows="4"><?php echo (@$_GET['action'] == "edit") ? $address : '' ?></textarea>
                                             </div>
                                         </div>
@@ -265,30 +281,56 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th scope="col">S.no</th>
-                                        <th scope="col">Student Name</th>
-                                        <th scope="col">Image</th>
-                                        <th scope="col">Gender</th>
+                                        <th scope="col">GR #</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Father Name</th>
+                                        <th scope="col">Religion</th>
+                                        <th scope="col">DOB</th>
+                                        <th scope="col">Place OF Birth</th>
+                                        <th scope="col">Last Institution</th>
+                                        <th scope="col">DOA</th>
                                         <th scope="col">Class</th>
+                                        <th scope="col">Image</th>
                                         <th scope="col">Monthly Fees</th>
-                                        <!-- <th scope="col">Total Balance</th>
-                                        <th scope="col">Balance Months</th> -->
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT * FROM `classes` inner join `students` on classes.class_name=students.class";
+                                    $sql = "SELECT * FROM `students`";
                                     $result = mysqli_query($connection, $sql);
                                     $sno = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $sno = $sno + 1; ?>
                                         <tr>
-                                            <th scope='row'> <?php echo $sno  ?> </th>
                                             <td>
-                                                <p class='name'> <?php echo  $row['name']  ?></p>
-                                                <p class='contact'> <?php echo $row['fnumber']   ?></p>
-                                                <p class='contact'> <?php echo $row['mnumber']   ?></p>
+                                                <p class='name'> <?php echo  $row['gr_no']  ?></p>
+                                                <!-- <p class='contact'></p>
+                                                <p class='contact'></p> -->
+                                            </td>
+                                            <td>
+                                                <p class='name'> <?php echo  $row['name']?></p>
+                                            </td>
+                                            <td>
+                                                <p class='name'> <?php echo  $row['fname']?></p>
+                                            </td>
+                                            <td>
+                                                <p class='name'> <?php echo  $row['religion']?></p>
+                                            </td>
+                                            <td>
+                                                <p class='name'> <?php echo  $row['dob']?></p>
+                                            </td>
+                                            <td>
+                                                <p class='name'>Karachi +</p>
+                                            </td>
+                                            <td>
+                                                <p class='name'>Institute +</p>
+                                            </td>
+                                            <td>
+                                                <p class='name'> <?php echo  $row['doj']?></p>
+                                            </td>
+                                            <td>
+                                                <p class='name'> <?php echo  $row['class']?></p>
                                             </td>
                                             <td style='text-transform:capitalize' class='students-Photo'>
                                                 <div class="std_img"><?php
@@ -305,13 +347,9 @@
                                             </td>
 
 
-                                            <td><?php echo $row['gender'] ?></td>
-                                            <td><?php echo $row['class'] ?></td>
-
-
-                                            <td> <?php echo $row['monthly_fees'];
-                                                    $std_id = $row['id'];
-                                                    ?></td>
+                                            <td><?php echo $row['tutionFee'] ;
+                                            $std_id = $row['id'];
+                                            ?></td>
 
 
                                             <?php

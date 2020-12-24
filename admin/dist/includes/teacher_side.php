@@ -1,3 +1,9 @@
+<style>
+    fieldset.scheduler-border {
+    padding: 0px 35px 0px 15px !important;
+    }
+</style>
+
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid">
@@ -27,7 +33,7 @@
             ?>
                 <div class="row">
 
-                    <div class="col-sm-10 col-sm-offset-1">
+                    <div class="col-sm-12 col-sm-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <?php echo "Add Staff" ?>
@@ -52,6 +58,10 @@
                                        $course = $row['course'];
                                        $salary = $row['salary'];
                                        $post = $row['post'];
+                                       $allowance = $row['allowance'];
+                                       $fhname = $row['fhname'];
+                                       $cnic = $row['cnic'];
+                                       $experince = $row['experience'];
                                     }
                                     echo '<input type="hidden" name="edit_teacher" value="' . $teacher_id . '">';
                                 }
@@ -66,9 +76,21 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="Old">Father/Husb. Name* </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="fhname" name="fhname"  value="<?php echo (@$_GET['action'] == 'edit') ? $fhname : ''  ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Contact* </label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="contact" name="contact" maxlength="12" value="<?php echo (@$_GET['action'] == 'edit') ? $contact : ''  ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="Old">CNIC* </label>
+                                            <div class="col-sm-10">
+                                                <input type="TEXT" class="form-control" id="cnic" name="cnic" value="<?php echo (@$_GET['action'] == 'edit') ? $cnic : ''  ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -148,6 +170,12 @@
                                                 <input type="text" class="form-control" id="fees" name="for_course" value="<?php echo (@$_GET['action'] == "edit") ? $course : '' ?>" />
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="Old">Experience* </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="experience" name="experience" value="<?php echo (@$_GET['action'] == "edit") ? $experince : '' ?>" />
+                                            </div>
+                                        </div>
                                         
 
                                     </fieldset>
@@ -155,15 +183,28 @@
                                     <fieldset class="scheduler-border">
                                         <legend class="scheduler-border"> Salary Information:</legend>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Password">Post*  </label>
+                                            <label class="col-sm-2 control-label" for="Password">Designation*  </label>
                                             <div class="col-sm-10">
-                                               <input type="text" class="form-control" id="about" name="post" value="<?php echo (@$_GET['action'] == "edit") ? $post : '' ?>"/>
+                                               <!-- <input type="text" class="form-control" id="about" name="post" value=""/> -->
+                                               <select class="form-control" id="about" name="post">
+                                                   <option value="select">Select...</option>
+                                                   <option value="teacher" <?php echo (@$_GET['action'] == "edit" && $post=="teacher") ? "selected" : '' ?>>Teacher</option>
+                                                   <option value="management" <?php echo (@$_GET['action'] == "edit" && $post=="management") ? "selected" : '' ?>>Management</option>
+                                                   <option value="peon" <?php echo (@$_GET['action'] == "edit" && $post=="peon") ? "selected" : '' ?>>Peon</option>
+                                               </select>
+
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="Password">salary*  </label>
+                                            <label class="col-sm-2 control-label" for="Password">Basic Salary*  </label>
                                             <div class="col-sm-10">
                                                <input type="text" class="form-control" id="about" name="salary" value="<?php echo (@$_GET['action'] == "edit") ? $salary : '' ?>"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="Password">Allowance*  </label>
+                                            <div class="col-sm-10">
+                                               <input type="text" class="form-control" id="allowance" name="allowance" value="<?php echo (@$_GET['action'] == "edit") ? $allowance : '' ?>"/>
                                             </div>
                                         </div>
 

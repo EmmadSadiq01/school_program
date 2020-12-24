@@ -2,6 +2,10 @@
 include 'database.php';
 
 $std_name = "";
+$gr_no = "";
+$fname = "";
+$session = "";
+$fees = "";
 $months = [];
 $std_class = "";
 $amount = 0;
@@ -10,42 +14,45 @@ $amount = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $std_id = substr($_POST['std_id'], 3);
 
-    $check_id = "SELECT * FROM `students`";
-    $check_result =   mysqli_query($connection, $check_id);
-    $id_exist = 0;
-    while ($row = mysqli_fetch_assoc($check_result)) {
-        if ($row['id'] == $std_id) {
-            $id_exist = 1;
+    // $check_id = "SELECT * FROM `students`";
+    // $check_result =   mysqli_query($connection, $check_id);
+    // $id_exist = 0;
+    // while ($row = mysqli_fetch_assoc($check_result)) {
+    //     if ($row['id'] == $std_id) {
+    //         $id_exist = 1;
+    //     }
+    // }
+
+    // if ($id_exist == 1) {
+
+    $sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id=1";
+    $result = mysqli_query($connection, $sql);
+    // echo $std_id;
+
+    $x = 0;
+    $i = 0;
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($x == 0) {
+            $std_name = $row['name'];
+            $std_class = $row['class'];
+            $gr_no = $row['gr_no'];
+            $fname = $row['fname'];
+            $fees = $row['tutionFee'];
+            $x = 1;
         }
+        $months[$i] = $row['months'];
+        $amount += $row['amount'];
+        $i++;
     }
 
-    if ($id_exist == 1) {
-
-        $sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id='$std_id'";
-        $result = mysqli_query($connection, $sql);
-        // echo $std_id;
-
-        $x = 0;
-        $i = 0;
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($x == 0) {
-                $std_name = $row['name'];
-                $std_class = $row['class'];
-                $x = 1;
-            }
-            $months[$i] = $row['months'];
-            $amount += $row['amount'];
-            $i++;
-        }
-
-        $sql = "SELECT * FROM `classes` WHERE class_name = '$std_class' ";
-        $result = mysqli_query($connection, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-            $fees = $row['monthly_fees'];
-            break;
-        }
-    }
+    // $sql = "SELECT * FROM `classes` WHERE class_name = '$std_class' ";
+    // $result = mysqli_query($connection, $sql);
+    // while ($row = mysqli_fetch_assoc($result)) {
+    //     $fees = $row['monthly_fees'];
+    //     break;
+    // }
+    // }
 }
 ?>
 
@@ -87,25 +94,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         width: 144px;
     }
 
+    .student_details {
+        border: 1px solid black;
+        padding: 3px;
+    }
+
     .name {
-        border-bottom: 1px solid;
+        /* border-bottom: 1px solid; */
         text-align: center;
     }
 
     .name_box {
         display: flex;
-        border: 1px solid gray;
-        border-radius: 10px;
+        /* border: 1px solid gray;
+        border-radius: 10px; */
     }
 
     .item {
-        padding: 10px;
+        /* padding: 10px; */
         width: 135px;
-        background-color: gray;
-        color: white;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        /* background-color: gray; */
+        /* color: white; */
+        /* border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px; */
     }
+
+
 
     .class {
         display: flex;
@@ -116,19 +130,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         margin-left: 9px
     }
 
-    .key1 {
+    /* .key1 {
         padding: 8px;
         background-color: gray;
         color: white;
-    }
+    } */
 
-    .key {
+    /* .key {
         padding: 8px;
         background-color: gray;
         color: white;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-    }
+    } */
 
     p {
         margin-bottom: 0px;
@@ -136,8 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     .value {
         display: flex;
-        align-items: center;
-        padding-left: 5px;
+        /* align-items: center;
+        padding-left: 5px; */
         text-transform: capitalize;
     }
 
@@ -145,15 +159,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         text-align: center;
     }
 
-    .box {
-        border: 1px solid gray;
-        border-radius: 10px;
-    }
+    /* .box {
+        border: 1px solid gray; 
+         border-radius: 10px;
+    } */
 
     .copy h5 {
-    font-size: 13px;
-    font-family: initial;
-    padding-top: 7px;
+        font-size: 13px;
+        font-family: initial;
+        padding-top: 7px;
     }
 
     .amount {
@@ -205,48 +219,91 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row">
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-
                         <h5>Student Copy</h5>
                     </div>
                     <div class="header mb-2">
-                        <h4 class="text-center">School Management System</h4>
+                        <h4 class="text-center">Al ISLAH SCHOOL</h4>
                         <div class="sch_name">
-                            <!-- <div class="logo">
-                            <img src="images/school.png" alt="">
-                        </div> -->
                             <div class="text">
-                                <small>This is my school</small>
-                                <p>0341-2725048</p>
+                                <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
+                                <p>PHONE: <span>0317-2575687</span></p>
                             </div>
-
                         </div>
-
-                        <div class="name_box">
-                            <div class="item">
-                                <p>Student name</p>
-                            </div>
-                            <p class="value"><?php echo $std_name ?></p>
-                        </div>
-                        <div class="box mt-2">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="class">
-                                        <div class="key">
-                                            <p>class</p>
-                                        </div>
-                                        <p class="value"><?php echo $std_class ?></p>
-                                    </div>
+                        <div class="student_details">
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Student Name</p>
                                 </div>
-                                <div class="col-6">
-                                    <div class="class">
-                                        <div class="key1">
-                                            <p>Roll no.</p>
-                                        </div>
-                                        <p class="value">100<?php echo $std_id ?></p>
-                                    </div>
-                                </div>
-
+                                <p class="value"><?php echo $std_name ?></p>
                             </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Father Name</p>
+                                </div>
+                                <p class="value"><?php echo $fname ?></p>
+                            </div>
+                            <div class="name_box ">
+                                <div class="item">
+                                    <p>GR No</p>
+                                </div>
+                                <p class="value"><?php echo $gr_no ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Session</p>
+                                </div>
+                                <p class="value"><?php echo $session ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Class</p>
+                                </div>
+                                <p class="value"><?php echo $std_class ?></p>
+                            </div>
+                            <!-- <div class="box mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key">
+                                                <p>GR no.</p>
+                                            </div>
+                                            <p class="value"><?php echo $gr_no ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key1">
+                                                <p>Session.</p>
+                                            </div>
+                                            <p class="value">100<?php echo $session ?></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key">
+                                                <p>Roll no.</p>
+
+                                            </div>
+                                            <p class="value">100<?php echo $std_id ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key1">
+                                                <p>class</p>
+                                            </div>
+                                            <p class="value"><?php echo $std_class ?></p>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -255,15 +312,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="details">
 
                         <div class="amount">
-                            <p>Tution fee</p>
-                            <p>Rs <?php echo $fees ?></p>
+                            <p>Adminssion fee</p>
+                            <p><?php echo "0"  ?></p>
                         </div>
-                        <hr>
                         <div class="amount">
-                            <p>Dues</p>
-                            <p>Rs <?php echo $amount ?> </p>
+                            <p>Tution fee</p>
+                            <p><?php echo $fees ?></p>
                         </div>
-                        <hr>
                         <div class="amount">
                             <p>Months</p>
                             <p> <?php foreach ($months as $m) {
@@ -271,6 +326,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     echo " ";
                                 } ?></p>
                         </div>
+                        <div class="amount">
+                            <p>Lab Charges</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Anual Fee</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Sports Club</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <hr>
+                        <div class="amount">
+                            <p>Dues</p>
+                            <p><?php echo $amount ?> </p>
+                        </div>
+                        <hr>
+
                         <hr>
                         <hr>
                         <div class="amount">
@@ -280,12 +354,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div class="footer mt-3">
-                        <div class="content">
-                            <p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ullam impedit eius optio dicta fugit pariatur sequi fugiat! Facilis.</p>
+                        <div class="content text-center">
+                            <h3>DUBAI ISLAMIC BANK</h3>
+                            <p>Branch Code :<span>178</span></p>
+                            <p>Shop No. S-5&6 Ground Floor Kamran Chorangi</p>
                         </div>
                         <div class="foot-line">
 
-                            <h6 class="text-center">Lorem ipsum dolor sit amet sit amet sit amet </h6>
+                            <h6 class="text-center">Software Developed by: M.Emmad Sadiq (0341-2725048)</h6>
                         </div>
                     </div>
 
@@ -293,48 +369,91 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-
-                        <h5>Bank Copy</h5>
+                        <h5>Student Copy</h5>
                     </div>
                     <div class="header mb-2">
-                        <h4 class="text-center">School Management System</h4>
+                        <h4 class="text-center">Al ISLAH SCHOOL</h4>
                         <div class="sch_name">
-                            <!-- <div class="logo">
-                            <img src="images/school.png" alt="">
-                        </div> -->
                             <div class="text">
-                                <small>This is my school</small>
-                                <p>0341-2725048</p>
+                                <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
+                                <p>PHONE: <span>0317-2575687</span></p>
                             </div>
-
                         </div>
-
-                        <div class="name_box">
-                            <div class="item">
-                                <p>Student name</p>
-                            </div>
-                            <p class="value"><?php echo $std_name ?></p>
-                        </div>
-                        <div class="box mt-2">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="class">
-                                        <div class="key">
-                                            <p>class</p>
-                                        </div>
-                                        <p class="value"><?php echo $std_class ?></p>
-                                    </div>
+                        <div class="student_details">
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Student Name</p>
                                 </div>
-                                <div class="col-6">
-                                    <div class="class">
-                                        <div class="key1">
-                                            <p>Roll no.</p>
-                                        </div>
-                                        <p class="value">100<?php echo $std_id ?></p>
-                                    </div>
-                                </div>
-
+                                <p class="value"><?php echo $std_name ?></p>
                             </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Father Name</p>
+                                </div>
+                                <p class="value"><?php echo $fname ?></p>
+                            </div>
+                            <div class="name_box ">
+                                <div class="item">
+                                    <p>GR No</p>
+                                </div>
+                                <p class="value"><?php echo $gr_no ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Session</p>
+                                </div>
+                                <p class="value"><?php echo $session ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Class</p>
+                                </div>
+                                <p class="value"><?php echo $std_class ?></p>
+                            </div>
+                            <!-- <div class="box mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key">
+                                                <p>GR no.</p>
+                                            </div>
+                                            <p class="value"><?php echo $gr_no ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key1">
+                                                <p>Session.</p>
+                                            </div>
+                                            <p class="value">100<?php echo $session ?></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key">
+                                                <p>Roll no.</p>
+
+                                            </div>
+                                            <p class="value">100<?php echo $std_id ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key1">
+                                                <p>class</p>
+                                            </div>
+                                            <p class="value"><?php echo $std_class ?></p>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -343,15 +462,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="details">
 
                         <div class="amount">
-                            <p>Tution fee</p>
-                            <p>Rs <?php echo $fees ?></p>
+                            <p>Adminssion fee</p>
+                            <p><?php echo "0"  ?></p>
                         </div>
-                        <hr>
                         <div class="amount">
-                            <p>Dues</p>
-                            <p>Rs <?php echo $amount ?> </p>
+                            <p>Tution fee</p>
+                            <p><?php echo $fees ?></p>
                         </div>
-                        <hr>
                         <div class="amount">
                             <p>Months</p>
                             <p> <?php foreach ($months as $m) {
@@ -359,6 +476,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     echo " ";
                                 } ?></p>
                         </div>
+                        <div class="amount">
+                            <p>Lab Charges</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Anual Fee</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Sports Club</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <hr>
+                        <div class="amount">
+                            <p>Dues</p>
+                            <p><?php echo $amount ?> </p>
+                        </div>
+                        <hr>
+
                         <hr>
                         <hr>
                         <div class="amount">
@@ -368,12 +504,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div class="footer mt-3">
-                        <div class="content">
-                            <p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ullam impedit eius optio dicta fugit pariatur sequi fugiat! Facilis.</p>
+                        <div class="content text-center">
+                            <h3>DUBAI ISLAMIC BANK</h3>
+                            <p>Branch Code :<span>178</span></p>
+                            <p>Shop No. S-5&6 Ground Floor Kamran Chorangi</p>
                         </div>
                         <div class="foot-line">
 
-                            <h6 class="text-center">Lorem ipsum dolor sit amet sit amet sit amet </h6>
+                            <h6 class="text-center">Software Developed by: M.Emmad Sadiq (0341-2725048)</h6>
                         </div>
                     </div>
 
@@ -381,48 +519,91 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-
-                        <h5>School Copy</h5>
+                        <h5>Student Copy</h5>
                     </div>
                     <div class="header mb-2">
-                        <h4 class="text-center">School Management System</h4>
+                        <h4 class="text-center">Al ISLAH SCHOOL</h4>
                         <div class="sch_name">
-                            <!-- <div class="logo">
-                            <img src="images/school.png" alt="">
-                        </div> -->
                             <div class="text">
-                                <small>This is my school</small>
-                                <p>0341-2725048</p>
+                                <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
+                                <p>PHONE: <span>0317-2575687</span></p>
                             </div>
-
                         </div>
-
-                        <div class="name_box">
-                            <div class="item">
-                                <p>Student name</p>
-                            </div>
-                            <p class="value"><?php echo $std_name ?></p>
-                        </div>
-                        <div class="box mt-2">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="class">
-                                        <div class="key">
-                                            <p>class</p>
-                                        </div>
-                                        <p class="value"><?php echo $std_class ?></p>
-                                    </div>
+                        <div class="student_details">
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Student Name</p>
                                 </div>
-                                <div class="col-6">
-                                    <div class="class">
-                                        <div class="key1">
-                                            <p>Roll no.</p>
-                                        </div>
-                                        <p class="value">100<?php echo $std_id ?></p>
-                                    </div>
-                                </div>
-
+                                <p class="value"><?php echo $std_name ?></p>
                             </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Father Name</p>
+                                </div>
+                                <p class="value"><?php echo $fname ?></p>
+                            </div>
+                            <div class="name_box ">
+                                <div class="item">
+                                    <p>GR No</p>
+                                </div>
+                                <p class="value"><?php echo $gr_no ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Session</p>
+                                </div>
+                                <p class="value"><?php echo $session ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Class</p>
+                                </div>
+                                <p class="value"><?php echo $std_class ?></p>
+                            </div>
+                            <!-- <div class="box mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key">
+                                                <p>GR no.</p>
+                                            </div>
+                                            <p class="value"><?php echo $gr_no ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key1">
+                                                <p>Session.</p>
+                                            </div>
+                                            <p class="value">100<?php echo $session ?></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key">
+                                                <p>Roll no.</p>
+
+                                            </div>
+                                            <p class="value">100<?php echo $std_id ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="class">
+                                            <div class="key1">
+                                                <p>class</p>
+                                            </div>
+                                            <p class="value"><?php echo $std_class ?></p>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -431,15 +612,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="details">
 
                         <div class="amount">
-                            <p>Tution fee</p>
-                            <p>Rs <?php echo $fees ?></p>
+                            <p>Adminssion fee</p>
+                            <p><?php echo "0"  ?></p>
                         </div>
-                        <hr>
                         <div class="amount">
-                            <p>Dues</p>
-                            <p>Rs <?php echo $amount ?> </p>
+                            <p>Tution fee</p>
+                            <p><?php echo $fees ?></p>
                         </div>
-                        <hr>
                         <div class="amount">
                             <p>Months</p>
                             <p> <?php foreach ($months as $m) {
@@ -447,6 +626,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     echo " ";
                                 } ?></p>
                         </div>
+                        <div class="amount">
+                            <p>Lab Charges</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Anual Fee</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Sports Club</p>
+                            <p><?php echo "0" ?></p>
+                        </div>
+                        <hr>
+                        <div class="amount">
+                            <p>Dues</p>
+                            <p><?php echo $amount ?> </p>
+                        </div>
+                        <hr>
+
                         <hr>
                         <hr>
                         <div class="amount">
@@ -456,17 +654,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div class="footer mt-3">
-                        <div class="content">
-                            <p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ullam impedit eius optio dicta fugit pariatur sequi fugiat! Facilis.</p>
+                        <div class="content text-center">
+                            <h3>DUBAI ISLAMIC BANK</h3>
+                            <p>Branch Code :<span>178</span></p>
+                            <p>Shop No. S-5&6 Ground Floor Kamran Chorangi</p>
                         </div>
                         <div class="foot-line">
 
-                            <h6 class="text-center">Lorem ipsum dolor sit amet sit amet sit amet </h6>
+                            <h6 class="text-center">Software Developed by: M.Emmad Sadiq (0341-2725048)</h6>
                         </div>
                     </div>
 
 
                 </div>
+
 
 
 
