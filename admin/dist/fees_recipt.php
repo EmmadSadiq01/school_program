@@ -1,7 +1,55 @@
 <?php
 include 'php/database.php';
-// if (isset($_GET['take'])) {
-// }
+if (isset($_POST['std_vise'])) {
+    $class = $_POST['class'];
+    $std_id = $_POST['std_id'];
+    $fees = $_POST['fees'];
+    $invoice_title = $_POST['invoice_title'];
+    $months = $_POST['adv_month'];
+    $amount = $_POST['amount'];
+    $discount = $_POST['discount'];
+    $gross = $_POST['gross'];
+
+    $due_months = "";
+    if ($months != "") {
+        foreach ($months as $pmonths) {
+            $due_months = $due_months . " " . $pmonths;
+        }
+    }
+
+    $sql = "INSERT INTO fees (`std_roll`,`class`,`month`,`invoice_type`,`amount`,`discount`,`gross`) 
+                        VALUES ('$std_id','$class','$due_months','$invoice_title','$amount','$discount','$gross')";
+    $result = mysqli_query($connection, $sql);
+}
+
+if (isset($_POST['class_vise'])) {
+    $class = $_POST['class'];
+    $invoice_title = $_POST['invoice_title'];
+    $months = $_POST['adv_month'];
+
+    $due_months = "";
+    if ($months != "") {
+        foreach ($months as $pmonths) {
+            $due_months = $due_months . " " . $pmonths;
+        }
+    }
+
+    $sql_class = "SELECT * FROM students WHERE class='$class'";
+    $result_class = mysqli_query($connection,$sql_class);
+    while($row=mysqli_fetch_assoc($result_class)){
+        $std_id = $row['id'];
+        $fees = $row['tutionFee'];
+        $annual_charges = $row['annualCharges'];
+        $lab_charges = $row['lab_charges'];
+        if($months!=""){
+            $no_of_months = count($months);
+            $amount = $no_of_months*$fees;
+        }
+        $sql = "INSERT INTO fees (`std_roll`,`class`,`month`,`invoice_type`,`amount`,`discount`,`gross`) VALUES ('$std_id','$class','$due_months','$invoice_title','$amount',0,'$amount')";
+        $result = mysqli_query($connection, $sql);
+    }
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -132,6 +180,19 @@ include 'php/database.php';
             } else {
                 show.style.display = "none";
                 $('#invoice_type').val(title)
+
+            }
+
+        }
+        function invoice_type1_a(value) {
+            let title = $('#invoice_title_a').val()
+            let show = document.getElementById("show_a")
+            if (title == "monthly" || title === "advance") {
+                show.style.display = "block";
+               
+               }else {
+                show.style.display = "none";
+                $('#invoice_type_a').val(title)
 
             }
 

@@ -136,7 +136,7 @@
                                 </div>
 
                             </div>
-                            
+
                         </fieldset>
 
                         <fieldset>
@@ -167,7 +167,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
-                        Students Data
+                        Students Dues Collection
                     </div>
 
                     <div class="card-body">
