@@ -55,8 +55,8 @@
                     <th>Invoice Title</th>
                     <th style="width: 285px !important;">Months</th>
                     <th>Amount</th>
-                    <th>Discount</th>
-                    <th>Gross</th>
+                    <!-- <th>Discount</th>
+                    <th>Gross</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -69,8 +69,8 @@
                     <th>Invoice Title</th>
                     <th style="width: 285px !important;">Months</th>
                     <th>Amount</th>
-                    <th>Discount</th>
-                    <th>Gross</th>
+                    <!-- <th>Discount</th>
+                    <th>Gross</th> -->
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -79,25 +79,46 @@
                   <?php
                   $sql = "SELECT * FROM `fees` INNER JOIN `students` ON `fees`.`std_roll`= `students`.`id`";
                   $result = mysqli_query($connection, $sql);
-                  while ($row = mysqli_fetch_assoc($result)) { ?>
+                  $month_id="";
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    if($month_id!=$row['std_roll']){
+                    ?>
                     <tr>
                       <td>100<?php echo $row['std_roll'] ?></td>
 
                       <td style="width: 350px;"><?php echo $row['name'] ?></td>
                       <td><?php echo $row['class'] ?></td>
                       <td> <?php echo $row['tutionFee'] ?></td>
-                      <td style="width: 285px !important;"> <?php echo $row['month'] ?></td>
                       <td> <?php echo $row['invoice_type'] ?></td>
-                      <td> <?php echo $row['amount'] ?></td>
-                      <td> <?php echo $row['discount'] ?></td>
-                      <td> <?php echo $row['gross'] ?></td>
+                      <?php
+                      $month_id = $row['std_roll'];
+                      $months_sql = "SELECT * FROM balance where std_id='$month_id'";
+                      $month_result = mysqli_query($connection,$months_sql);
+                      $due_months="";
+                      while($month_row=mysqli_fetch_assoc($month_result)){
+                        $due_months = $due_months." ". $month_row['months'];
+                      }
+                      ?>
+                      <td style="width: 285px !important;"> <?php echo $due_months ?></td>
+                      <?php
+                       $amount_id = $row['std_roll'];
+                       $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
+                       $amount_result = mysqli_query($connection,$amount_sql);
+                       $due_amount=0;
+                       while($amount_row=mysqli_fetch_assoc($amount_result)){
+                         $due_amount = $due_amount+$amount_row['amount'];
+                       }
+                      ?>
+                      <td> <?php echo $due_amount ?></td>
+                      <!-- <td> <?php echo $row['discount'] ?></td> -->
+                      <!-- <td> <?php echo $row['gross'] ?></td> -->
                       <td>
                         <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
                         <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
                       </td>
                     </tr>
                   <?php
-                  } ?>
+                  } }?>
 
 
 

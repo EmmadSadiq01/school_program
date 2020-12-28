@@ -1,9 +1,11 @@
 <?php
 include 'php/database.php';
-$date = date('d-m-Y', strtotime('first day of this month'));
-$current_date = date("d-m-Y");
-$month_index = date("m");
-$months = array("January", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
+// $date = date('d-m-Y', strtotime('first day of this month'));
+// $current_date = date("d-m-Y");
+// $month_index = date("m");
+// $months = array("January", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
+
+// ==============================
 // echo $date;
 // echo "<br>";
 // echo $current_date;
@@ -16,37 +18,40 @@ $months = array("January", "february", "march", "april", "may", "june", "july", 
 
     // $std_id="";
     // $std_fees="";
-    $x = false;
 
-    $sql_1 = "SELECT * FROM `students`";
-    $result_1 = mysqli_query($connection, $sql_1);
-    while ($row_1 = mysqli_fetch_assoc($result_1)) {
-        $std_id = $row_1['id'];
-        $std_fees = $row_1['tutionFee'];
+// ===========================
+    // $x = false;
+
+    // $sql_1 = "SELECT * FROM `students`";
+    // $result_1 = mysqli_query($connection, $sql_1);
+    // while ($row_1 = mysqli_fetch_assoc($result_1)) {
+    //     $std_id = $row_1['id'];
+    //     $std_fees = $row_1['tutionFee'];
 
 
-        $current_month = $months[$month_index - 1];
+    //     $current_month = $months[$month_index - 1];
 
-        $sql = "SELECT * FROM `months` WHERE months='$current_month'";
-        $result = mysqli_query($connection, $sql);
-        // echo mysqli_num_rows($result);
-        if (mysqli_num_rows($result) == 0) {
-            $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`) VALUES ('$std_id', '$current_month', '$std_fees')";
-            $result_fees = mysqli_query($connection, $sql_fees);
-        }
-        $x = true;
-    }
-    if ($x == true) {
-        $sql = "INSERT INTO `months` (`months`) VALUES ('$current_month')";
-        $result = mysqli_query($connection, $sql);
-    }
+    //     $sql = "SELECT * FROM `months` WHERE months='$current_month'";
+    //     $result = mysqli_query($connection, $sql);
+    //     // echo mysqli_num_rows($result);
+    //     if (mysqli_num_rows($result) == 0) {
+    //         $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`) VALUES ('$std_id', '$current_month', '$std_fees')";
+    //         $result_fees = mysqli_query($connection, $sql_fees);
+    //     }
+    //     $x = true;
+    // }
+    // if ($x == true) {
+    //     $sql = "INSERT INTO `months` (`months`) VALUES ('$current_month')";
+    //     $result = mysqli_query($connection, $sql);
+    // }
+
+    // ================================================
 //     echo "send";
 // } 
 // else {
 //     echo "hello";
 // }
 
-?>
 ?>
 
 <!DOCTYPE html>

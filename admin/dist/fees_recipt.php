@@ -1,5 +1,6 @@
 <?php
 include 'php/database.php';
+session_start();
 if (isset($_POST['std_vise'])) {
     $class = $_POST['class'];
     $std_id = $_POST['std_id'];
@@ -14,12 +15,20 @@ if (isset($_POST['std_vise'])) {
     if ($months != "") {
         foreach ($months as $pmonths) {
             $due_months = $due_months . " " . $pmonths;
+            $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', '$pmonths', '$fees','$invoice_title')";
+            $result_fees = mysqli_query($connection, $sql_fees);
         }
+    } else {
+        $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', '', '$amount','$invoice_title')";
+        $result_fees = mysqli_query($connection, $sql_fees);
     }
 
     $sql = "INSERT INTO fees (`std_roll`,`class`,`month`,`invoice_type`,`amount`,`discount`,`gross`) 
-                        VALUES ('$std_id','$class','$due_months','$invoice_title','$amount','$discount','$gross')";
+            VALUES ('$std_id','$class','$due_months','$invoice_title','$amount','$discount','$gross')";
     $result = mysqli_query($connection, $sql);
+
+    $_SESSION['std_vise'] = $std_id;
+    header('Location: http://localhost/schoolManagementSystem/admin/dist/php/vaucher.php?id=' . $std_id);
 }
 
 if (isset($_POST['class_vise'])) {
@@ -35,19 +44,31 @@ if (isset($_POST['class_vise'])) {
     }
 
     $sql_class = "SELECT * FROM students WHERE class='$class'";
-    $result_class = mysqli_query($connection,$sql_class);
-    while($row=mysqli_fetch_assoc($result_class)){
+    $result_class = mysqli_query($connection, $sql_class);
+    while ($row = mysqli_fetch_assoc($result_class)) {
         $std_id = $row['id'];
         $fees = $row['tutionFee'];
         $annual_charges = $row['annualCharges'];
         $lab_charges = $row['lab_charges'];
-        if($months!=""){
+        if ($months != "") {
+            foreach ($months as $pmonths) {
+                $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', '$pmonths', '$fees','$invoice_title')";
+                $result_fees = mysqli_query($connection, $sql_fees);
+            }
             $no_of_months = count($months);
-            $amount = $no_of_months*$fees;
+            $amount = $no_of_months * $fees;
+        } elseif ($invoice_title == "lab") {
+            $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', '', '$lab_charges','$invoice_title')";
+            $result_fees = mysqli_query($connection, $sql_fees);
+        } elseif ($invoice_title == "annual") {
+            $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', '', '$annual_charges','$invoice_title')";
+            $result_fees = mysqli_query($connection, $sql_fees);
         }
         $sql = "INSERT INTO fees (`std_roll`,`class`,`month`,`invoice_type`,`amount`,`discount`,`gross`) VALUES ('$std_id','$class','$due_months','$invoice_title','$amount',0,'$amount')";
         $result = mysqli_query($connection, $sql);
     }
+    $_SESSION['class_vise'] = $class;
+    header('Location: http://localhost/schoolManagementSystem/admin/dist/php/classvise.php?class='.$class);
 
 }
 
@@ -184,13 +205,14 @@ if (isset($_POST['class_vise'])) {
             }
 
         }
+
         function invoice_type1_a(value) {
             let title = $('#invoice_title_a').val()
             let show = document.getElementById("show_a")
             if (title == "monthly" || title === "advance") {
                 show.style.display = "block";
-               
-               }else {
+
+            } else {
                 show.style.display = "none";
                 $('#invoice_type_a').val(title)
 

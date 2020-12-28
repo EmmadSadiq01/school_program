@@ -9,51 +9,59 @@ $fees = "";
 $months = [];
 $std_class = "";
 $amount = 0;
+$invoice_type = "";
+$lab_charges = 0;
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $std_id = substr($_POST['std_id'], 3);
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+$std_id = $_GET['id'];
 
-    // $check_id = "SELECT * FROM `students`";
-    // $check_result =   mysqli_query($connection, $check_id);
-    // $id_exist = 0;
-    // while ($row = mysqli_fetch_assoc($check_result)) {
-    //     if ($row['id'] == $std_id) {
-    //         $id_exist = 1;
-    //     }
-    // }
+// $check_id = "SELECT * FROM `students`";
+// $check_result =   mysqli_query($connection, $check_id);
+// $id_exist = 0;
+// while ($row = mysqli_fetch_assoc($check_result)) {
+//     if ($row['id'] == $std_id) {
+//         $id_exist = 1;
+//     }
+// }
 
-    // if ($id_exist == 1) {
+// if ($id_exist == 1) {
 
-    $sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id=1";
-    $result = mysqli_query($connection, $sql);
-    // echo $std_id;
+$sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id=1";
+$result = mysqli_query($connection, $sql);
+// echo $std_id;
 
-    $x = 0;
-    $i = 0;
+$x = 0;
+$i = 0;
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        if ($x == 0) {
-            $std_name = $row['name'];
-            $std_class = $row['class'];
-            $gr_no = $row['gr_no'];
-            $fname = $row['fname'];
-            $fees = $row['tutionFee'];
-            $x = 1;
-        }
-        $months[$i] = $row['months'];
-        $amount += $row['amount'];
-        $i++;
+while ($row = mysqli_fetch_assoc($result)) {
+    if ($x == 0) {
+        $std_name = $row['name'];
+        $std_class = $row['class'];
+        $gr_no = $row['gr_no'];
+        $fname = $row['fname'];
+        $fees = $row['tutionFee'];
+        $invoice_type = $row['invoice_type'];
+
+        $x = 1;
     }
-
-    // $sql = "SELECT * FROM `classes` WHERE class_name = '$std_class' ";
-    // $result = mysqli_query($connection, $sql);
-    // while ($row = mysqli_fetch_assoc($result)) {
-    //     $fees = $row['monthly_fees'];
-    //     break;
-    // }
-    // }
+    if ($row['invoice_type'] == "monthly") {
+        $months[$i] = $row['months'];
+        $i++;
+    } elseif ($row['invoice_type'] == "lab") {
+        $lab_charges = $row['lab_charges'];
+    }
+    $amount += $row['amount'];
 }
+
+// $sql = "SELECT * FROM `classes` WHERE class_name = '$std_class' ";
+// $result = mysqli_query($connection, $sql);
+// while ($row = mysqli_fetch_assoc($result)) {
+//     $fees = $row['monthly_fees'];
+//     break;
+// }
+// }
+// }
 ?>
 
 <!DOCTYPE html>
@@ -328,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="amount">
                             <p>Lab Charges</p>
-                            <p><?php echo "0" ?></p>
+                            <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
                         </div>
                         <div class="amount">
                             <p>Anual Fee</p>
@@ -369,7 +377,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-                        <h5>Student Copy</h5>
+                        <h5>School Copy</h5>
                     </div>
                     <div class="header mb-2">
                         <h4 class="text-center">Al ISLAH SCHOOL</h4>
@@ -478,7 +486,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="amount">
                             <p>Lab Charges</p>
-                            <p><?php echo "0" ?></p>
+                            <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
                         </div>
                         <div class="amount">
                             <p>Anual Fee</p>
@@ -519,7 +527,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-                        <h5>Student Copy</h5>
+                        <h5>Bank Copy</h5>
                     </div>
                     <div class="header mb-2">
                         <h4 class="text-center">Al ISLAH SCHOOL</h4>
@@ -628,7 +636,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="amount">
                             <p>Lab Charges</p>
-                            <p><?php echo "0" ?></p>
+                            <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
                         </div>
                         <div class="amount">
                             <p>Anual Fee</p>
