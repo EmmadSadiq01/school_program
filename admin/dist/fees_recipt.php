@@ -1,5 +1,6 @@
 <?php
 include 'php/database.php';
+include 'php/logedin.php';
 session_start();
 if (isset($_POST['std_vise'])) {
     $class = $_POST['class'];

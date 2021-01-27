@@ -1,5 +1,6 @@
 <?php
 include 'php/database.php';
+include 'php/logedin.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 

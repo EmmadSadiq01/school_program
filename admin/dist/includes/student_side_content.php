@@ -64,6 +64,9 @@
                                         $add_fees = $row['add_fees'];
                                         $tutionFee = $row['tutionFee'];
                                         $annualCharges = $row['annualCharges'];
+                                        $institute = $row['institute'];
+                                        $placeOfBirth = $row['place_of_birth'];
+                                        $labCharges = $row['lab_charges'];
                                     }
                                     echo '<input type="hidden" name="edit_std" value="' . $std_id . '">';
                                 }
@@ -97,6 +100,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="Old">Place Of Birth* </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth" value="<?php echo (@$_GET['action'] == 'edit') ? $placeOfBirth : ''  ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Nationality* </label>
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" id="nationality" name="nationality" value="<?php echo (@$_GET['action'] == "edit") ? "$nationality" : "Pakistani"  ?>" />
@@ -126,7 +135,19 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Class* </label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="class" name="class" value="<?php echo (@$_GET['action'] == "edit") ? "$class" : ""  ?>" />
+                                                <select  class="form-control" id="class" name="class">
+                                                    <option value="">Select...</option>
+                                                    <?php
+                                                    $sql = "SELECT * FROM classes ORDER BY class_name ASC";
+                                                    $result = mysqli_query($connection,$sql);
+                                                    while($row = mysqli_fetch_assoc($result)){
+                                                        ?>
+                                                        <option value="<?php echo $row['id']?>" <?php echo (@$_GET['action'] == "edit" && $class == $row['id']) ? "selected" : ""  ?> > <?php echo $row['class_name'] ?> </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <!-- <input type="text" class="form-control" id="class" name="class" value="" /> -->
                                             </div>
                                             <label class="col-sm-1 control-label" for="Old">Session* </label>
                                             <div class="col-sm-4">
@@ -211,22 +232,35 @@
                                     <fieldset class="scheduler-border">
                                         <legend class="scheduler-border">Addmission Details:</legend>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="dateofjoin">Date OF Admission </label>
+                                            <label class="col-sm-2 control-label" for="dateofjoin">Last Institute </label>
                                             <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="last_institute" name="institute" value="<?php echo (@$_GET['action'] == "edit") ? "$institute" :   ""  ?>" />
+
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="dateofjoin">Date OF Admission </label>
+                                            <div class="col-sm-2">
                                                 <?php $current_date = date('yy-m-d') ?>
                                                 <input type="date" class="form-control" id="dateofjoin" name="dateofjoin" value="<?php echo (@$_GET['action'] == "edit") ? "$doj" :   "$current_date"  ?>" />
 
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            
                                             <label class="col-sm-2 control-label" for="AdmissionFee">Admission Fee </label>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <input type="number" class="form-control" id="admissionFee" name="admissionFee" value="<?php echo (@$_GET['action'] == "edit") ? $add_fees : '' ?>" />
+
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="tutionFee">Tution Fee</label>
+                                            <div class="col-sm-3">
+                                                <input type="number" class="form-control" id="tutionFee" name="tutionFee" value="<?php echo (@$_GET['action'] == "edit") ? $tutionFee : '' ?>" />
 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="tutionFee">Tution Fee</label>
+                                        <label class="col-sm-2 control-label" for="labCharges">Lab Charges</label>
                                             <div class="col-sm-4">
-                                                <input type="number" class="form-control" id="tutionFee" name="tutionFee" value="<?php echo (@$_GET['action'] == "edit") ? $tutionFee : '' ?>" />
+                                                <input type="number" class="form-control" id="labCharges" name="labCharges" value="<?php echo (@$_GET['action'] == "edit") ? $labCharges : '' ?>" />
 
                                             </div>
                                             <label class="col-sm-2 control-label" for="annualCharges">Annual Charges</label>
@@ -309,28 +343,28 @@
                                                 <p class='contact'></p> -->
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['name']?></p>
+                                                <p class='name'> <?php echo  $row['name'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['fname']?></p>
+                                                <p class='name'> <?php echo  $row['fname'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['religion']?></p>
+                                                <p class='name'> <?php echo  $row['religion'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['dob']?></p>
+                                                <p class='name'> <?php echo  $row['dob'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'>Karachi +</p>
+                                                <p class='name'><?php echo $row['place_of_birth'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'>Institute +</p>
+                                                <p class='name'><?php echo $row['institute'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['doj']?></p>
+                                                <p class='name'> <?php echo  $row['doj'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['class']?></p>
+                                                <p class='name'> <?php echo  $row['class'] ?></p>
                                             </td>
                                             <td style='text-transform:capitalize' class='students-Photo'>
                                                 <div class="std_img"><?php
@@ -347,9 +381,9 @@
                                             </td>
 
 
-                                            <td><?php echo $row['tutionFee'] ;
-                                            $std_id = $row['id'];
-                                            ?></td>
+                                            <td><?php echo $row['tutionFee'];
+                                                $std_id = $row['id'];
+                                                ?></td>
 
 
                                             <?php

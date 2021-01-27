@@ -1,5 +1,6 @@
 <?php
 include 'php/database.php';
+include 'php/logedin.php';
 
 $to="";
 $from="";

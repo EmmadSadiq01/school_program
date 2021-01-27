@@ -1,5 +1,6 @@
 <?php
 include 'php/database.php';
+include 'php/logedin.php';
 
 // global initialize variable for use in edit student record
 $roll_no = "";
@@ -26,6 +27,8 @@ $doj = "";
 $add_fees = "";
 $tutionFee = "";
 $annualCharges = "";
+$placeOfBirth = "";
+$institute = "";
 
 // Delete student
 if(isset($_GET['delete'])){
@@ -63,10 +66,13 @@ if (isset($_POST["edit_std"])) {
   $admissionFee = $_POST['admissionFee'];
   $tutionFee = $_POST['tutionFee'];
   $annualCharges = $_POST['annualCharges'];
+  $institute = $_POST['institute'];
+  $placeOfBirth = $_POST['placeOfBirth'];
+  $labCharges = $_POST['labCharges'];
 
   $sql = "UPDATE `students` SET  `gr_no`='$gr_no', `name`= '$std_name',`nationality` = '$nationality',`religion` ='$religion',`gender`='$gender',`dob`='$dob',`class`='$class',`session`='$session',`address`='$address',
   `fname`='$fname',`fcnic`='$fcnic',`foccupation`='$foccupation',`feducation`='$feducation',`mname`='$mname',`mcnic`='$mcnic',`moccupation`='$moccupation',`meducation`='$meducation',`fnumber`='$fnumber',`mnumber`='$mnumber',
-  `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharges`='$annualCharges' WHERE `students`.`id` = '$edit_id'";
+  `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharges`='$annualCharges', `institute`='$institute',`place_of_birth`='$placeOfBirth', `lab_charges`='$labCharges' WHERE `students`.`id` = '$edit_id'";
 
 
 $result = mysqli_query($connection,$sql);
@@ -99,6 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
   $admissionFee = $_POST['admissionFee'];
   $tutionFee = $_POST['tutionFee'];
   $annualCharges = $_POST['annualCharges'];
+  $institute = $_POST['institute'];
+  $placeOfBirth = $_POST['placeOfBirth'];
+  $labCharges = $_POST['labCharges'];
 
   $img_dir = $_FILES["image"]["name"];
   $temp = $_FILES["image"]["tmp_name"];
@@ -109,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
   $sql = "INSERT INTO `students`
    (`name`,`gr_no`,`nationality`,`religion`,`gender`,`dob`,`class`,`session`,`address`,
   `fname`,`fcnic`,`foccupation`,`feducation`,`mname`,`mcnic`,`moccupation`,`meducation`,`fnumber`,`mnumber`,
-  `doj`,`add_fees`,`tutionFee`,`annualCharges`,`img_dir`)
+  `doj`,`add_fees`,`tutionFee`,`annualCharges`,`institute`,`place_of_birth`,`lab_charges`,`img_dir`)
    VALUES 
    ('$std_name','$gr_no','$nationality','$religion','$gender','$dob','$class','$session','$address','$fname','$fcnic','$foccupation'
-    ,'$feducation','$mname','$mcnic','$moccupation','$meducation','$fnumber','$mnumber','$dateofjoin','$admissionFee','$tutionFee','$annualCharges','$img_dir')";
+    ,'$feducation','$mname','$mcnic','$moccupation','$meducation','$fnumber','$mnumber','$dateofjoin','$admissionFee','$tutionFee','$annualCharges','$institute','$placeOfBirth','$labCharges','$img_dir')";
   $result = mysqli_query($connection, $sql);
 }
 

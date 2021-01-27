@@ -146,6 +146,11 @@
                                     $name = $row_id['name'];
                                     $gr_no = $row_id['gr_no'];
                                     $class = $row_id['class'];
+                                    $sql_class = "SELECT * FROM classes WHERE id = '$class'";
+                                    $result_sql = mysqli_query($connection,$sql_class);
+                                    while($row_class = mysqli_fetch_assoc($result_sql)){
+                                        $class = $row_class['class_name'];
+                                    }
                                     $tution_fee = $row_id['tutionFee'];
 
                                 }

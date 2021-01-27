@@ -12,7 +12,7 @@
                             <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"> -->
                                
                                 <a href="student.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>Student</a>
-                                <a href="teacher.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>Teachers</a>
+                                <a href="teacher.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>Employee</a>
                                 
                             <!-- </a> -->
                                 <a href="class.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>Classes</a>

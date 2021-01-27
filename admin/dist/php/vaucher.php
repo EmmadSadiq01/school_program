@@ -27,7 +27,7 @@ $std_id = $_GET['id'];
 
 // if ($id_exist == 1) {
 
-$sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id=1";
+$sql = "SELECT * FROM `students` inner join `balance` on `students`.id = `balance`.std_id where `students`.id='$std_id'";
 $result = mysqli_query($connection, $sql);
 // echo $std_id;
 
@@ -37,7 +37,13 @@ $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
     if ($x == 0) {
         $std_name = $row['name'];
+        $session = $row['session'];
         $std_class = $row['class'];
+        $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
+        $std_result = mysqli_query($connection,$sql_class);
+        while($row_class = mysqli_fetch_assoc($std_result)){
+            $std_class = $row_class['class_name'];
+        }    
         $gr_no = $row['gr_no'];
         $fname = $row['fname'];
         $fees = $row['tutionFee'];

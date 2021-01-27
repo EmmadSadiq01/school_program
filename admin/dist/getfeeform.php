@@ -1,5 +1,6 @@
 <?php
 include("php/dbconnect.php");
+include 'php/logedin.php';
 
 if(isset($_POST['req']) && $_POST['req']=='1') 
 {

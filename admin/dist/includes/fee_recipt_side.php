@@ -1,5 +1,6 @@
   <style>
-    #adv_months,#adv_months_a {
+    #adv_months,
+    #adv_months_a {
       border: 1px solid black;
       padding: 10px 10px;
       border-radius: 20px;
@@ -12,7 +13,8 @@
 
 
     }
-    #show_a{
+
+    #show_a {
       display: none;
     }
   </style>
@@ -79,46 +81,55 @@
                   <?php
                   $sql = "SELECT * FROM `fees` INNER JOIN `students` ON `fees`.`std_roll`= `students`.`id`";
                   $result = mysqli_query($connection, $sql);
-                  $month_id="";
-                  while ($row = mysqli_fetch_assoc($result)) { 
-                    if($month_id!=$row['std_roll']){
-                    ?>
-                    <tr>
-                      <td>100<?php echo $row['std_roll'] ?></td>
+                  $month_id = "";
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    if ($month_id != $row['std_roll']) {
+                  ?>
+                      <tr>
+                        <td>100<?php echo $row['std_roll'] ?></td>
 
-                      <td style="width: 350px;"><?php echo $row['name'] ?></td>
-                      <td><?php echo $row['class'] ?></td>
-                      <td> <?php echo $row['tutionFee'] ?></td>
-                      <td> <?php echo $row['invoice_type'] ?></td>
-                      <?php
-                      $month_id = $row['std_roll'];
-                      $months_sql = "SELECT * FROM balance where std_id='$month_id'";
-                      $month_result = mysqli_query($connection,$months_sql);
-                      $due_months="";
-                      while($month_row=mysqli_fetch_assoc($month_result)){
-                        $due_months = $due_months." ". $month_row['months'];
-                      }
-                      ?>
-                      <td style="width: 285px !important;"> <?php echo $due_months ?></td>
-                      <?php
-                       $amount_id = $row['std_roll'];
-                       $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
-                       $amount_result = mysqli_query($connection,$amount_sql);
-                       $due_amount=0;
-                       while($amount_row=mysqli_fetch_assoc($amount_result)){
-                         $due_amount = $due_amount+$amount_row['amount'];
-                       }
-                      ?>
-                      <td> <?php echo $due_amount ?></td>
-                      <!-- <td> <?php echo $row['discount'] ?></td> -->
-                      <!-- <td> <?php echo $row['gross'] ?></td> -->
-                      <td>
-                        <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
-                        <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
-                      </td>
-                    </tr>
+                        <td style="width: 350px;"><?php echo $row['name'] ?></td>
+                        <td><?php 
+                        $std_class = $row['class'];
+                        $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
+                        $std_result = mysqli_query($connection,$sql_class);
+                        while($row_class = mysqli_fetch_assoc($std_result)){
+                            $std_class = $row_class['class_name'];
+                        }                       
+                        echo $std_class;
+                         ?></td>
+                        <td> <?php echo $row['tutionFee'] ?></td>
+                        <td> <?php echo $row['invoice_type'] ?></td>
+                        <?php
+                        $month_id = $row['std_roll'];
+                        $months_sql = "SELECT * FROM balance where std_id='$month_id'";
+                        $month_result = mysqli_query($connection, $months_sql);
+                        $due_months = "";
+                        while ($month_row = mysqli_fetch_assoc($month_result)) {
+                          $due_months = $due_months . " " . $month_row['months'];
+                        }
+                        ?>
+                        <td style="width: 285px !important;"> <?php echo $due_months ?></td>
+                        <?php
+                        $amount_id = $row['std_roll'];
+                        $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
+                        $amount_result = mysqli_query($connection, $amount_sql);
+                        $due_amount = 0;
+                        while ($amount_row = mysqli_fetch_assoc($amount_result)) {
+                          $due_amount = $due_amount + $amount_row['amount'];
+                        }
+                        ?>
+                        <td> <?php echo $due_amount ?></td>
+                        <!-- <td> <?php echo $row['discount'] ?></td> -->
+                        <!-- <td> <?php echo $row['gross'] ?></td> -->
+                        <td>
+                          <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
+                          <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
+                        </td>
+                      </tr>
                   <?php
-                  } }?>
+                    }
+                  } ?>
 
 
 
@@ -155,7 +166,7 @@
                       $sql = "SELECT * FROM `classes`";
                       $result = mysqli_query($connection, $sql);
                       while ($row = mysqli_fetch_assoc($result)) {
-                        echo '<option value="' . $row['class_name'] . '">' . $row['class_name'] . '</option>';
+                        echo '<option value="' . $row['id'] . '">' . $row['class_name'] . '</option>';
                       }
 
                       ?>
@@ -292,7 +303,7 @@
                       $sql = "SELECT * FROM `classes`";
                       $result = mysqli_query($connection, $sql);
                       while ($row = mysqli_fetch_assoc($result)) {
-                        echo '<option value="' . $row['class_name'] . '">' . $row['class_name'] . '</option>';
+                        echo '<option value="' . $row['id'] . '">' . $row['class_name'] . '</option>';
                       }
 
                       ?>

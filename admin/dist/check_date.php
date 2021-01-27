@@ -3,6 +3,7 @@
 <?php
 include 'php/database.php';
 
+
 $date=date('d-m-Y', strtotime('first day of this month'));
 $current_date=date("d-m-Y");
 $month_index=date("m");

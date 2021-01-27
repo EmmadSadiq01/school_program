@@ -1,6 +1,6 @@
 <?php
 include 'php/database.php';
-include 'php/database.php';
+include 'php/logedin.php';
 
 // Delete student
 if(isset($_GET['delete'])){

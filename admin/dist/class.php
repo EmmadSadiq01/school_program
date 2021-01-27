@@ -2,13 +2,13 @@
 include 'php/database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cname = $_POST['cname'];
-    $tname = $_POST['tname'];
+    // $tname = $_POST['tname'];
     // $child_capacity = $_POST['child_capacity'];
-    $add_fees = $_POST['add_fees'];
-    $monthly_fees = $_POST['monthly_fees'];
-    $annual_charges = $_POST['annual_charges'];
+    // $add_fees = $_POST['add_fees'];
+    // $monthly_fees = $_POST['monthly_fees'];
+    // $annual_charges = $_POST['annual_charges'];
 
-    $sql = "INSERT INTO `classes` (`class_name`, `class_teacher`,`monthly_fees`, `addmission_fees`, `anual_charges`) VALUES ('$cname','$tname','$monthly_fees','$add_fees','$annual_charges')";
+    $sql = "INSERT INTO `classes` (`class_name`) VALUES ('$cname')";
     $result = mysqli_query($connection, $sql);
 
 }
@@ -56,6 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> -->
     <script src="assets/demo/datatables-demo.js"></script>
+
+    <script>
+         var sum = 0;
+        $('.std_count').each(function() {
+            sum += parseFloat($(this).text()); 
+        });
+        document.getElementById("total_std").innerHTML = sum;
+    </script>
 
 </body>
 </html>
