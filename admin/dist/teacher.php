@@ -32,8 +32,9 @@ if (isset($_POST["edit_teacher"])){
     $fhname = $_POST['fhname'];
     $cnic = $_POST['cnic'];
     $experince = $_POST['experience'];
+    $account_no = $_POST['account_no'];
 
-    $sql = "UPDATE `teacher` SET `name` ='$name', `email`='$email', `gender`='$gender', `dob`='$dob', `doj`='$doj', `address`='$address', `refrence`='$refrence',`qualification`='$qualification', `year`='$year', `course`='$course', `salary`='$salary',`contact`='$contact',`post`='$post',`allowance`='$allowance',`fhname`='$fhname',`cnic`='$cnic',`experience`='$experince' WHERE id='$edit_teacher'";
+    $sql = "UPDATE `teacher` SET `name` ='$name', `email`='$email', `gender`='$gender', `dob`='$dob', `doj`='$doj', `address`='$address', `refrence`='$refrence',`qualification`='$qualification', `year`='$year', `course`='$course', `salary`='$salary',`contact`='$contact',`post`='$post',`allowance`='$allowance',`fhname`='$fhname',`cnic`='$cnic',`experience`='$experince',`account_no`='$account_no' WHERE id='$edit_teacher'";
     $result = mysqli_query($connection, $sql);
 
 }
@@ -57,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_teacher"]) ) {
     $fhname = $_POST['fhname'];
     $cnic = $_POST['cnic'];
     $experince = $_POST['experience'];
+    $account_no = $_POST['account_no'];
 
     $img_dir = $_FILES["image"]["name"];
     $temp = $_FILES["image"]["tmp_name"];
@@ -64,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_teacher"]) ) {
     move_uploaded_file($temp,$folder); 
 
 
-    $sql = "INSERT INTO `teacher` (`name`, `email`, `gender`, `dob`, `doj`, `address`, `refrence`, `photo`, `qualification`, `year`, `course`, `salary`,`contact`,`post`,`experience`,`allowance`,`cnic`,`fhname`)  VALUES ('$name', '$email','$gender','$doj','$dob','$address','$ref','$img_dir','$degree','$passing_year','$for_course','$salary','$contact','$post','$experince','$allowance','$cnic','$fhname')";
+    $sql = "INSERT INTO `teacher` (`name`, `email`, `gender`, `dob`, `doj`, `address`, `refrence`, `photo`, `qualification`, `year`, `course`, `salary`,`contact`,`post`,`experience`,`allowance`,`cnic`,`fhname`,`account_no`)  VALUES ('$name', '$email','$gender','$doj','$dob','$address','$ref','$img_dir','$degree','$passing_year','$for_course','$salary','$contact','$post','$experince','$allowance','$cnic','$fhname','$account_no')";
     $result = mysqli_query($connection, $sql);
 
 }
@@ -79,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_teacher"]) ) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+    <title>Dashboard - Admin</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/student.css" rel="stylesheet" />
 

@@ -40,14 +40,15 @@ while ($row = mysqli_fetch_assoc($result)) {
         $session = $row['session'];
         $std_class = $row['class'];
         $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
-        $std_result = mysqli_query($connection,$sql_class);
-        while($row_class = mysqli_fetch_assoc($std_result)){
+        $std_result = mysqli_query($connection, $sql_class);
+        while ($row_class = mysqli_fetch_assoc($std_result)) {
             $std_class = $row_class['class_name'];
-        }    
+        }
         $gr_no = $row['gr_no'];
         $fname = $row['fname'];
         $fees = $row['tutionFee'];
         $invoice_type = $row['invoice_type'];
+        $date = $row['date'];
 
         $x = 1;
     }
@@ -236,7 +237,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <h5>Student Copy</h5>
                     </div>
                     <div class="header mb-2">
-                        <h4 class="text-center">Al ISLAH SCHOOL</h4>
+                        <h4 class="text-center">DAR-UL-ISLAH ACADEMY</h4>
                         <div class="sch_name">
                             <div class="text">
                                 <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
@@ -274,50 +275,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 </div>
                                 <p class="value"><?php echo $std_class ?></p>
                             </div>
-                            <!-- <div class="box mt-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key">
-                                                <p>GR no.</p>
-                                            </div>
-                                            <p class="value"><?php echo $gr_no ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key1">
-                                                <p>Session.</p>
-                                            </div>
-                                            <p class="value">100<?php echo $session ?></p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="box mt-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key">
-                                                <p>Roll no.</p>
-
-                                            </div>
-                                            <p class="value">100<?php echo $std_id ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key1">
-                                                <p>class</p>
-                                            </div>
-                                            <p class="value"><?php echo $std_class ?></p>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> -->
                         </div>
 
                     </div>
@@ -326,6 +283,32 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <div class="details">
 
                         <div class="amount">
+                            <?php
+                            $arrears = "";
+                            $arrears_amount = 0;
+                            $current = "";
+                            $current_amount = 0;
+                            $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
+                            $result = mysqli_query($connection, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                if (date('m', strtotime($row['date'])) < date('m')) {
+                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                    $arrears_amount = $arrears_amount + $row['amount'];
+                                } else {
+                                    $current = $current . " " . substr($row['months'], 0, 3);
+                                    $current_amount = $current_amount + $row['amount'];
+                                }
+                            }
+                            ?>
+                            <p>Current <strong>(<?php echo $current  ?> )</strong> </p>
+                            <p><?php echo $current_amount  ?></p>
+                        </div>
+                        <hr />
+                        <div class="amount">
+                            <p>Arrears <strong>(<?php echo $arrears ?> )</strong> </p>
+                            <p><?php echo $arrears_amount  ?></p>
+                        </div>
+                        <div class="amount">
                             <p>Adminssion fee</p>
                             <p><?php echo "0"  ?></p>
                         </div>
@@ -333,13 +316,16 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <p>Tution fee</p>
                             <p><?php echo $fees ?></p>
                         </div>
-                        <div class="amount">
+                        <!-- <div class="amount">
                             <p>Months</p>
-                            <p> <?php foreach ($months as $m) {
-                                    echo substr($m, 0, 3);
-                                    echo " ";
-                                } ?></p>
-                        </div>
+                            <p> <?php
+                                // foreach ($months as $m) {
+                                //         echo substr($m, 0, 3);
+                                //         echo " ";
+                                //     } 
+                                ?>
+                                </p>
+                        </div> -->
                         <div class="amount">
                             <p>Lab Charges</p>
                             <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
@@ -386,7 +372,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <h5>School Copy</h5>
                     </div>
                     <div class="header mb-2">
-                        <h4 class="text-center">Al ISLAH SCHOOL</h4>
+                        <h4 class="text-center">DAR-UL-ISLAH ACADEMY</h4>
                         <div class="sch_name">
                             <div class="text">
                                 <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
@@ -424,50 +410,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 </div>
                                 <p class="value"><?php echo $std_class ?></p>
                             </div>
-                            <!-- <div class="box mt-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key">
-                                                <p>GR no.</p>
-                                            </div>
-                                            <p class="value"><?php echo $gr_no ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key1">
-                                                <p>Session.</p>
-                                            </div>
-                                            <p class="value">100<?php echo $session ?></p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="box mt-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key">
-                                                <p>Roll no.</p>
-
-                                            </div>
-                                            <p class="value">100<?php echo $std_id ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key1">
-                                                <p>class</p>
-                                            </div>
-                                            <p class="value"><?php echo $std_class ?></p>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> -->
                         </div>
 
                     </div>
@@ -476,155 +418,31 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <div class="details">
 
                         <div class="amount">
-                            <p>Adminssion fee</p>
-                            <p><?php echo "0"  ?></p>
+                            <?php
+                            $arrears = "";
+                            $arrears_amount = 0;
+                            $current = "";
+                            $current_amount = 0;
+                            $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
+                            $result = mysqli_query($connection, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                if (date('m', strtotime($row['date'])) < date('m')) {
+                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                    $arrears_amount = $arrears_amount + $row['amount'];
+                                } else {
+                                    $current = $current . " " . substr($row['months'], 0, 3);
+                                    $current_amount = $current_amount + $row['amount'];
+                                }
+                            }
+                            ?>
+                            <p>Current <strong>(<?php echo $current  ?> )</strong> </p>
+                            <p><?php echo $current_amount  ?></p>
                         </div>
+                        <hr />
                         <div class="amount">
-                            <p>Tution fee</p>
-                            <p><?php echo $fees ?></p>
+                            <p>Arrears <strong>(<?php echo $arrears ?> )</strong> </p>
+                            <p><?php echo $arrears_amount  ?></p>
                         </div>
-                        <div class="amount">
-                            <p>Months</p>
-                            <p> <?php foreach ($months as $m) {
-                                    echo substr($m, 0, 3);
-                                    echo " ";
-                                } ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Lab Charges</p>
-                            <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Anual Fee</p>
-                            <p><?php echo "0" ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Sports Club</p>
-                            <p><?php echo "0" ?></p>
-                        </div>
-                        <hr>
-                        <div class="amount">
-                            <p>Dues</p>
-                            <p><?php echo $amount ?> </p>
-                        </div>
-                        <hr>
-
-                        <hr>
-                        <hr>
-                        <div class="amount">
-                            <h6>Total</h6>
-                            <p>Rs <?php echo $amount ?> </p>
-                        </div>
-                    </div>
-
-                    <div class="footer mt-3">
-                        <div class="content text-center">
-                            <h3>DUBAI ISLAMIC BANK</h3>
-                            <p>Branch Code :<span>178</span></p>
-                            <p>Shop No. S-5&6 Ground Floor Kamran Chorangi</p>
-                        </div>
-                        <div class="foot-line">
-
-                            <h6 class="text-center">Software Developed by: M.Emmad Sadiq (0341-2725048)</h6>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
-                    <div class="copy">
-                        <h5>Bank Copy</h5>
-                    </div>
-                    <div class="header mb-2">
-                        <h4 class="text-center">Al ISLAH SCHOOL</h4>
-                        <div class="sch_name">
-                            <div class="text">
-                                <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
-                                <p>PHONE: <span>0317-2575687</span></p>
-                            </div>
-                        </div>
-                        <div class="student_details">
-                            <div class="name_box">
-                                <div class="item">
-                                    <p>Student Name</p>
-                                </div>
-                                <p class="value"><?php echo $std_name ?></p>
-                            </div>
-                            <div class="name_box">
-                                <div class="item">
-                                    <p>Father Name</p>
-                                </div>
-                                <p class="value"><?php echo $fname ?></p>
-                            </div>
-                            <div class="name_box ">
-                                <div class="item">
-                                    <p>GR No</p>
-                                </div>
-                                <p class="value"><?php echo $gr_no ?></p>
-                            </div>
-                            <div class="name_box">
-                                <div class="item">
-                                    <p>Session</p>
-                                </div>
-                                <p class="value"><?php echo $session ?></p>
-                            </div>
-                            <div class="name_box">
-                                <div class="item">
-                                    <p>Class</p>
-                                </div>
-                                <p class="value"><?php echo $std_class ?></p>
-                            </div>
-                            <!-- <div class="box mt-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key">
-                                                <p>GR no.</p>
-                                            </div>
-                                            <p class="value"><?php echo $gr_no ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key1">
-                                                <p>Session.</p>
-                                            </div>
-                                            <p class="value">100<?php echo $session ?></p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="box mt-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key">
-                                                <p>Roll no.</p>
-
-                                            </div>
-                                            <p class="value">100<?php echo $std_id ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="class">
-                                            <div class="key1">
-                                                <p>class</p>
-                                            </div>
-                                            <p class="value"><?php echo $std_class ?></p>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> -->
-                        </div>
-
-                    </div>
-
-                    <h6>Fee Payable: </h6>
-                    <div class="details">
-
                         <div class="amount">
                             <p>Adminssion fee</p>
                             <p><?php echo "0"  ?></p>
@@ -633,13 +451,16 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <p>Tution fee</p>
                             <p><?php echo $fees ?></p>
                         </div>
-                        <div class="amount">
+                        <!-- <div class="amount">
                             <p>Months</p>
-                            <p> <?php foreach ($months as $m) {
-                                    echo substr($m, 0, 3);
-                                    echo " ";
-                                } ?></p>
-                        </div>
+                            <p> <?php
+                                // foreach ($months as $m) {
+                                //         echo substr($m, 0, 3);
+                                //         echo " ";
+                                //     } 
+                                ?>
+                                </p>
+                        </div> -->
                         <div class="amount">
                             <p>Lab Charges</p>
                             <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>

@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     include 'php/database.php';
 
-    $user_name = $_POST['user'];
+    $user_name = $_POST['user']; 
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
     $exist = false;

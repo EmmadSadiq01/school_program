@@ -14,16 +14,23 @@
         <div class="container-fluid">
             <div class="page_header">
                 <h1 class="mt-4">Staff Salary</h1>
+                <div class="header_button">
+
+               
                 <?php
-                echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit") ?
+                echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit" || @$_GET['action'] == "print" ) ?
                     '<a href="salary_distibute.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
-                    '<a href="salary_distibute.php?action=add" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add Salary </a>';
+                    '<a href="salary_distibute.php?action=print" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Go For Print </a>
+                    <a href="salary_distibute.php?action=add" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add Salary </a>';
                 ?>
+                 </div>
             </div>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
 
                 <?php
+                $today_date = date('y-m-d');
+
                 if (!isset($_GET['action']) && @$_GET['action'] != "add") {
                     echo '<li class="breadcrumb-item active">Staff Salary</li>';
                 } else {
@@ -144,7 +151,63 @@
                             </div>
                         </form>
                     </div>
-                <?php } else { ?>
+                <?php } else if(isset($_GET['action']) && @$_GET['action'] == "print"){
+                    ?>
+
+                        <div class="container">
+
+                        <table class="table table-bordered" id="item_table">
+                            <thead>
+                            <tr>
+                                        <th>S.#</th>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Absents</th>
+                                        <th>Deduction</th>
+                                        <th>Allowance</th>
+                                        <th>basic Salary</th>
+                                        <th>Net Ammout</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                    <?php
+                                    $sql = "SELECT * FROM staff_salary WHERE  `date`>='$today_date'";
+                                    $result = mysqli_query($connection, $sql);
+                                    $sno = 0;
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $sno = $sno + 1; ?>
+                                        <tr>
+                                            <td><?php echo $sno  ?></th>
+                                            <td><?php echo $row['date']  ?></td>
+                                            <?php
+                                            $staff_id = $row['name'];
+                                            $sql1 = "SELECT * FROM teacher WHERE `id` = '$staff_id'";
+                                            $result1 = mysqli_query($connection, $sql1);
+                                            $salary = 0;
+                                            while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                $name = $row1['name'];
+                                            }
+                                            $absent_ammount = ($salary / 30) * $row['absent'];
+
+                                            ?>
+                                            <td><?php echo $name  ?></td>
+                                            <td><?php echo $row['absent']  ?></td>
+                                            <td><?php echo "-" . $row['deduction'] ?></td>
+                                            <td><?php echo $row['allowance']  ?></td>
+                                            <td><?php echo $row['basic_salary']  ?></td>
+                                            <td><?php echo $row['net salary']  ?></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </tbody>
+                        </table>
+                        </div>
+
+                    <?php
+
+                }else { ?>
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
                         Staff Salary Data
@@ -178,7 +241,7 @@
                                 </tfoot>
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT * FROM staff_salary";
+                                    $sql = "SELECT * FROM staff_salary WHERE `date`>='$today_date'";
                                     $result = mysqli_query($connection, $sql);
                                     $sno = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {

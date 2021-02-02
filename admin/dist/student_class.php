@@ -22,6 +22,27 @@ if($_POST['type']=="fees"){
     }
     echo $output;
 }
+if($_POST['type']=="other"){
+    $id = $_POST['std'];
+    $invoice_type = $_POST['value'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$id'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row[$invoice_type];
+    }
+    echo $output;
+}
+if($_POST['type']=="roll_no"){
+    $fees = $_POST['fees'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$fees'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row['id'];
+    }
+    echo "100". $output;
+}
 if($_POST['type']=="lab"){
     $fees = $_POST['fees'];
     $output = '';
@@ -38,12 +59,7 @@ if($_POST['type']=="annual"){
     $query = "SELECT * FROM `students` WHERE `id`='$fees'";
     $result = mysqli_query($connection,$query);
     while ($row = mysqli_fetch_assoc($result)) {
-        $output = $row['annualCharges'];
+        $output = $row['annualCharg'];
     }
     echo $output;
 }
-
-
-
-?>
-

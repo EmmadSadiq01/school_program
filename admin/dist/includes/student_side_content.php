@@ -1,17 +1,36 @@
+<style>
+    .contact{
+    font-size: 12px;
+    font-family: cursive;
+
+}
+.name{
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: times new roman;
+}
+</style>
+
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid">
             <div class="page_header">
                 <h1 class="mt-4">STUDENTS</h1>
+                <div class="header_button">
+
+                
                 <?php
-                echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit") ?
+                echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit" || @$_GET['action'] == "print") ?
                     ' <a href="student.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
-                    '<a href="student.php?action=add" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add </a>';
+                    '<a href="student.php?action=print" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Go for Print </a>
+                    <a href="student.php?action=add" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add </a>';
                 ?>
+                </div>
 
             </div>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Students</a></li>
                 <?php
                 if (isset($_GET['action']) && @$_GET['action'] == "add") {
                     echo '<li class="breadcrumb-item"><a href="student.php">Student</a></li>';
@@ -135,14 +154,14 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="Old">Class* </label>
                                             <div class="col-sm-4">
-                                                <select  class="form-control" id="class" name="class">
+                                                <select class="form-control" id="class" name="class">
                                                     <option value="">Select...</option>
                                                     <?php
                                                     $sql = "SELECT * FROM classes ORDER BY class_name ASC";
-                                                    $result = mysqli_query($connection,$sql);
-                                                    while($row = mysqli_fetch_assoc($result)){
-                                                        ?>
-                                                        <option value="<?php echo $row['id']?>" <?php echo (@$_GET['action'] == "edit" && $class == $row['id']) ? "selected" : ""  ?> > <?php echo $row['class_name'] ?> </option>
+                                                    $result = mysqli_query($connection, $sql);
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                    ?>
+                                                        <option value="<?php echo $row['id'] ?>" <?php echo (@$_GET['action'] == "edit" && $class == $row['id']) ? "selected" : ""  ?>> <?php echo $row['class_name'] ?> </option>
                                                     <?php
                                                     }
                                                     ?>
@@ -245,7 +264,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            
+
                                             <label class="col-sm-2 control-label" for="AdmissionFee">Admission Fee </label>
                                             <div class="col-sm-4">
                                                 <input type="number" class="form-control" id="admissionFee" name="admissionFee" value="<?php echo (@$_GET['action'] == "edit") ? $add_fees : '' ?>" />
@@ -258,7 +277,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="labCharges">Lab Charges</label>
+                                            <label class="col-sm-2 control-label" for="labCharges">Lab Charges</label>
                                             <div class="col-sm-4">
                                                 <input type="number" class="form-control" id="labCharges" name="labCharges" value="<?php echo (@$_GET['action'] == "edit") ? $labCharges : '' ?>" />
 
@@ -302,6 +321,70 @@
                 </div>
 
             <?php
+            } else if (isset($_GET['action']) && @$_GET['action'] == "print") {
+            ?>
+                <div class="container">
+
+                    <table class="table table-bordered" id="item_table">
+                        <thead>
+                            <tr>
+                                <th scope="col">GR #</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Father Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">DOA</th>
+                                <th scope="col">Monthly Fees</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sql = "SELECT * FROM `students`";
+                            $result = mysqli_query($connection, $sql);
+                            $sno = 0;
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $sno = $sno + 1; ?>
+                                <tr>
+                                    <td>
+                                        <p class='name'> <?php echo  $row['gr_no']  ?></p>
+                                        <!-- <p class='contact'></p>
+                                                <p class='contact'></p> -->
+                                    </td>
+                                    <td>
+                                        <p class='name'> <?php echo  $row['name']  ?></p>
+                                        <p class='contact'> <?php echo $row['fnumber'] ?></p>
+                                    </td>
+                                    <td>
+                                        <p class='name'> <?php echo  $row['fname'] ?></p>
+                                    </td>
+                                    <td>
+                                        <p class='name'> <?php
+                                        $std_class = $row['class'];
+                                         $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
+                                         $result_class = mysqli_query($connection,$sql_class);
+                                         while($row_class = mysqli_fetch_assoc($result_class)){
+                                             $result_class=$row_class['class_name'];
+                                             break;
+                                             }
+                                         echo $result_class;
+                                          ?></p>
+                                    </td>
+                                    <td>
+                                        <p class='name'> <?php echo  $row['doj'] ?></p>
+                                    </td>
+                                    
+
+                                    <td><?php echo $row['tutionFee'];?></td>
+                                </tr>
+                            <?php
+                            }
+
+                            ?>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            <?php
             } else {
             ?>
                 <div class="card mb-4">
@@ -318,13 +401,9 @@
                                         <th scope="col">GR #</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Father Name</th>
-                                        <th scope="col">Religion</th>
-                                        <th scope="col">DOB</th>
-                                        <th scope="col">Place OF Birth</th>
-                                        <th scope="col">Last Institution</th>
-                                        <th scope="col">DOA</th>
                                         <th scope="col">Class</th>
-                                        <th scope="col">Image</th>
+                                        <th scope="col">DOB</th>
+                                        <th scope="col">DOA</th>
                                         <th scope="col">Monthly Fees</th>
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -343,42 +422,44 @@
                                                 <p class='contact'></p> -->
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['name'] ?></p>
-                                            </td>
+                                        <p class='name'> <?php echo  $row['name']  ?></p>
+                                        <p class='contact'> <?php echo $row['fnumber'] ?></p>
+                                    </td>
                                             <td>
                                                 <p class='name'> <?php echo  $row['fname'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php echo  $row['religion'] ?></p>
-                                            </td>
+                                        <p class='name'> <?php
+                                        $std_class = $row['class'];
+                                         $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
+                                         $result_class = mysqli_query($connection,$sql_class);
+                                         while($row_class = mysqli_fetch_assoc($result_class)){
+                                             $result_class=$row_class['class_name'];
+                                             break;
+                                             }
+                                         echo $result_class;
+                                          ?></p>
+                                    </td>
                                             <td>
                                                 <p class='name'> <?php echo  $row['dob'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'><?php echo $row['place_of_birth'] ?></p>
-                                            </td>
-                                            <td>
-                                                <p class='name'><?php echo $row['institute'] ?></p>
-                                            </td>
-                                            <td>
                                                 <p class='name'> <?php echo  $row['doj'] ?></p>
                                             </td>
-                                            <td>
-                                                <p class='name'> <?php echo  $row['class'] ?></p>
-                                            </td>
-                                            <td style='text-transform:capitalize' class='students-Photo'>
+                                            <!-- <td style='text-transform:capitalize' class='students-Photo'>
                                                 <div class="std_img"><?php
-                                                                        if ($row['img_dir'] == '') {
-                                                                            if ($row['gender'] == 'Male') {
-                                                                                echo '<img src="images/avatar.jpg" alt="" class="img-thumbnail">';
-                                                                            }
-                                                                            if ($row['gender'] == 'Female') {
-                                                                                echo '<img src="images/girl avatar.jpg" alt="" class="img-thumbnail">';
-                                                                            }
-                                                                        } else {
-                                                                            echo '<img src="images/' . $row['img_dir'] . ' " alt="" class="img-thumbnail">';
-                                                                        } ?></div>
-                                            </td>
+                                                                        // if ($row['img_dir'] == '') {
+                                                                        //     if ($row['gender'] == 'Male') {
+                                                                        //         echo '<img src="images/avatar.jpg" alt="" class="img-thumbnail">';
+                                                                        //     }
+                                                                        //     if ($row['gender'] == 'Female') {
+                                                                        //         echo '<img src="images/girl avatar.jpg" alt="" class="img-thumbnail">';
+                                                                        //     }
+                                                                        // } else {
+                                                                        //     echo '<img src="images/' . $row['img_dir'] . ' " alt="" class="img-thumbnail">';
+                                                                        // }
+                                                                         ?></div>
+                                            </td> -->
 
 
                                             <td><?php echo $row['tutionFee'];
