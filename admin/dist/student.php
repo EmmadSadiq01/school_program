@@ -31,10 +31,10 @@ $placeOfBirth = "";
 $institute = "";
 
 // Delete student
-if(isset($_GET['delete'])){
-  $del_id=$_GET['delete'];
+if (isset($_GET['delete'])) {
+  $del_id = $_GET['delete'];
   $sql = "DELETE FROM `students` WHERE `students`.`id` = '$del_id'";
-  $result = mysqli_query($connection,$sql);
+  $result = mysqli_query($connection, $sql);
 }
 
 
@@ -72,16 +72,14 @@ if (isset($_POST["edit_std"])) {
 
   $sql = "UPDATE `students` SET  `gr_no`='$gr_no', `name`= '$std_name',`nationality` = '$nationality',`religion` ='$religion',`gender`='$gender',`dob`='$dob',`class`='$class',`session`='$session',`address`='$address',
   `fname`='$fname',`fcnic`='$fcnic',`foccupation`='$foccupation',`feducation`='$feducation',`mname`='$mname',`mcnic`='$mcnic',`moccupation`='$moccupation',`meducation`='$meducation',`fnumber`='$fnumber',`mnumber`='$mnumber',
-  `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharges`='$annualCharges', `institute`='$institute',`place_of_birth`='$placeOfBirth', `lab_charges`='$labCharges' WHERE `students`.`id` = '$edit_id'";
+  `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharg`='$annualCharges', `institute`='$institute',`place_of_birth`='$placeOfBirth', `lab_charges`='$labCharges' WHERE `students`.`id` = '$edit_id'";
 
 
-$result = mysqli_query($connection,$sql);
-
-
+  $result = mysqli_query($connection, $sql);
 }
 
 // add new record
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"])) {
   $gr_no = $_POST['gr_no'];
   $std_name = $_POST['sname'];
   $nationality = $_POST['nationality'];
@@ -118,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
   $sql = "INSERT INTO `students`
    (`name`,`gr_no`,`nationality`,`religion`,`gender`,`dob`,`class`,`session`,`address`,
   `fname`,`fcnic`,`foccupation`,`feducation`,`mname`,`mcnic`,`moccupation`,`meducation`,`fnumber`,`mnumber`,
-  `doj`,`add_fees`,`tutionFee`,`annualCharges`,`institute`,`place_of_birth`,`lab_charges`,`img_dir`)
+  `doj`,`add_fees`,`tutionFee`,`annualCharg`,`institute`,`place_of_birth`,`lab_charges`,`img_dir`)
    VALUES 
    ('$std_name','$gr_no','$nationality','$religion','$gender','$dob','$class','$session','$address','$fname','$fcnic','$foccupation'
     ,'$feducation','$mname','$mcnic','$moccupation','$meducation','$fnumber','$mnumber','$dateofjoin','$admissionFee','$tutionFee','$annualCharges','$institute','$placeOfBirth','$labCharges','$img_dir')";
@@ -201,17 +199,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"]) ) {
     // dateInputMask(input);
     deletes = document.getElementsByClassName("del");
     Array.from(deletes).forEach((element) => {
-        element.addEventListener("click", (e) => {
-            sno = e.target.id.substr(1, );
+      element.addEventListener("click", (e) => {
+        sno = e.target.id.substr(1, );
 
-            if (confirm("do you want to delete the record?")) {
-                console.log("yes")
-                window.location = `/schoolManagementSystem/admin/dist/student.php?delete=${sno}`;
-            } else {
-                console.log("no")
-            }
+        if (confirm("do you want to delete the record?")) {
+          console.log("yes")
+          window.location = `/schoolManagementSystem/admin/dist/student.php?delete=${sno}`;
+        } else {
+          console.log("no")
+        }
 
-        })
+      })
     })
   </script>
 

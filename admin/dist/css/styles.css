@@ -9920,6 +9920,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 @media print {
+  
   *,
 *::before,
 *::after {
@@ -10260,3 +10261,23 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+
+
+/* =================== */
+@media print{
+  .showOnPrint{
+    display: block !important;
+  }
+  .hideMe{
+    display: none !important;
+  }
+}
+
+@media screen{
+
+  .showOnPrint{
+    display: none !important;
+  }
+}
+
+

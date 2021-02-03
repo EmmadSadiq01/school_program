@@ -8,8 +8,9 @@
     <main>
         <div class="container-fluid">
             <div class="page_header">
-                <h1 class="mt-4">School Staff</h1>
-                <div class="header_buttons">
+                <h1 class="mt-4 hideMe">School Staff</h1>
+                <h1 class="mt-4 showOnPrint">DAR-UL-ISLAH ACADEMY</h1>
+                <div class="header_buttons hideMe">
                     <?php
                     echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit" || @$_GET['action'] == "print") ?
                         ' <a href="teacher.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
@@ -20,7 +21,7 @@
                 </div>
 
             </div>
-            <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4 hideMe">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
                 <?php
                 if (isset($_GET['action']) && @$_GET['action'] == "add") {
@@ -250,7 +251,7 @@
             } else if (isset($_GET['action']) && @$_GET['action'] == "print") {
             ?>
                 <div class="container">
-
+                    <h4>Employee Sheet</h4>
                     <table class="table table-bordered" id="item_table">
                         <thead>
                             <tr>
@@ -352,7 +353,7 @@
 ?>
 
 
-<footer class="py-4 bg-light mt-auto">
+<footer class="py-4 bg-light mt-auto hideMe">
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">Copyright &copy;M. Emmad Sadiq</div>

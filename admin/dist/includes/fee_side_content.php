@@ -144,12 +144,8 @@
                             <input placeholder="Amount" id="amount" name="amount" type="text" tabindex="3" value="select months amount" readonly>
                         </fieldset>
                         <fieldset>
-                            <small>Discount(%):</small>
-                            <input placeholder="Discount" type="number" id="discount" name="discount" onchange="discount_val()" style="width: 100%;" required>
-                        </fieldset>
-                        <fieldset>
-                            <small>Discount Value :</small>
-                            <input placeholder="Discount Value" type="text" id="dis_val" name="dis_val" readonly>
+                            <small>Discount:</small>
+                            <input placeholder="Discount" type="number" id="discount" name="discount" onchange="discount_val()" value="0" style="width: 100%;" required>
                         </fieldset>
                         <fieldset>
                             <small>Gross :</small>
@@ -204,45 +200,46 @@
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $std_id = $row['id'];
                                         $sql_balance = "SELECT * FROM balance where std_id='$std_id'";
-                                            $result_balance = mysqli_query($connection, $sql_balance);
-                                            $total_ammount = 0;
-                                            while ($row_balance = mysqli_fetch_assoc($result_balance)) {
-                                                $total_ammount += $row_balance['amount'];
-                                            }
-                                            if($total_ammount!=0){
-                                        ?>
-                                        <tr>
-                                            <td>100<?php echo $row['id'] ?></td>
-                                            <td><?php echo $row['name'] ?></td>
-                                            <td><?php echo $row['class'] ?></td>
-                                            <td> <?php echo $row['tutionFee'];
-                                                    // $std_id = $row['id'];
-                                                    ?></td>
-                                            <?php
-                                            // $sql_balance = "SELECT * FROM balance where std_id='$std_id'";
-                                            // $result_balance = mysqli_query($connection, $sql_balance);
-                                            // $total_ammount = 0;
-                                            // while ($row_balance = mysqli_fetch_assoc($result_balance)) {
-                                            //     $total_ammount += $row_balance['amount'];
-                                            // }
-                                            ?>
-                                            <td><?php echo $total_ammount ?></td>
-                                            <td>
+                                        $result_balance = mysqli_query($connection, $sql_balance);
+                                        $total_ammount = 0;
+                                        while ($row_balance = mysqli_fetch_assoc($result_balance)) {
+                                            $total_ammount += $row_balance['amount'];
+                                        }
+                                        if ($total_ammount != 0) {
+                                    ?>
+                                            <tr>
+                                                <td>100<?php echo $row['id'] ?></td>
+                                                <td><?php echo $row['name'] ?></td>
+                                                <td><?php echo $row['class'] ?></td>
+                                                <td> <?php echo $row['tutionFee'];
+                                                        // $std_id = $row['id'];
+                                                        ?></td>
                                                 <?php
-                                                $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
-                                                $result_balance1 = mysqli_query($connection, $sql_balance1);
-                                                while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
-                                                    echo $row_balance1['months'] . " ";
-                                                }
+                                                // $sql_balance = "SELECT * FROM balance where std_id='$std_id'";
+                                                // $result_balance = mysqli_query($connection, $sql_balance);
+                                                // $total_ammount = 0;
+                                                // while ($row_balance = mysqli_fetch_assoc($result_balance)) {
+                                                //     $total_ammount += $row_balance['amount'];
+                                                // }
                                                 ?>
-                                            </td>
-                                            <td>
-                                                <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
-                                                <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
-                                            </td>
-                                        </tr>
+                                                <td><?php echo $total_ammount ?></td>
+                                                <td>
+                                                    <?php
+                                                    $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
+                                                    $result_balance1 = mysqli_query($connection, $sql_balance1);
+                                                    while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
+                                                        echo $row_balance1['months'] . " ";
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
+                                                    <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
+                                                </td>
+                                            </tr>
                                     <?php
-                                    }} ?>
+                                        }
+                                    } ?>
 
 
 
@@ -282,6 +279,8 @@
         console.log(fees)
         let selectedfees = fees * selected_month
         $("#amount").val(selectedfees)
+        let discount = $("#discount").val()
+        $("#gross").val(selectedfees-discount)
     }
 
     function cal_advance() {
@@ -294,9 +293,8 @@
     function discount_val() {
         let amount = $("#amount").val();
         let discount = $("#discount").val()
-        console.log(amount * discount / 100)
-        $("#dis_val").val(amount * discount / 100)
-        $("#gross").val(amount - (amount * discount / 100))
+        // $("#dis_val").val(discount)
+        $("#gross").val(amount - discount)
     }
 
     function advance_fees() {

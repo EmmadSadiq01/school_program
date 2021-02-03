@@ -1,35 +1,37 @@
 <style>
-    .contact{
-    font-size: 12px;
-    font-family: cursive;
+    .contact {
+        font-size: 12px;
+        font-family: cursive;
 
-}
-.name{
-    text-transform: capitalize;
-    font-size: 20px;
-    font-weight: 400;
-    font-family: times new roman;
-}
+    }
+
+    .name {
+        text-transform: capitalize;
+        font-size: 20px;
+        font-weight: 400;
+        font-family: times new roman;
+    }
 </style>
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid">
             <div class="page_header">
-                <h1 class="mt-4">STUDENTS</h1>
-                <div class="header_button">
+                <h1 class="mt-4 hideMe">STUDENTS</h1>
+                <h1 class="mt-4 showOnPrint">DAR-UL-ISLAH ACADEMY</h1>
+                <div class="header_button hideMe">
 
-                
-                <?php
-                echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit" || @$_GET['action'] == "print") ?
-                    ' <a href="student.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
-                    '<a href="student.php?action=print" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Go for Print </a>
+
+                    <?php
+                    echo (isset($_GET['action']) && @$_GET['action'] == "add" || @$_GET['action'] == "edit" || @$_GET['action'] == "print") ?
+                        ' <a href="student.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
+                        '<a href="student.php?action=print" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Go for Print </a>
                     <a href="student.php?action=add" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add </a>';
-                ?>
+                    ?>
                 </div>
 
             </div>
-            <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4 hideMe">
                 <li class="breadcrumb-item"><a href="index.php">Students</a></li>
                 <?php
                 if (isset($_GET['action']) && @$_GET['action'] == "add") {
@@ -324,6 +326,7 @@
             } else if (isset($_GET['action']) && @$_GET['action'] == "print") {
             ?>
                 <div class="container">
+                    <h4>Students Sheet</h4>
 
                     <table class="table table-bordered" id="item_table">
                         <thead>
@@ -338,11 +341,31 @@
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM `students`";
+                            $class_divider = "";
+
+                            $sql = "SELECT * FROM `students` ORDER BY class ASC";
                             $result = mysqli_query($connection, $sql);
                             $sno = 0;
                             while ($row = mysqli_fetch_assoc($result)) {
-                                $sno = $sno + 1; ?>
+                                $sno = $sno + 1;
+                                $std_class = $row['class'];
+                                $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
+                                $result_class = mysqli_query($connection, $sql_class);
+                                while ($row_class = mysqli_fetch_assoc($result_class)) {
+                                    $result_class = $row_class['class_name'];
+                                    break;
+                                }
+                                if ($class_divider != $std_class) {
+                            ?>
+                                    <tr>
+                                        <th class="text-center" colspan="6"><?php echo $result_class ?></th>
+                                    </tr>
+                                <?php
+                                    $class_divider = $std_class;
+                                }
+                                ?>
+
+
                                 <tr>
                                     <td>
                                         <p class='name'> <?php echo  $row['gr_no']  ?></p>
@@ -357,23 +380,15 @@
                                         <p class='name'> <?php echo  $row['fname'] ?></p>
                                     </td>
                                     <td>
-                                        <p class='name'> <?php
-                                        $std_class = $row['class'];
-                                         $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
-                                         $result_class = mysqli_query($connection,$sql_class);
-                                         while($row_class = mysqli_fetch_assoc($result_class)){
-                                             $result_class=$row_class['class_name'];
-                                             break;
-                                             }
-                                         echo $result_class;
-                                          ?></p>
+                                        <p class='name'> <?php echo $result_class;
+                                                            ?></p>
                                     </td>
                                     <td>
                                         <p class='name'> <?php echo  $row['doj'] ?></p>
                                     </td>
-                                    
 
-                                    <td><?php echo $row['tutionFee'];?></td>
+
+                                    <td><?php echo $row['tutionFee']; ?></td>
                                 </tr>
                             <?php
                             }
@@ -422,24 +437,24 @@
                                                 <p class='contact'></p> -->
                                             </td>
                                             <td>
-                                        <p class='name'> <?php echo  $row['name']  ?></p>
-                                        <p class='contact'> <?php echo $row['fnumber'] ?></p>
-                                    </td>
+                                                <p class='name'> <?php echo  $row['name']  ?></p>
+                                                <p class='contact'> <?php echo $row['fnumber'] ?></p>
+                                            </td>
                                             <td>
                                                 <p class='name'> <?php echo  $row['fname'] ?></p>
                                             </td>
                                             <td>
-                                        <p class='name'> <?php
-                                        $std_class = $row['class'];
-                                         $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
-                                         $result_class = mysqli_query($connection,$sql_class);
-                                         while($row_class = mysqli_fetch_assoc($result_class)){
-                                             $result_class=$row_class['class_name'];
-                                             break;
-                                             }
-                                         echo $result_class;
-                                          ?></p>
-                                    </td>
+                                                <p class='name'> <?php
+                                                                    $std_class = $row['class'];
+                                                                    $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
+                                                                    $result_class = mysqli_query($connection, $sql_class);
+                                                                    while ($row_class = mysqli_fetch_assoc($result_class)) {
+                                                                        $result_class = $row_class['class_name'];
+                                                                        break;
+                                                                    }
+                                                                    echo $result_class;
+                                                                    ?></p>
+                                            </td>
                                             <td>
                                                 <p class='name'> <?php echo  $row['dob'] ?></p>
                                             </td>
@@ -458,7 +473,7 @@
                                                                         // } else {
                                                                         //     echo '<img src="images/' . $row['img_dir'] . ' " alt="" class="img-thumbnail">';
                                                                         // }
-                                                                         ?></div>
+                                                                        ?></div>
                                             </td> -->
 
 
@@ -511,7 +526,7 @@
 ?>
 
 
-<footer class="py-4 bg-light mt-auto">
+<footer class="py-4 bg-light mt-auto hideMe">
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">Copyright &copy;M. Emmad Sadiq</div>

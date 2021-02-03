@@ -9,22 +9,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$months = $_POST['months'];
 	$adv_months = $_POST['adv_month'];
 	$gross = $_POST['gross'];
-	$paid_months="";
-	if($months!=""){
-	foreach ($months as $pmonths) {
-		$sql = "DELETE FROM `balance` WHERE `balance`.`std_id` = '$std_id' and  `months` = '$pmonths'";
-		$result = mysqli_query($connection, $sql);
-		$paid_months=$paid_months." ". $pmonths;
+	$paid_months = "";
+	if ($months != "") {
+		foreach ($months as $pmonths) {
+			$sql = "DELETE FROM `balance` WHERE `balance`.`std_id` = '$std_id' and  `months` = '$pmonths'";
+			$result = mysqli_query($connection, $sql);
+			$paid_months = $paid_months . " " . $pmonths;
+		}
 	}
-}
 	$adv_months_cont = $paid_months;
-	if($adv_months !=""){
-	foreach ($adv_months as $a_months){
-		$adv_months_cont = $adv_months_cont." ". $a_months;
+	if ($adv_months != "") {
+		foreach ($adv_months as $a_months) {
+			$adv_months_cont = $adv_months_cont . " " . $a_months;
+		}
 	}
-}
-		$sql = "INSERT INTO `collectiona` (`std_id`, `amount`, `discount`,`months`,`paid_amount`) VALUES ('$std_id','$amount','$dis_val','$adv_months_cont','$gross')";
-		$result = mysqli_query($connection, $sql);
+	$sql = "INSERT INTO `collectiona` (`std_id`, `amount`, `discount`,`months`,`paid_amount`) VALUES ('$std_id','$amount','$dis_val','$adv_months_cont','$gross')";
+	$result = mysqli_query($connection, $sql);
+
+	header('location: /schoolManagementSystem/admin/dist/fees_recipt.php');
 }
 ?>
 <!DOCTYPE html>

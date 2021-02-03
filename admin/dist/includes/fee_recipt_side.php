@@ -23,15 +23,128 @@
     <main>
       <div class="container-fluid">
         <div class="page_header">
-          <h1 class="mt-4">Student Fee Manager</h1>
-          <!-- <a href="#" class="btn btn-primary btn-sm pull-right">Generate Fees Vaucher <i class="glyphicon glyphicon-arrow-right"></i></a> -->
+          <h1 class="mt-4 hideMe">Student Fee Manager</h1>
+          <h1 class="mt-4 showOnPrint">DAR-UL-ISLAH ACADEMY</h1>
+          <div class="header_buttons hideMe">
+            <?php
+            echo (isset($_GET['action']) && @$_GET['action'] == "print") ?
+              ' <a href="fees_recipt.php" class="btn btn-primary btn-sm pull-right">Back <i class="glyphicon glyphicon-arrow-right"></i></a>' :
+              '<a href="fees_recipt.php?action=print" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Go For Print </a>';
 
+            ?>
+          </div>
         </div>
-        <ol class="breadcrumb mb-4">
+        <ol class="breadcrumb mb-4 hideMe">
           <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
           <li class="breadcrumb-item"><a href="fees_collection.php">Fees</a></li>
           <li class="breadcrumb-item active">Generate Fee Vaucher</li>
         </ol>
+
+        <?php
+        if (isset($_GET['action']) &&  @$_GET['action'] == "print") {
+          ?>
+<div class="container">
+  <h4>Students Dues Sheet</h4>
+<table class="table table-bordered" id="item_table">
+                <thead>
+                  <tr>
+
+                    <th>Roll No.</th>
+                    <th style="width: 350px !important;">Student Name</th>
+                    <th>Father Name</th>
+                    <th>Fees</th>
+                    <th>Arrears</th>
+                    <th style="width: 285px !important;">Current</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Roll No.</th>
+                    <th style="width: 350px !important;">Student Name</th>
+                    <th>Father Name</th>
+                    <th>Fees</th>
+                    <th>Arrears</th>
+                    <th style="width: 285px !important;">Current</th>
+                    <th>Amount</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+
+                  <?php
+                  $sql = "SELECT * FROM `students` ORDER BY class ASC";
+                  $result = mysqli_query($connection, $sql);
+                  $month_id = "";
+                  $class_divider = "";
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    $std_id = $row['id'];
+                    $check_balance = "SELECT * FROM balance WHERE std_id='$std_id'";
+                    $check_result = mysqli_query($connection, $check_balance);
+                    $std_class = $row['class'];
+                    if (mysqli_num_rows($check_result) > 0) {
+                      $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
+                            $std_result = mysqli_query($connection, $sql_class);
+                            while ($row_class = mysqli_fetch_assoc($std_result)) {
+                              $std_class = $row_class['class_name'];
+                            }
+
+                      if ($class_divider != $std_class) {
+                  ?>
+                  <tr>
+                    <th class="text-center" colspan="7"> <?php echo $std_class ?></th>
+                  </tr>
+                  <?php
+                  }
+                  ?>
+                      <tr>
+                        <td>100<?php echo $row['id'] ?></td>
+
+                        <td style="width: 350px;"><?php echo $row['name'] ?></td>
+                        <td style="width: 350px;"><?php echo $row['fname'] ?></td>
+                        <td> <?php echo $row['tutionFee'] ?></td>
+                        <!-- <td> <?php echo $row['invoice_type'] ?></td> -->
+                        <?php
+                        $month_id = $row['id'];
+                        $months_sql = "SELECT * FROM balance where std_id='$month_id'";
+                        $month_result = mysqli_query($connection, $months_sql);
+                        $arrears = "";
+                        $current = "";
+                        $due_amount = 0;
+                        while ($month_row = mysqli_fetch_assoc($month_result)) {
+                          if (date("m", strtotime($month_row['date'])) < date('m')) {
+                            $arrears = $arrears . " " . $month_row['months'];
+                          } else {
+                            $current = $current . " " . $month_row['months'];
+                          }
+                          $due_amount = $due_amount + $month_row['amount'];
+                        }
+                        ?>
+                        <td style="width: 285px !important;"> <?php echo $arrears ?></td>
+                        <td style="width: 285px !important;"> <?php echo $current ?></td>
+                        <?php
+                        // $amount_id = $row['std_roll'];
+                        // $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
+                        // $amount_result = mysqli_query($connection, $amount_sql);
+                        // $due_amount = 0;
+                        // while ($amount_row = mysqli_fetch_assoc($amount_result)) {
+                        //   $due_amount = $due_amount + $amount_row['amount'];
+                        // }
+                        ?>
+                        <td> <?php echo $due_amount ?></td>
+                      </tr>
+                  <?php
+                    }
+                  } ?>
+
+
+
+
+                </tbody>
+              </table>
+</div>
+          <?php
+        }else{
+        ?>
 
         <div class="card mb-4">
           <a href="fees_recipt.php?action=student" class="btn btn-outline-primary" data-toggle="modal" data-target="#studentModal">Student Vise</a>
@@ -85,9 +198,9 @@
                   while ($row = mysqli_fetch_assoc($result)) {
                     $std_id = $row['id'];
                     $check_balance = "SELECT * FROM balance WHERE std_id='$std_id'";
-                    $check_result = mysqli_query($connection,$check_balance);
+                    $check_result = mysqli_query($connection, $check_balance);
 
-                    if (mysqli_num_rows($check_result)>0) {
+                    if (mysqli_num_rows($check_result) > 0) {
                   ?>
                       <tr>
                         <td>100<?php echo $row['id'] ?></td>
@@ -112,10 +225,10 @@
                         $current = "";
                         $due_amount = 0;
                         while ($month_row = mysqli_fetch_assoc($month_result)) {
-                          if(date("m",strtotime($month_row['date'])) < date('m')) {
-                          $arrears = $arrears . " " . $month_row['months'];
-                          }else{
-                          $current = $current . " " . $month_row['months'];
+                          if (date("m", strtotime($month_row['date'])) < date('m')) {
+                            $arrears = $arrears . " " . $month_row['months'];
+                          } else {
+                            $current = $current . " " . $month_row['months'];
                           }
                           $due_amount = $due_amount + $month_row['amount'];
                         }
@@ -154,6 +267,9 @@
 
           </div>
         </div>
+        <?php
+        }
+        ?>
 
       </div>
 
