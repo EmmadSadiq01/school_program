@@ -69,10 +69,13 @@ if (isset($_POST["edit_std"])) {
   $institute = $_POST['institute'];
   $placeOfBirth = $_POST['placeOfBirth'];
   $labCharges = $_POST['labCharges'];
+  $reg_Charges = $_POST['reg_Charges'];
+  $sportsCharg = $_POST['sportsCharg'];
 
   $sql = "UPDATE `students` SET  `gr_no`='$gr_no', `name`= '$std_name',`nationality` = '$nationality',`religion` ='$religion',`gender`='$gender',`dob`='$dob',`class`='$class',`session`='$session',`address`='$address',
   `fname`='$fname',`fcnic`='$fcnic',`foccupation`='$foccupation',`feducation`='$feducation',`mname`='$mname',`mcnic`='$mcnic',`moccupation`='$moccupation',`meducation`='$meducation',`fnumber`='$fnumber',`mnumber`='$mnumber',
-  `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharg`='$annualCharges', `institute`='$institute',`place_of_birth`='$placeOfBirth', `lab_charges`='$labCharges' WHERE `students`.`id` = '$edit_id'";
+  `doj`='$dateofjoin',`add_fees`='$admissionFee',`tutionFee`='$tutionFee',`annualCharg`='$annualCharges', `institute`='$institute',`place_of_birth`='$placeOfBirth', `lab_charges`='$labCharges',
+  `reg_Charges`='$reg_Charges',`sportsCharg`='$sportsCharg' WHERE `students`.`id` = '$edit_id'";
 
 
   $result = mysqli_query($connection, $sql);
@@ -106,6 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"])) {
   $institute = $_POST['institute'];
   $placeOfBirth = $_POST['placeOfBirth'];
   $labCharges = $_POST['labCharges'];
+  $reg_Charges = $_POST['reg_Charges'];
+  $sportsCharg = $_POST['sportsCharg'];
 
   $img_dir = $_FILES["image"]["name"];
   $temp = $_FILES["image"]["tmp_name"];
@@ -116,10 +121,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST["edit_std"])) {
   $sql = "INSERT INTO `students`
    (`name`,`gr_no`,`nationality`,`religion`,`gender`,`dob`,`class`,`session`,`address`,
   `fname`,`fcnic`,`foccupation`,`feducation`,`mname`,`mcnic`,`moccupation`,`meducation`,`fnumber`,`mnumber`,
-  `doj`,`add_fees`,`tutionFee`,`annualCharg`,`institute`,`place_of_birth`,`lab_charges`,`img_dir`)
+  `doj`,`add_fees`,`tutionFee`,`annualCharg`,`institute`,`place_of_birth`,`lab_charges`,`img_dir`,`reg_Charges`,`sportsCharg`)
    VALUES 
    ('$std_name','$gr_no','$nationality','$religion','$gender','$dob','$class','$session','$address','$fname','$fcnic','$foccupation'
-    ,'$feducation','$mname','$mcnic','$moccupation','$meducation','$fnumber','$mnumber','$dateofjoin','$admissionFee','$tutionFee','$annualCharges','$institute','$placeOfBirth','$labCharges','$img_dir')";
+    ,'$feducation','$mname','$mcnic','$moccupation','$meducation','$fnumber','$mnumber','$dateofjoin','$admissionFee','$tutionFee',
+    '$annualCharges','$institute','$placeOfBirth','$labCharges','$img_dir','$reg_Charges','$sportsCharg')";
   $result = mysqli_query($connection, $sql);
 }
 

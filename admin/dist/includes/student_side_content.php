@@ -84,10 +84,12 @@
                                         $doj = $row['doj'];
                                         $add_fees = $row['add_fees'];
                                         $tutionFee = $row['tutionFee'];
-                                        $annualCharges = $row['annualCharges'];
+                                        $annualCharges = $row['annualCharg'];
                                         $institute = $row['institute'];
                                         $placeOfBirth = $row['place_of_birth'];
                                         $labCharges = $row['lab_charges'];
+                                        $reg_Charges = $row['reg_Charges'];
+                                        $sportsCharg = $row['sportsCharg'];
                                     }
                                     echo '<input type="hidden" name="edit_std" value="' . $std_id . '">';
                                 }
@@ -287,6 +289,18 @@
                                             <label class="col-sm-2 control-label" for="annualCharges">Annual Charges</label>
                                             <div class="col-sm-3">
                                                 <input type="number" class="form-control" id="annualCharges" name="annualCharges" value="<?php echo (@$_GET['action'] == "edit") ? $annualCharges : '' ?>" />
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="reg_Charges">Registration Fees</label>
+                                            <div class="col-sm-4">
+                                                <input type="number" class="form-control" id="reg_Charges" name="reg_Charges" value="<?php echo (@$_GET['action'] == "edit") ? $reg_Charges : '' ?>" />
+
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="sportsCharg">Sports Fees</label>
+                                            <div class="col-sm-3">
+                                                <input type="number" class="form-control" id="sportsCharg" name="sportsCharg" value="<?php echo (@$_GET['action'] == "edit") ? $sportsCharg : '' ?>" />
 
                                             </div>
                                         </div>
