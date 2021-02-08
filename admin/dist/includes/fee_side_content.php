@@ -1,8 +1,8 @@
 <style>
     #adv_months {
-        display: none;
+        /* display: none; */
         border: 1px solid black;
-        padding: 15px 200px;
+        padding: 15px 15px;
         border-radius: 20px;
         background-color: #343a40;
         color: #fff8ec;
@@ -29,8 +29,6 @@
             ?>
                     <form id="contact" action="fees_collection.php" method="post">
                         <h3>Collect Fees</h3>
-                        <!-- <h4>Collect Student fees!</h4> -->
-
                         <fieldset>
                             <small>Student G.R Number :</small>
                             <input placeholder="G.R Number" type="text" value="<?php echo $row['gr_no'] ?>" name="gr_no" readonly>
@@ -49,89 +47,61 @@
                             <input placeholder="Monthly Fees" type="text" id="tutionfee" value="<?php echo $row['tutionFee'] ?> " name="tutionfee" readonly>
                         </fieldset>
                         <fieldset>
+                        <?php
+                          $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
+                          $result_balance1 = mysqli_query($connection, $sql_balance1);
+                          $pre_balance = 0;
+                          while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
+                              $pre_balance = $pre_balance + $row_balance1['amount'];
+                          }?>
                             <small>Previous Balance :</small>
-                            <input placeholder="balance" type="text" tabindex="3" value="balance" name="balance" readonly>
+                            <input placeholder="balance" type="text" tabindex="3" value="<?php echo $pre_balance ?>" name="balance" readonly>
                         </fieldset>
-                        <fieldset>
+                        <!-- <fieldset>
                             <label for="months">Select Months *</label>
                             <br>
                             <small>Hold crtl key for multiple select:</small>
                             <select class="form-control" id="months" name="months[]" size="5" multiple="multiple" onchange="selectmonths()">
-                                <?php
-                                $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
-                                $result_balance1 = mysqli_query($connection, $sql_balance1);
-                                while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
-                                    echo '<option value="' . $row_balance1['months'] . '"  > ' . $row_balance1['months'] . '</option>';
-                                }
-                                ?>
+                              
 
                             </select>
-                        </fieldset>
+                        </fieldset> -->
 
                         <fieldset>
-                            <label for="advance">Advance Payment : </label>
+                            <!-- <label for="advance">Advance Payment : </label> -->
 
-                            <input id="advance" name="advance" type="checkbox" value="advance" onclick="advance_fees()">
+                            <!-- <input id="advance" name="advance" type="checkbox" value="advance" onclick="advance_fees()"> -->
                             <div id="adv_months">
                                 <!-- <label for="advance" class="show">Number of months:</label>
                         
                            
                                 <input id="no_of_months" class="show" name="no_of_months" type="number" placeholder="no of months"> -->
                                 <div class="row">
+                                <?php
+                                $sql_balance1 = "SELECT * FROM balance where std_id='$std_id'";
+                                $result_balance1 = mysqli_query($connection, $sql_balance1);
+                                while ($row_balance1 = mysqli_fetch_array($result_balance1)) {
+                                    // echo '<option value="' . $row_balance1['months'] . '"  > ' . $row_balance1['months'] . '</option>';
+                                if( $row_balance1['invoice_type'] == "monthly" ){
+                                ?>
                                     <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="january" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">jan</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="february" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Feb</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="march" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Mar</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="April" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Apr</label>
+                                        <input type="checkbox" name="adv_month[]" value="<?php echo $row_balance1['id_bal'] ?>" id="<?php echo $row_balance1['id_bal'].'_'.$row_balance1['amount'] ?>" class="paid_months" onchange="paid_months(this.id)">
+                                        <label for="month"><?php echo $row_balance1['months'] ?></label>
                                     </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="may" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">May</label>
+                                    <?php
+                                }
+                                else{
+                                    ?>
+                                     <div class="month_name col-3">
+                                        <input type="checkbox" name="adv_month[]" value="<?php echo $row_balance1['id_bal'] ?>" id="<?php echo $row_balance1['id_bal'].'_'.$row_balance1['amount'] ?>" class="paid_charges"  onchange="paid_months(this.id)">
+                                        <label for="month"><?php echo $row_balance1['months'] ?></label>
                                     </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="june" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">June</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="july" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">July</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="august" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Aug</label>
-                                    </div>
+                                    <?php
 
-                                </div>
-                                <div class="row">
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="september" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Sept</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="october" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Oct</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="november" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Nov</label>
-                                    </div>
-                                    <div class="month_name col-3">
-                                        <input type="checkbox" name="adv_month[]" value="december" class="advance_months" onchange="cal_advance()">
-                                        <label for="month">Dec</label>
-                                    </div>
+                                }
+                                    }
+                                    ?>                                 
 
                                 </div>
 
@@ -282,13 +252,29 @@
         let discount = $("#discount").val()
         $("#gross").val(selectedfees-discount)
     }
+let total_paid_charges=0;
+    function paid_months(id) {
+        if($("#"+id).prop("checked") ==true){
+            total_paid_charges = total_paid_charges + parseInt(id.split("_")[1]);
+            console.log(id.split("_")[1])
+            console.log("total amount",total_paid_charges)
+            $("#amount").val(total_paid_charges)
+            discount_val()
 
-    function cal_advance() {
-        let cal_adv = $("#months :selected").length + $(".advance_months:checked").length;
-        let fees = $("#tutionfee").val();
-        let selectedfees = fees * cal_adv
-        $("#amount").val(selectedfees)
+        }
+        else{
+            total_paid_charges = total_paid_charges - parseInt(id.split("_")[1]);
+            console.log("total less amount",total_paid_charges)
+            $("#amount").val(total_paid_charges)
+            discount_val()
+        }
+        // console.log(id)
+        // console.log($('#'+id).val())
+
     }
+    // function paid_charges(value){
+       
+    // }
 
     function discount_val() {
         let amount = $("#amount").val();

@@ -6,24 +6,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$std_id = substr($_POST['std_id'], 3);
 	$amount = $_POST['amount'];
 	$dis_val = $_POST['dis_val'];
-	$months = $_POST['months'];
-	$adv_months = $_POST['adv_month'];
+	// $months = $_POST['months'];
+	$months = $_POST['adv_month'];
 	$gross = $_POST['gross'];
 	$paid_months = "";
 	if ($months != "") {
 		foreach ($months as $pmonths) {
-			$sql = "DELETE FROM `balance` WHERE `balance`.`std_id` = '$std_id' and  `months` = '$pmonths'";
+			$get_month = "SELECT * FROM `balance` WHERE `balance`.`id_bal` = '$pmonths'";
+			$result_get_month = mysqli_query($connection,$get_month);
+			while($row_get_month=mysqli_fetch_array($result_get_month)){
+				$paid_months = $paid_months . " " . $row_get_month['months'];				
+			}
+			$sql = "DELETE FROM `balance` WHERE `balance`.`id_bal` = '$pmonths'";
 			$result = mysqli_query($connection, $sql);
-			$paid_months = $paid_months . " " . $pmonths;
+
+			
 		}
 	}
-	$adv_months_cont = $paid_months;
-	if ($adv_months != "") {
-		foreach ($adv_months as $a_months) {
-			$adv_months_cont = $adv_months_cont . " " . $a_months;
-		}
-	}
-	$sql = "INSERT INTO `collectiona` (`std_id`, `amount`, `discount`,`months`,`paid_amount`) VALUES ('$std_id','$amount','$dis_val','$adv_months_cont','$gross')";
+	// $adv_months_cont = $paid_months;
+	// if ($adv_months != "") {
+	// 	foreach ($adv_months as $a_months) {
+	// 		$adv_months_cont = $adv_months_cont . " " . $a_months;
+	// 	}
+	// }
+	$sql = "INSERT INTO `collectiona` (`std_id`, `amount`, `discount`,`months`,`paid_amount`) VALUES ('$std_id','$amount','$dis_val','$paid_months','$gross')";
 	$result = mysqli_query($connection, $sql);
 
 	header('location: /schoolManagementSystem/admin/dist/fees_recipt.php');

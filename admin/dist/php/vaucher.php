@@ -11,6 +11,9 @@ $std_class = "";
 $amount = 0;
 $invoice_type = "";
 $lab_charges = 0;
+$annual_charges = 0;
+$sports_charges = 0;
+$registration_charges = 0;
 
 
 // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -55,8 +58,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($row['invoice_type'] == "monthly") {
         $months[$i] = $row['months'];
         $i++;
-    } elseif ($row['invoice_type'] == "lab") {
+    }
+    if ($row['invoice_type'] == "Lab fees") {
         $lab_charges = $row['lab_charges'];
+    }
+    if ($row['invoice_type'] == "sportsCharg") {
+        $sports_charges = $row['sportsCharg'];
+    }
+    if ($row['invoice_type'] == "annual charges") {
+        $annual_charges = $row['annualCharg'];
+    }
+    if ($row['invoice_type'] == "reg_Charges") {
+        $registration_charges = $row['reg_Charges'];
     }
     $amount += $row['amount'];
 }
@@ -96,7 +109,16 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 </head>
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital@1&family=Poppins:wght@100;300&display=swap');
+
+    .amount>:nth-child(2){
+        font-family: 'Merriweather', serif !important;
+    }
+    
     .std_copy {
+        font-family: 'Poppins', sans-serif;
         border: 1px solid;
         /* padding: 10px; */
     }
@@ -291,26 +313,32 @@ while ($row = mysqli_fetch_assoc($result)) {
                             $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
                             $result = mysqli_query($connection, $sql);
                             while ($row = mysqli_fetch_assoc($result)) {
-                                if (date('m', strtotime($row['date'])) < date('m')) {
-                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
-                                    $arrears_amount = $arrears_amount + $row['amount'];
-                                } else {
-                                    $current = $current . " " . substr($row['months'], 0, 3);
-                                    $current_amount = $current_amount + $row['amount'];
+                                if ($row['invoice_type'] == "monthly") {
+                                    if (date('m', strtotime($row['date'])) < date('m')) {
+                                        $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                        $arrears_amount = $arrears_amount + $row['amount'];
+                                    } else {
+                                        $current = $current . " " . substr($row['months'], 0, 3);
+                                        $current_amount = $current_amount + $row['amount'];
+                                    }
                                 }
                             }
                             ?>
-                            <p>Current <strong>(<?php echo $current  ?> )</strong> </p>
+                            <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
                             <p><?php echo $current_amount  ?></p>
                         </div>
                         <hr />
                         <div class="amount">
-                            <p>Arrears <strong>(<?php echo $arrears ?> )</strong> </p>
+                            <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
                             <p><?php echo $arrears_amount  ?></p>
                         </div>
                         <div class="amount">
                             <p>Adminssion fee</p>
                             <p><?php echo "0"  ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Registration Fee</p>
+                            <p><?php echo $registration_charges ?></p>
                         </div>
                         <div class="amount">
                             <p>Tution fee</p>
@@ -328,15 +356,15 @@ while ($row = mysqli_fetch_assoc($result)) {
                         </div> -->
                         <div class="amount">
                             <p>Lab Charges</p>
-                            <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
+                            <p><?php echo $lab_charges ?></p>
                         </div>
                         <div class="amount">
-                            <p>Anual Fee</p>
-                            <p><?php echo "0" ?></p>
+                            <p>Annual Charges</p>
+                            <p><?php echo $annual_charges ?></p>
                         </div>
                         <div class="amount">
                             <p>Sports Club</p>
-                            <p><?php echo "0" ?></p>
+                            <p><?php echo $sports_charges ?></p>
                         </div>
                         <hr>
                         <div class="amount">
@@ -367,6 +395,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
                 </div>
+                <div style="border-left: 2px dashed black; margin: 10px 10px"></div>
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
                         <h5>School Copy</h5>
@@ -426,26 +455,32 @@ while ($row = mysqli_fetch_assoc($result)) {
                             $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
                             $result = mysqli_query($connection, $sql);
                             while ($row = mysqli_fetch_assoc($result)) {
-                                if (date('m', strtotime($row['date'])) < date('m')) {
-                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
-                                    $arrears_amount = $arrears_amount + $row['amount'];
-                                } else {
-                                    $current = $current . " " . substr($row['months'], 0, 3);
-                                    $current_amount = $current_amount + $row['amount'];
+                                if ($row['invoice_type'] == "monthly") {
+                                    if (date('m', strtotime($row['date'])) < date('m')) {
+                                        $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                        $arrears_amount = $arrears_amount + $row['amount'];
+                                    } else {
+                                        $current = $current . " " . substr($row['months'], 0, 3);
+                                        $current_amount = $current_amount + $row['amount'];
+                                    }
                                 }
                             }
                             ?>
-                            <p>Current <strong>(<?php echo $current  ?> )</strong> </p>
+                            <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
                             <p><?php echo $current_amount  ?></p>
                         </div>
                         <hr />
                         <div class="amount">
-                            <p>Arrears <strong>(<?php echo $arrears ?> )</strong> </p>
+                            <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
                             <p><?php echo $arrears_amount  ?></p>
                         </div>
                         <div class="amount">
                             <p>Adminssion fee</p>
                             <p><?php echo "0"  ?></p>
+                        </div>
+                        <div class="amount">
+                            <p>Registration Fee</p>
+                            <p><?php echo $registration_charges ?></p>
                         </div>
                         <div class="amount">
                             <p>Tution fee</p>
@@ -463,15 +498,15 @@ while ($row = mysqli_fetch_assoc($result)) {
                         </div> -->
                         <div class="amount">
                             <p>Lab Charges</p>
-                            <p><?php echo ($lab_charges > 0) ? "$lab_charges" : "0" ?></p>
+                            <p><?php echo $lab_charges ?></p>
                         </div>
                         <div class="amount">
-                            <p>Anual Fee</p>
-                            <p><?php echo "0" ?></p>
+                            <p>Annual Charges</p>
+                            <p><?php echo $annual_charges ?></p>
                         </div>
                         <div class="amount">
                             <p>Sports Club</p>
-                            <p><?php echo "0" ?></p>
+                            <p><?php echo $sports_charges ?></p>
                         </div>
                         <hr>
                         <div class="amount">

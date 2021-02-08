@@ -83,6 +83,8 @@
                                                     <option value="">Select...</option>
                                                     <option value="lab_charges<?php echo $row_rows['id_bal'] ?>" <?php echo ($row_rows['invoice_type'] == 'lab_charges') ? 'selected' : '' ?>>Lab Charges</option>
                                                     <option value="annualCharg<?php echo $row_rows['id_bal'] ?>" <?php echo ($row_rows['invoice_type'] == 'annualCharg') ? 'selected' : '' ?>>Annual Charges</option>
+                                                    <option value="reg_Charges<?php echo $row_rows['id_bal'] ?>" <?php echo ($row_rows['invoice_type'] == 'reg_Charges') ? 'selected' : '' ?>>Registration Fee</option>
+                                                    <option value="sportsCharg<?php echo $row_rows['id_bal'] ?>" <?php echo ($row_rows['invoice_type'] == 'sportsCharg') ? 'selected' : '' ?>>Sports Fees</option>
                                                     <!-- <option value="advance" <?php echo ($row_rows['invoice_type'] == 'advance') ? 'selected' : '' ?>>Advance</option> -->
                                                 </select></td>
                                         <?php

@@ -29,8 +29,19 @@ if (isset($_POST['save']) && isset($_POST['other'])) {
 
     $other = substr($_POST['other'], 0, 11);
     $amount = $_POST['fees'];
-    $sql_update = "UPDATE balance SET invoice_type='$other', amount='$amount' WHERE id_bal='$id'  ";
+    if($other == "lab_charges"){
+    $sql_update = "UPDATE balance SET invoice_type='$other', amount='$amount', months='lab_charges' WHERE id_bal='$id'  ";
+    $result = mysqli_query($connection, $sql_update);}
+    if($other == "annualCharg"){
+    $sql_update = "UPDATE balance SET invoice_type='$other', amount='$amount', months='annualCharg' WHERE id_bal='$id'  ";
+    $result = mysqli_query($connection, $sql_update);}
+    if($other == "reg_Charges"){
+    $sql_update = "UPDATE balance SET invoice_type='$other', amount='$amount', months='registration fees' WHERE id_bal='$id'  ";
+    $result = mysqli_query($connection, $sql_update);}
+    if($other == "sportsCharg"){
+    $sql_update = "UPDATE balance SET invoice_type='$other', amount='$amount', months='sports fees' WHERE id_bal='$id'  ";
     $result = mysqli_query($connection, $sql_update);
+    }
 }
 
 

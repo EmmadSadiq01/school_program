@@ -131,7 +131,8 @@
 
                             </thead>
                             <?php
-                            $sql = "SELECT * FROM `collectiona` WHERE `date` BETWEEN '$from' AND '$to' ORDER BY `date`";
+                            $to_1 = date('Y-m-d', strtotime('+1 day', strtotime($to)));
+                            $sql = "SELECT * FROM `collectiona` WHERE `date` BETWEEN '$from' AND '$to_1' ORDER BY `date`";
                             $result = mysqli_query($connection,$sql);
                             // to increase speed of this this program add this details in to collectiona table
                             while($row = mysqli_fetch_assoc($result)){

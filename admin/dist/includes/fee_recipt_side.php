@@ -8,15 +8,8 @@
       color: #fff8ec;
     }
 
-    #show {
-      display: none;
 
 
-    }
-
-    #show_a {
-      display: none;
-    }
   </style>
   </style>
   <div id="layoutSidenav_content">
@@ -312,7 +305,7 @@
                     <label for="invoice">Fees:</label>
                     <input type="text" class="form-control" placeholder="Fees" id="fees" value="0" name="fees" readonly>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="invoice">Invoice Title:</label>
                     <select name="invoice_title" id="invoice_title" class="form-control" name="invoice_title" onchange="invoice_type1(this.value)">
                       <option value="">Select...</option>
@@ -321,8 +314,8 @@
                       <option value="annualCharg">Annual Charges</option>
                       <option value="advance">Advance</option>
                     </select>
-                  </div>
-                  <input type="hidden" name="invoice_type" id="invoice_type">
+                  </div> -->
+                  <!-- <input type="hidden" name="invoice_type" id="invoice_type"> -->
                   <div class="form-group" id="show">
                     <label for="invoice">Invoice Month:</label>
                     <div id="adv_months">
@@ -383,6 +376,25 @@
                         </div>
 
                       </div>
+                      <div class="row">
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="sports_fee" value=0 id="sports_fee" onchange=sports_fee1()>
+                          <label for="month">Sports Fee</label>
+                        </div>
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="annualCharges" value=0 id="annualCharges" onchange=annualCharges1()>
+                          <label for="month">Annual Charges</label>
+                        </div>
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="labCharges" value=0 id="labCharges" onchange="labCharges1()">
+                          <label for="month">Lab Charges</label>
+                        </div>
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="reg_fees" value=0 id="reg_fees" onchange="reg_fees1()">
+                          <label for="month">Registration Fee</label>
+                        </div>
+
+                      </div>
 
                     </div>
                   </div>
@@ -439,17 +451,17 @@
                       ?>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="invoice">Invoice Title:</label>
-                    <select name="invoice_title" id="invoice_title_a" class="form-control" name="invoice_title" onchange="invoice_type1_a(this.value)">
+                    <select name="invoice_title" id="invoice_title_a" class="form-control" onchange="invoice_type1_a(this.value)">
                       <option value="">Select...</option>
                       <option value="monthly">Monthly Fee</option>
                       <option value="lab_charges">Lab Charges</option>
                       <option value="annualCharg">Annual Charges</option>
                       <option value="advance">Advance</option>
                     </select>
-                  </div>
-                  <input type="hidden" name="invoice_type" id="invoice_type_a">
+                  </div> -->
+                  <!-- <input type="hidden" name="invoice_type" id="invoice_type_a"> -->
                   <div class="form-group" id="show_a">
                     <label for="invoice">Invoice Month:</label>
                     <div id="adv_months_a">
@@ -507,6 +519,25 @@
                         <div class="month_name col-3">
                           <input type="checkbox" name="adv_month[]" value="december" class="advance_months">
                           <label for="month">Dec</label>
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="sports_fee" value=0 id="sports_fee_class" onchange=selected(this.id)>
+                          <label for="month">Sports Fee</label>
+                        </div>
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="annualCharges" value=0 id="annualCharges_class" onchange=selected(this.id)>
+                          <label for="month">Annual Charges</label>
+                        </div>
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="labCharges" value=0 id="labCharges_class" onchange=selected(this.id)>
+                          <label for="month">Lab Charges</label>
+                        </div>
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="reg_fees" value=0 id="reg_fees_class" onchange=selected(this.id)>
+                          <label for="month">Registration Fee</label>
                         </div>
 
                       </div>

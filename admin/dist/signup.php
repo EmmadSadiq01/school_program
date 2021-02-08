@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Signup - Homeo Point</title>
+    <title>Signup - Dar ul Islah</title>
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
 </head>
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <form action="signup.php" method="post">
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                            <input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" name="user" placeholder="user@homeopoint.com" />
+                                            <input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" name="user" placeholder="user@dar-ul-islah.com" />
                                         </div>
                                         <div class="form-row">
                                             <div class="col-md-6">

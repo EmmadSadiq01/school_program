@@ -22,6 +22,46 @@ if($_POST['type']=="fees"){
     }
     echo $output;
 }
+if($_POST['type']=="sports_fee"){
+    $std_id = $_POST['std_id'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$std_id'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row['sportsCharg'];
+    }
+    echo $output;
+}
+if($_POST['type']=="annualCharges"){
+    $std_id = $_POST['std_id'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$std_id'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row['annualCharg'];
+    }
+    echo $output;
+}
+if($_POST['type']=="reg_fees"){
+    $std_id = $_POST['std_id'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$std_id'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row['reg_Charges'];
+    }
+    echo $output;
+}
+if($_POST['type']=="labCharges"){
+    $std_id = $_POST['std_id'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$std_id'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row['lab_charges'];
+    }
+    echo $output;
+}
 if($_POST['type']=="other"){
     $id = $_POST['std'];
     $invoice_type = $_POST['value'];
