@@ -18,6 +18,7 @@ if (isset($_POST['std_vise'])) {
     $annualCharges = $_POST['annualCharges'];
     $labCharges = $_POST['labCharges'];
     $reg_fees = $_POST['reg_fees'];
+    $add_fees = $_POST['add_fees'];
 
     $due_months = "";
     if ($months != "") {
@@ -41,6 +42,10 @@ if (isset($_POST['std_vise'])) {
     }
     if ($reg_fees != 0) {
         $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', 'Registration Fees', '$reg_fees','reg_Charges')";
+        $result_fees = mysqli_query($connection, $sql_fees);
+    }
+    if ($add_fees != 0) {
+        $sql_fees = "INSERT INTO `balance` (`std_id`, `months`, `amount`,`invoice_type`) VALUES ('$std_id', 'Admission Fees', '$add_fees','add_fees')";
         $result_fees = mysqli_query($connection, $sql_fees);
     }
 
@@ -332,6 +337,26 @@ if (isset($_POST['class_vise'])) {
                 cal_advance()
             }
         }
+        function add_fees1() {
+            if ($('#add_fees').is(":checked")) {
+                $.ajax({
+                    url: "student_class.php",
+                    method: "POST",
+                    data: {
+                        type: "add_fees",
+                        std_id: student_id
+                    },
+                    success: function(data) {
+                        $('#add_fees').val(data)
+                        console.log(data)
+                        cal_advance()
+                    }
+                })
+            } else {
+                $('#add_fees').val(0)
+                cal_advance()
+            }
+        }
 
         function labCharges1() {
             if ($('#labCharges').is(":checked")) {
@@ -363,7 +388,8 @@ if (isset($_POST['class_vise'])) {
             let annualCharges = parseInt($('#annualCharges').val());
             let labCharges = parseInt($('#labCharges').val());
             let reg_fees = parseInt($('#reg_fees').val());
-            let total = selectedfees + sports_fee + annualCharges + labCharges + reg_fees;
+            let add_fees = parseInt($('#add_fees').val());
+            let total = selectedfees + sports_fee + annualCharges + labCharges + reg_fees + add_fees ;
             console.log(total)
             $("#amount").val(total)
             discount_val()

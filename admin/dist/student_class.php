@@ -52,6 +52,16 @@ if($_POST['type']=="reg_fees"){
     }
     echo $output;
 }
+if($_POST['type']=="add_fees"){
+    $std_id = $_POST['std_id'];
+    $output = '';
+    $query = "SELECT * FROM `students` WHERE `id`='$std_id'";
+    $result = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = $row['add_fees'];
+    }
+    echo $output;
+}
 if($_POST['type']=="labCharges"){
     $std_id = $_POST['std_id'];
     $output = '';

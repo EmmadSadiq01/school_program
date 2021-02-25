@@ -90,6 +90,7 @@
                                         $labCharges = $row['lab_charges'];
                                         $reg_Charges = $row['reg_Charges'];
                                         $sportsCharg = $row['sportsCharg'];
+                                        $discount = $row['discount'];
                                     }
                                     echo '<input type="hidden" name="edit_std" value="' . $std_id . '">';
                                 }
@@ -241,7 +242,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="moccupation">Address* </label>
+                                            <label class="col-sm-2 control-label" for="address">Address* </label>
                                             <div class="col-sm-9">
                                                 <textarea name="address" class="form-control" id="address" cols="30" rows="4"><?php echo (@$_GET['action'] == "edit") ? $address : '' ?></textarea>
                                             </div>
@@ -261,7 +262,7 @@
 
                                             </div>
                                             <label class="col-sm-2 control-label" for="dateofjoin">Date OF Admission </label>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-3">
                                                 <?php $current_date = date('yy-m-d') ?>
                                                 <input type="date" class="form-control" id="dateofjoin" name="dateofjoin" value="<?php echo (@$_GET['action'] == "edit") ? "$doj" :   "$current_date"  ?>" />
 
@@ -302,6 +303,12 @@
                                             <div class="col-sm-3">
                                                 <input type="number" class="form-control" id="sportsCharg" name="sportsCharg" value="<?php echo (@$_GET['action'] == "edit") ? $sportsCharg : '' ?>" />
 
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="discount">Discount</label>
+                                            <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="discount" name="discount" value="<?php echo (@$_GET['action'] == "edit") ? $discount : '' ?>">
                                             </div>
                                         </div>
 
@@ -458,7 +465,8 @@
                                                 <p class='name'> <?php echo  $row['fname'] ?></p>
                                             </td>
                                             <td>
-                                                <p class='name'> <?php
+                                                <p class='name'> 
+                                                <?php
                                                                     $std_class = $row['class'];
                                                                     $sql_class = "SELECT class_name FROM classes WHERE id='$std_class'";
                                                                     $result_class = mysqli_query($connection, $sql_class);

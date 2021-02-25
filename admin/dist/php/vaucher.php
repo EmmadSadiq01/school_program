@@ -14,6 +14,7 @@ $lab_charges = 0;
 $annual_charges = 0;
 $sports_charges = 0;
 $registration_charges = 0;
+$add_fees = 0;
 
 
 // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -71,6 +72,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($row['invoice_type'] == "reg_Charges") {
         $registration_charges = $row['reg_Charges'];
     }
+    if ($row['invoice_type'] == "add_fees") {
+        $add_fees = $row['add_fees'];
+    }
     $amount += $row['amount'];
 }
 
@@ -109,14 +113,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 </head>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital@1&family=Poppins:wght@100;300&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital@1&family=Poppins:wght@100;300&display=swap');
-
-    .amount>:nth-child(2){
+    .amount>:nth-child(2) {
         font-family: 'Merriweather', serif !important;
     }
-    
+
     .std_copy {
         font-family: 'Poppins', sans-serif;
         border: 1px solid;
@@ -247,6 +250,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         font-weight: 300;
         font-family: times new roman;
     }
+    @media print{@page {size: landscape}}
 </style>
 
 
@@ -256,7 +260,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="row">
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-                        <h5>Student Copy</h5>
+                        <h5>Parent`s Copy</h5>
                     </div>
                     <div class="header mb-2">
                         <h4 class="text-center">DAR-UL-ISLAH ACADEMY</h4>
@@ -264,6 +268,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <div class="text">
                                 <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
                                 <p>PHONE: <span>0317-2575687</span></p>
+                                <h5> <b> <?php if($add_fees != 0) {
+                                    echo "Registration Voucher";
+                                } 
+                                else {
+                                    echo "Monthly Voucher";
+
+                                }
+                                ?></b> </h5>
                             </div>
                         </div>
                         <div class="student_details">
@@ -304,74 +316,98 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <h6>Fee Payable: </h6>
                     <div class="details">
 
-                        <div class="amount">
-                            <?php
-                            $arrears = "";
-                            $arrears_amount = 0;
-                            $current = "";
-                            $current_amount = 0;
-                            $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
-                            $result = mysqli_query($connection, $sql);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                if ($row['invoice_type'] == "monthly") {
-                                    if (date('m', strtotime($row['date'])) < date('m')) {
-                                        $arrears = $arrears . " " . substr($row['months'], 0, 3);
-                                        $arrears_amount = $arrears_amount + $row['amount'];
-                                    } else {
-                                        $current = $current . " " . substr($row['months'], 0, 3);
-                                        $current_amount = $current_amount + $row['amount'];
-                                    }
+                        <?php
+                        $arrears = "";
+                        $arrears_amount = 0;
+                        $current = "";
+                        $current_amount = 0;
+                        $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
+                        $result = mysqli_query($connection, $sql);
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            if ($row['invoice_type'] == "monthly") {
+                                if (date('m', strtotime($row['date'])) < date('m')) {
+                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                    $arrears_amount = $arrears_amount + $row['amount'];
+                                } else {
+                                    $current = $current . " " . substr($row['months'], 0, 3);
+                                    $current_amount = $current_amount + $row['amount'];
                                 }
                             }
-                            ?>
-                            <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
-                            <p><?php echo $current_amount  ?></p>
-                        </div>
-                        <hr />
-                        <div class="amount">
-                            <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
-                            <p><?php echo $arrears_amount  ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Adminssion fee</p>
-                            <p><?php echo "0"  ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Registration Fee</p>
-                            <p><?php echo $registration_charges ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Tution fee</p>
-                            <p><?php echo $fees ?></p>
-                        </div>
-                        <!-- <div class="amount">
-                            <p>Months</p>
-                            <p> <?php
-                                // foreach ($months as $m) {
-                                //         echo substr($m, 0, 3);
-                                //         echo " ";
-                                //     } 
-                                ?>
-                                </p>
-                        </div> -->
-                        <div class="amount">
-                            <p>Lab Charges</p>
-                            <p><?php echo $lab_charges ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Annual Charges</p>
-                            <p><?php echo $annual_charges ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Sports Club</p>
-                            <p><?php echo $sports_charges ?></p>
-                        </div>
-                        <hr>
-                        <div class="amount">
-                            <p>Dues</p>
-                            <p><?php echo $amount ?> </p>
-                        </div>
-                        <hr>
+                        }
+                        ?>
+                        <?php if ($current_amount != 0) {
+                        ?>
+                            <div class="amount">
+
+                                <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
+                                <p><?php echo $current_amount  ?></p>
+                            </div>
+                            <hr />
+
+                        <?php }
+                        ?>
+                        <?php if ($arrears_amount != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
+                                <p><?php echo $arrears_amount  ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($add_fees != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Adminssion fee</p>
+                                <p><?php echo $add_fees ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($registration_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Registration Fee</p>
+                                <p><?php echo $registration_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($add_fees == 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Tution fee</p>
+                                <p><?php echo $fees ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($lab_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Lab Charges</p>
+                                <p><?php echo $lab_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($annual_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Annual Charges</p>
+                                <p><?php echo $annual_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($sports_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Sports Club</p>
+                                <p><?php echo $sports_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <!-- <hr>
+                    <div class="amount">
+                        <p>Dues</p>
+                        <p><?php echo $amount ?> </p>
+                    </div>
+                    <hr> -->
 
                         <hr>
                         <hr>
@@ -395,10 +431,10 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
                 </div>
-                <div style="border-left: 2px dashed black; margin: 10px 10px"></div>
+                <!-- <div style="border-left: 2px dashed black; margin: 10px 10px"></div> -->
                 <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
                     <div class="copy">
-                        <h5>School Copy</h5>
+                        <h5>Accounts Copy</h5>
                     </div>
                     <div class="header mb-2">
                         <h4 class="text-center">DAR-UL-ISLAH ACADEMY</h4>
@@ -406,6 +442,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <div class="text">
                                 <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
                                 <p>PHONE: <span>0317-2575687</span></p>
+                                <h5> <b> <?php if($add_fees != 0) {
+                                    echo "Registration Voucher";
+                                } 
+                                else {
+                                    echo "Monthly Voucher";
+
+                                }
+                                ?></b> </h5>
                             </div>
                         </div>
                         <div class="student_details">
@@ -446,74 +490,98 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <h6>Fee Payable: </h6>
                     <div class="details">
 
-                        <div class="amount">
-                            <?php
-                            $arrears = "";
-                            $arrears_amount = 0;
-                            $current = "";
-                            $current_amount = 0;
-                            $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
-                            $result = mysqli_query($connection, $sql);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                if ($row['invoice_type'] == "monthly") {
-                                    if (date('m', strtotime($row['date'])) < date('m')) {
-                                        $arrears = $arrears . " " . substr($row['months'], 0, 3);
-                                        $arrears_amount = $arrears_amount + $row['amount'];
-                                    } else {
-                                        $current = $current . " " . substr($row['months'], 0, 3);
-                                        $current_amount = $current_amount + $row['amount'];
-                                    }
+                        <?php
+                        $arrears = "";
+                        $arrears_amount = 0;
+                        $current = "";
+                        $current_amount = 0;
+                        $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
+                        $result = mysqli_query($connection, $sql);
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            if ($row['invoice_type'] == "monthly") {
+                                if (date('m', strtotime($row['date'])) < date('m')) {
+                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                    $arrears_amount = $arrears_amount + $row['amount'];
+                                } else {
+                                    $current = $current . " " . substr($row['months'], 0, 3);
+                                    $current_amount = $current_amount + $row['amount'];
                                 }
                             }
-                            ?>
-                            <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
-                            <p><?php echo $current_amount  ?></p>
-                        </div>
-                        <hr />
-                        <div class="amount">
-                            <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
-                            <p><?php echo $arrears_amount  ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Adminssion fee</p>
-                            <p><?php echo "0"  ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Registration Fee</p>
-                            <p><?php echo $registration_charges ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Tution fee</p>
-                            <p><?php echo $fees ?></p>
-                        </div>
-                        <!-- <div class="amount">
-                            <p>Months</p>
-                            <p> <?php
-                                // foreach ($months as $m) {
-                                //         echo substr($m, 0, 3);
-                                //         echo " ";
-                                //     } 
-                                ?>
-                                </p>
-                        </div> -->
-                        <div class="amount">
-                            <p>Lab Charges</p>
-                            <p><?php echo $lab_charges ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Annual Charges</p>
-                            <p><?php echo $annual_charges ?></p>
-                        </div>
-                        <div class="amount">
-                            <p>Sports Club</p>
-                            <p><?php echo $sports_charges ?></p>
-                        </div>
-                        <hr>
-                        <div class="amount">
-                            <p>Dues</p>
-                            <p><?php echo $amount ?> </p>
-                        </div>
-                        <hr>
+                        }
+                        ?>
+                        <?php if ($current_amount != 0) {
+                        ?>
+                            <div class="amount">
+
+                                <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
+                                <p><?php echo $current_amount  ?></p>
+                            </div>
+                            <hr />
+
+                        <?php }
+                        ?>
+                        <?php if ($arrears_amount != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
+                                <p><?php echo $arrears_amount  ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($add_fees != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Adminssion fee</p>
+                                <p><?php echo $add_fees ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($registration_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Registration Fee</p>
+                                <p><?php echo $registration_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($add_fees == 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Tution fee</p>
+                                <p><?php echo $fees ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($lab_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Lab Charges</p>
+                                <p><?php echo $lab_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($annual_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Annual Charges</p>
+                                <p><?php echo $annual_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($sports_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Sports Club</p>
+                                <p><?php echo $sports_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <!-- <hr>
+                    <div class="amount">
+                        <p>Dues</p>
+                        <p><?php echo $amount ?> </p>
+                    </div>
+                    <hr> -->
 
                         <hr>
                         <hr>
@@ -537,6 +605,181 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
                 </div>
+                <!-- <div style="border-left: 2px dashed black; margin: 10px 10px"></div> -->
+                <div class="std_copy col-lg-4 col-12 col-md-4 col-sm-4 mt-2">
+                    <div class="copy">
+                        <h5>Office Copy</h5>
+                    </div>
+                    <div class="header mb-2">
+                        <h4 class="text-center">DAR-UL-ISLAH ACADEMY</h4>
+                        <div class="sch_name">
+                            <div class="text">
+                                <small>Shop No. S-5&6 Ground Floor Kamran Chorangi</small>
+                                <p>PHONE: <span>0317-2575687</span></p>
+                                <h5> <b> <?php if($add_fees != 0) {
+                                    echo "Registration Voucher";
+                                } 
+                                else {
+                                    echo "Monthly Voucher";
+
+                                }
+                                ?></b> </h5>
+                            </div>
+                        </div>
+                        <div class="student_details">
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Student Name</p>
+                                </div>
+                                <p class="value"><?php echo $std_name ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Father Name</p>
+                                </div>
+                                <p class="value"><?php echo $fname ?></p>
+                            </div>
+                            <div class="name_box ">
+                                <div class="item">
+                                    <p>GR No</p>
+                                </div>
+                                <p class="value"><?php echo $gr_no ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Session</p>
+                                </div>
+                                <p class="value"><?php echo $session ?></p>
+                            </div>
+                            <div class="name_box">
+                                <div class="item">
+                                    <p>Class</p>
+                                </div>
+                                <p class="value"><?php echo $std_class ?></p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h6>Fee Payable: </h6>
+                    <div class="details">
+
+                        <?php
+                        $arrears = "";
+                        $arrears_amount = 0;
+                        $current = "";
+                        $current_amount = 0;
+                        $sql = "SELECT * FROM balance WHERE std_id='$std_id'";
+                        $result = mysqli_query($connection, $sql);
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            if ($row['invoice_type'] == "monthly") {
+                                if (date('m', strtotime($row['date'])) < date('m')) {
+                                    $arrears = $arrears . " " . substr($row['months'], 0, 3);
+                                    $arrears_amount = $arrears_amount + $row['amount'];
+                                } else {
+                                    $current = $current . " " . substr($row['months'], 0, 3);
+                                    $current_amount = $current_amount + $row['amount'];
+                                }
+                            }
+                        }
+                        ?>
+                        <?php if ($current_amount != 0) {
+                        ?>
+                            <div class="amount">
+
+                                <p>Current <?php echo ($current != '') ? '<strong style="font-size: 12px;">(' . $current . ' )</strong>' : '' ?> </p>
+                                <p><?php echo $current_amount  ?></p>
+                            </div>
+                            <hr />
+
+                        <?php }
+                        ?>
+                        <?php if ($arrears_amount != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Arrears <?php echo ($arrears != '') ? '<strong style="font-size: 12px;">(' . $arrears . ' )</strong>' : '' ?></p>
+                                <p><?php echo $arrears_amount  ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($add_fees != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Adminssion fee</p>
+                                <p><?php echo $add_fees ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($registration_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Registration Fee</p>
+                                <p><?php echo $registration_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($add_fees == 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Tution fee</p>
+                                <p><?php echo $fees ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($lab_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Lab Charges</p>
+                                <p><?php echo $lab_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($annual_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Annual Charges</p>
+                                <p><?php echo $annual_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <?php if ($sports_charges != 0) {
+                        ?>
+                            <div class="amount">
+                                <p>Sports Club</p>
+                                <p><?php echo $sports_charges ?></p>
+                            </div>
+                        <?php }
+                        ?>
+                        <!-- <hr>
+                    <div class="amount">
+                        <p>Dues</p>
+                        <p><?php echo $amount ?> </p>
+                    </div>
+                    <hr> -->
+
+                        <hr>
+                        <hr>
+                        <div class="amount">
+                            <h6>Total</h6>
+                            <p>Rs <?php echo $amount ?> </p>
+                        </div>
+                    </div>
+
+                    <div class="footer mt-3">
+                        <div class="content text-center">
+                            <h3>DUBAI ISLAMIC BANK</h3>
+                            <p>Branch Code :<span>178</span></p>
+                            <p>Shop No. S-5&6 Ground Floor Kamran Chorangi</p>
+                        </div>
+                        <div class="foot-line">
+
+                            <h6 class="text-center">Software Developed by: M.Emmad Sadiq (0341-2725048)</h6>
+                        </div>
+                    </div>
+
+
+                </div>
+               
 
 
 

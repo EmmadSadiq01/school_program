@@ -86,6 +86,11 @@
         color: #ff1b1b;
         font-family: 'Texturina', serif;
     }
+    @media print{
+        .hide{
+            display: none;
+        }
+    }
 </style>
 
 <div id="layoutSidenav_content">
@@ -93,9 +98,9 @@
         <div class="container-fluid">
             <?php if (isset($_POST['from'])) {
             ?>
-                <div class="toolbar hidden-print mt-4">
+                <div class="toolbar hide mt-4">
                     <div class="text-center">
-                        <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+                        <button id="printInvoice" class="btn btn-info" onclick=window.print()><i class="fa fa-print"></i> Print</button>
                     </div>
                     <hr>
                 </div>

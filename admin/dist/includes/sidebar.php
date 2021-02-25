@@ -16,8 +16,8 @@
                                 
                             <!-- </a> -->
                                 <a href="class.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>Classes</a>
-                                <a href="fees_collection.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>Fee Collection</a>
-                                <a href="fees_recipt.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>Print Vaucher</a>
+                                <!-- <a href="fees_collection.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>Fee Collection</a> -->
+                                <a href="fees_recipt.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>Fee Manager</a>
                                 <a href="salary_distibute.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>Salary Distibute</a>
                                 <a href="reports.php" class="nav-link"> <div class="sb-nav-link-icon"><i class="fas fa-ellipsis-h"></i></div>Reports</a>
 

@@ -7,9 +7,6 @@
       background-color: #343a40;
       color: #fff8ec;
     }
-
-
-
   </style>
   </style>
   <div id="layoutSidenav_content">
@@ -35,231 +32,231 @@
 
         <?php
         if (isset($_GET['action']) &&  @$_GET['action'] == "print") {
-          ?>
-<div class="container">
-  <h4>Students Dues Sheet</h4>
-<table class="table table-bordered" id="item_table">
-                <thead>
-                  <tr>
+        ?>
+          <div class="container">
+            <h4>Students Dues Sheet</h4>
+            <table class="table table-bordered" id="item_table">
+              <thead>
+                <tr>
 
-                    <th>Roll No.</th>
-                    <th style="width: 350px !important;">Student Name</th>
-                    <th>Father Name</th>
-                    <th>Fees</th>
-                    <th>Arrears</th>
-                    <th style="width: 285px !important;">Current</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>Roll No.</th>
-                    <th style="width: 350px !important;">Student Name</th>
-                    <th>Father Name</th>
-                    <th>Fees</th>
-                    <th>Arrears</th>
-                    <th style="width: 285px !important;">Current</th>
-                    <th>Amount</th>
-                  </tr>
-                </tfoot>
-                <tbody>
+                  <th>Roll No.</th>
+                  <th style="width: 350px !important;">Student Name</th>
+                  <th>Father Name</th>
+                  <th>Fees</th>
+                  <th>Arrears</th>
+                  <th style="width: 285px !important;">Current</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Roll No.</th>
+                  <th style="width: 350px !important;">Student Name</th>
+                  <th>Father Name</th>
+                  <th>Fees</th>
+                  <th>Arrears</th>
+                  <th style="width: 285px !important;">Current</th>
+                  <th>Amount</th>
+                </tr>
+              </tfoot>
+              <tbody>
 
-                  <?php
-                  $sql = "SELECT * FROM `students` ORDER BY class ASC";
-                  $result = mysqli_query($connection, $sql);
-                  $month_id = "";
-                  $class_divider = "";
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    $std_id = $row['id'];
-                    $check_balance = "SELECT * FROM balance WHERE std_id='$std_id'";
-                    $check_result = mysqli_query($connection, $check_balance);
-                    $std_class = $row['class'];
-                    if (mysqli_num_rows($check_result) > 0) {
-                      $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
-                            $std_result = mysqli_query($connection, $sql_class);
-                            while ($row_class = mysqli_fetch_assoc($std_result)) {
-                              $std_class = $row_class['class_name'];
-                            }
-
-                      if ($class_divider != $std_class) {
-                  ?>
-                  <tr>
-                    <th class="text-center" colspan="7"> <?php echo $std_class ?></th>
-                  </tr>
-                  <?php
-                  }
-                  ?>
-                      <tr>
-                        <td>100<?php echo $row['id'] ?></td>
-
-                        <td style="width: 350px;"><?php echo $row['name'] ?></td>
-                        <td style="width: 350px;"><?php echo $row['fname'] ?></td>
-                        <td> <?php echo $row['tutionFee'] ?></td>
-                        <!-- <td> <?php echo $row['invoice_type'] ?></td> -->
-                        <?php
-                        $month_id = $row['id'];
-                        $months_sql = "SELECT * FROM balance where std_id='$month_id'";
-                        $month_result = mysqli_query($connection, $months_sql);
-                        $arrears = "";
-                        $current = "";
-                        $due_amount = 0;
-                        while ($month_row = mysqli_fetch_assoc($month_result)) {
-                          if (date("m", strtotime($month_row['date'])) < date('m')) {
-                            $arrears = $arrears . " " . $month_row['months'];
-                          } else {
-                            $current = $current . " " . $month_row['months'];
-                          }
-                          $due_amount = $due_amount + $month_row['amount'];
-                        }
-                        ?>
-                        <td style="width: 285px !important;"> <?php echo $arrears ?></td>
-                        <td style="width: 285px !important;"> <?php echo $current ?></td>
-                        <?php
-                        // $amount_id = $row['std_roll'];
-                        // $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
-                        // $amount_result = mysqli_query($connection, $amount_sql);
-                        // $due_amount = 0;
-                        // while ($amount_row = mysqli_fetch_assoc($amount_result)) {
-                        //   $due_amount = $due_amount + $amount_row['amount'];
-                        // }
-                        ?>
-                        <td> <?php echo $due_amount ?></td>
-                      </tr>
-                  <?php
+                <?php
+                $sql = "SELECT * FROM `students` ORDER BY class ASC";
+                $result = mysqli_query($connection, $sql);
+                $month_id = "";
+                $class_divider = "";
+                while ($row = mysqli_fetch_assoc($result)) {
+                  $std_id = $row['id'];
+                  $check_balance = "SELECT * FROM balance WHERE std_id='$std_id'";
+                  $check_result = mysqli_query($connection, $check_balance);
+                  $std_class = $row['class'];
+                  if (mysqli_num_rows($check_result) > 0) {
+                    $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
+                    $std_result = mysqli_query($connection, $sql_class);
+                    while ($row_class = mysqli_fetch_assoc($std_result)) {
+                      $std_class = $row_class['class_name'];
                     }
-                  } ?>
+
+                    if ($class_divider != $std_class) {
+                ?>
+                      <tr>
+                        <th class="text-center" colspan="7"> <?php echo $std_class ?></th>
+                      </tr>
+                    <?php
+                    }
+                    ?>
+                    <tr>
+                      <td>100<?php echo $row['id'] ?></td>
+
+                      <td style="width: 350px;"><?php echo $row['name'] ?></td>
+                      <td style="width: 350px;"><?php echo $row['fname'] ?></td>
+                      <td> <?php echo $row['tutionFee'] ?></td>
+                      <!-- <td> <?php echo $row['invoice_type'] ?></td> -->
+                      <?php
+                      $month_id = $row['id'];
+                      $months_sql = "SELECT * FROM balance where std_id='$month_id'";
+                      $month_result = mysqli_query($connection, $months_sql);
+                      $arrears = "";
+                      $current = "";
+                      $due_amount = 0;
+                      while ($month_row = mysqli_fetch_assoc($month_result)) {
+                        if (date("m", strtotime($month_row['date'])) < date('m')) {
+                          $arrears = $arrears . " " . $month_row['months'];
+                        } else {
+                          $current = $current . " " . $month_row['months'];
+                        }
+                        $due_amount = $due_amount + $month_row['amount'];
+                      }
+                      ?>
+                      <td style="width: 285px !important;"> <?php echo $arrears ?></td>
+                      <td style="width: 285px !important;"> <?php echo $current ?></td>
+                      <?php
+                      // $amount_id = $row['std_roll'];
+                      // $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
+                      // $amount_result = mysqli_query($connection, $amount_sql);
+                      // $due_amount = 0;
+                      // while ($amount_row = mysqli_fetch_assoc($amount_result)) {
+                      //   $due_amount = $due_amount + $amount_row['amount'];
+                      // }
+                      ?>
+                      <td> <?php echo $due_amount ?></td>
+                    </tr>
+                <?php
+                  }
+                } ?>
 
 
 
 
-                </tbody>
-              </table>
-</div>
-          <?php
-        }else{
+              </tbody>
+            </table>
+          </div>
+        <?php
+        } else {
         ?>
 
-        <div class="card mb-4">
-          <a href="fees_recipt.php?action=student" class="btn btn-outline-primary" data-toggle="modal" data-target="#studentModal">Student Vise</a>
-          <a href="fees_recipt.php?action=class" class="btn btn-outline-success" data-toggle="modal" data-target="#classModal">Class Vise</a>
+          <div class="card mb-4">
+            <a href="fees_recipt.php?action=student" class="btn btn-outline-primary" data-toggle="modal" data-target="#studentModal">Student Vise</a>
+            <a href="fees_recipt.php?action=class" class="btn btn-outline-success" data-toggle="modal" data-target="#classModal">Class Vise</a>
 
-        </div>
-        <div class="card mb-4">
-          <div class="card-header">
-            <i class="fas fa-table mr-1"></i>
-            Student Fees Vouchers
           </div>
-
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-
-                    <th>Roll No.</th>
-                    <th style="width: 350px !important;">Student Name</th>
-                    <th>Class</th>
-                    <th>Fees</th>
-                    <th>Arrears</th>
-                    <th style="width: 285px !important;">Current</th>
-                    <th>Amount</th>
-                    <!-- <th>Discount</th>
-                    <th>Gross</th> -->
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>Roll No.</th>
-                    <th style="width: 350px !important;">Student Name</th>
-                    <th>Class</th>
-                    <th>Fees</th>
-                    <th>Arrears</th>
-                    <th style="width: 285px !important;">Current</th>
-                    <th>Amount</th>
-                    <!-- <th>Discount</th>
-                    <th>Gross</th> -->
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
-                <tbody>
-
-                  <?php
-                  $sql = "SELECT * FROM `students`";
-                  $result = mysqli_query($connection, $sql);
-                  $month_id = "";
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    $std_id = $row['id'];
-                    $check_balance = "SELECT * FROM balance WHERE std_id='$std_id'";
-                    $check_result = mysqli_query($connection, $check_balance);
-
-                    if (mysqli_num_rows($check_result) > 0) {
-                  ?>
-                      <tr>
-                        <td>100<?php echo $row['id'] ?></td>
-
-                        <td style="width: 350px;"><?php echo $row['name'] ?></td>
-                        <td><?php
-                            $std_class = $row['class'];
-                            $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
-                            $std_result = mysqli_query($connection, $sql_class);
-                            while ($row_class = mysqli_fetch_assoc($std_result)) {
-                              $std_class = $row_class['class_name'];
-                            }
-                            echo $std_class;
-                            ?></td>
-                        <td> <?php echo $row['tutionFee'] ?></td>
-                        <!-- <td> <?php echo $row['invoice_type'] ?></td> -->
-                        <?php
-                        $month_id = $row['id'];
-                        $months_sql = "SELECT * FROM balance where std_id='$month_id'";
-                        $month_result = mysqli_query($connection, $months_sql);
-                        $arrears = "";
-                        $current = "";
-                        $due_amount = 0;
-                        while ($month_row = mysqli_fetch_assoc($month_result)) {
-                          if (date("m", strtotime($month_row['date'])) < date('m')) {
-                            $arrears = $arrears . " " . $month_row['months'];
-                          } else {
-                            $current = $current . " " . $month_row['months'];
-                          }
-                          $due_amount = $due_amount + $month_row['amount'];
-                        }
-                        ?>
-                        <td style="width: 285px !important;"> <?php echo $arrears ?></td>
-                        <td style="width: 285px !important;"> <?php echo $current ?></td>
-                        <?php
-                        // $amount_id = $row['std_roll'];
-                        // $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
-                        // $amount_result = mysqli_query($connection, $amount_sql);
-                        // $due_amount = 0;
-                        // while ($amount_row = mysqli_fetch_assoc($amount_result)) {
-                        //   $due_amount = $due_amount + $amount_row['amount'];
-                        // }
-                        ?>
-                        <td> <?php echo $due_amount ?></td>
-                        <!-- <td> <?php echo $row['discount'] ?></td> -->
-                        <!-- <td> <?php echo $row['gross'] ?></td> -->
-                        <td>
-                          <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
-                          <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
-                          <a href="php/vaucher.php?id=<?php echo $row['id'] ?>">Duplicate</a>
-                          <a href="edit_fees_recipt.php?edit=<?php echo $row['id'] ?>">Edit</a>
-                        </td>
-                      </tr>
-                  <?php
-                    }
-                  } ?>
-
-
-
-
-                </tbody>
-              </table>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Student Fees Vouchers
             </div>
 
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+
+                      <th>Roll No.</th>
+                      <th style="width: 350px !important;">Student Name</th>
+                      <th>Class</th>
+                      <th>Fees</th>
+                      <th>Arrears</th>
+                      <th style="width: 285px !important;">Current</th>
+                      <th>Amount</th>
+                      <!-- <th>Discount</th>
+                    <th>Gross</th> -->
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Roll No.</th>
+                      <th style="width: 350px !important;">Student Name</th>
+                      <th>Class</th>
+                      <th>Fees</th>
+                      <th>Arrears</th>
+                      <th style="width: 285px !important;">Current</th>
+                      <th>Amount</th>
+                      <!-- <th>Discount</th>
+                    <th>Gross</th> -->
+                      <th>Action</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+
+                    <?php
+                    $sql = "SELECT * FROM `students`";
+                    $result = mysqli_query($connection, $sql);
+                    $month_id = "";
+                    while ($row = mysqli_fetch_assoc($result)) {
+                      $std_id = $row['id'];
+                      $check_balance = "SELECT * FROM balance WHERE std_id='$std_id'";
+                      $check_result = mysqli_query($connection, $check_balance);
+
+                      if (mysqli_num_rows($check_result) > 0) {
+                    ?>
+                        <tr>
+                          <td>100<?php echo $row['id'] ?></td>
+
+                          <td style="width: 350px;"><?php echo $row['name'] ?></td>
+                          <td><?php
+                              $std_class = $row['class'];
+                              $sql_class = "SELECT * FROM classes WHERE id='$std_class'";
+                              $std_result = mysqli_query($connection, $sql_class);
+                              while ($row_class = mysqli_fetch_assoc($std_result)) {
+                                $std_class = $row_class['class_name'];
+                              }
+                              echo $std_class;
+                              ?></td>
+                          <td> <?php echo $row['tutionFee'] ?></td>
+                          <!-- <td> <?php echo $row['invoice_type'] ?></td> -->
+                          <?php
+                          $month_id = $row['id'];
+                          $months_sql = "SELECT * FROM balance where std_id='$month_id'";
+                          $month_result = mysqli_query($connection, $months_sql);
+                          $arrears = "";
+                          $current = "";
+                          $due_amount = 0;
+                          while ($month_row = mysqli_fetch_assoc($month_result)) {
+                            if (date("m", strtotime($month_row['date'])) < date('m')) {
+                              $arrears = $arrears . " " . $month_row['months'];
+                            } else {
+                              $current = $current . " " . $month_row['months'];
+                            }
+                            $due_amount = $due_amount + $month_row['amount'];
+                          }
+                          ?>
+                          <td style="width: 285px !important;"> <?php echo $arrears ?></td>
+                          <td style="width: 285px !important;"> <?php echo $current ?></td>
+                          <?php
+                          // $amount_id = $row['std_roll'];
+                          // $amount_sql = "SELECT * FROM balance where std_id='$amount_id'";
+                          // $amount_result = mysqli_query($connection, $amount_sql);
+                          // $due_amount = 0;
+                          // while ($amount_row = mysqli_fetch_assoc($amount_result)) {
+                          //   $due_amount = $due_amount + $amount_row['amount'];
+                          // }
+                          ?>
+                          <td> <?php echo $due_amount ?></td>
+                          <!-- <td> <?php echo $row['discount'] ?></td> -->
+                          <!-- <td> <?php echo $row['gross'] ?></td> -->
+                          <td>
+                            <!-- <button type="button" class="take btn btn-primary" id=<?php echo $row['id'] ?>>Take Fees</button> -->
+                            <a href="fees_collection.php?take=<?php echo $row['id'] ?>">Take fees</a>
+                            <a href="php/vaucher.php?id=<?php echo $row['id'] ?>">Duplicate</a>
+                            <a href="edit_fees_recipt.php?edit=<?php echo $row['id'] ?>">Edit</a>
+                          </td>
+                        </tr>
+                    <?php
+                      }
+                    } ?>
+
+
+
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
           </div>
-        </div>
         <?php
         }
         ?>
@@ -395,6 +392,13 @@
                         </div>
 
                       </div>
+                      <div class="row">
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="add_fees" value=0 id="add_fees" onchange=add_fees1()>
+                          <label for="month">Admission Fee</label>
+                        </div>
+                      </div>
+
 
                     </div>
                   </div>
@@ -540,6 +544,12 @@
                           <label for="month">Registration Fee</label>
                         </div>
 
+                      </div>
+                      <div class="row">
+                        <div class="month_name col-3">
+                          <input type="checkbox" name="sports_fee" value=0 id="add_fees_class" onchange=selected(this.id)>
+                          <label for="month">Admission Fee</label>
+                        </div>
                       </div>
 
                     </div>

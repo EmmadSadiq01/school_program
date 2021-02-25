@@ -6,16 +6,18 @@
     form#signupForm1 {
         margin: auto;
     }
+
     .reports a {
-    display: block;
-    color: black;
-    transition: 0.2s all ease-in-out;
-    font-size: 23px;
-    font-family: cursive;
-}
-.reports a:hover{
-    color: #4c66a0 !important;
-}
+        display: block;
+        color: black;
+        transition: 0.2s all ease-in-out;
+        font-size: 23px;
+        font-family: cursive;
+    }
+
+    .reports a:hover {
+        color: #4c66a0 !important;
+    }
 </style>
 
 
@@ -31,14 +33,13 @@
                 ?>
             </div>
             <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                    
+                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+
                 <?php
                 if (!isset($_GET['action']) && @$_GET['action'] != "add") {
                     echo '<li class="breadcrumb-item active">Staff Salary</li>';
-                }
-                else{
-                echo '<li class="breadcrumb-item"><a href="salary_distibute.php">Staff salary</a></li>
+                } else {
+                    echo '<li class="breadcrumb-item"><a href="salary_distibute.php">Staff salary</a></li>
                 <li class="breadcrumb-item active">Add Salary</li>';
                 }
                 ?>
@@ -49,10 +50,11 @@
                 <a href="fees_collection_report.php">Fees Collection Report</a>
                 <a href="#">Admission Report</a>
                 <a href="salary_reports.php">Salary Report</a>
+                <a href="students_fees_collection.php">Student Wise Collection</a>
                 <a href="#">Transections Report</a>
 
             </div>
-          
+
     </main>
 
 
